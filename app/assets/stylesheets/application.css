@@ -1,0 +1,44 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require style
+ *= require bootstrap/css/bootstrap.min
+ *= require bootstrap/css/bootstrap-responsive.min
+ *= require bootstrap/css/bootstrap-editable
+ *= require theme/scripts/DataTables/media/css/DT_bootstrap
+ *= require bootstrap/extend/bootstrap-datetime/bootstrap-datetimepicker.min
+
+ *= require theme/scripts/fullcalendar/fullcalendar/fullcalendar
+	
+ *= require bootstrap/extend/jasny-bootstrap/css/jasny-bootstrap.min
+ *= require bootstrap/extend/jasny-bootstrap/css/jasny-bootstrap-responsive.min
+ *= require bootstrap/extend/bootstrap-wysihtml5/css/bootstrap-wysihtml5-0.0.2
+ *= require theme/scripts/select2/select2
+ *= require theme/scripts/notyfy/jquery.notyfy
+ *= require theme/scripts/notyfy/themes/default
+ *= require theme/scripts/jquery-ui-1.9.2.custom/css/smoothness/jquery-ui-1.9.2.custom
+ *= require theme/css/glyphicons
+ *= require bootstrap/extend/bootstrap-select/bootstrap-select
+ *= require bootstrap/extend/bootstrap-toggle-buttons/static/stylesheets/bootstrap-toggle-buttons
+ *= require theme/scripts/pixelmatrix-uniform/css/uniform.default
+ *= require theme/scripts/jquery-miniColors/jquery.miniColors
+ *= require theme/css/style
+ *= require jquery.jqplot.min
+
+ *= require jquery.mCustomScrollbar
+ *= require cycle_progress/style
+
+ *= require bootstrap/css/bootstrap-modal-bs3patch
+ *= require bootstrap/css/bootstrap-modal 
+ *= require bootstrap/bootstrap-switch
+ *= require canvas_application
+ *= require popup
+ */

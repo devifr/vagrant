@@ -1,0 +1,14 @@
+<div class="innerLR add-margin-top">
+	<div class="hr_title">
+		<div class="buttons pull-right">
+	    <%= link_to '<i></i>Add New Access'.html_safe, new_access_path, :class => "btn btn-icon btn-primary glyphicons circle_plus green" if allow?(:access,[:create]) %>
+	  </div>
+		<h3> Edit Access </h3>
+	</div>
+	<%= form_for(:access, url: access_path(@access.id), method:"put", html:{class: "form-horizontal margin-none"}) do |f| %>
+		<%= render partial:"form",locals: {f: f} %>
+	<% end %>
+</div>
+
+	
+

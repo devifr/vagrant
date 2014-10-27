@@ -1,0 +1,35 @@
+<%= render 'shares/form_templates/setting_label' %>
+<%= render 'shares/form_templates/setting_description' %>
+
+<div class="control-group" style="margin-bottom: 5px;">
+  <hr class="separator">
+  <label class="control-label">Field Type</label>
+  <div class="controls">
+    <%= select_tag "#{item_field}[field_type]", options_for_select([["Checkbox Buttons","checkbox"], ["Dropdown Menu", "dropdown"], ["Radio Buttons", "radio"]], @work_form_group_item.field_type), {class: 'span6'} %>
+  </div>
+</div>
+
+<div class="control-group" style="margin-bottom: 5px;">
+  <hr class="separator">
+  <label class="control-label">Answer Options</label>
+  <div class="controls line-item-container row-fluid">
+    <div class="span12 line-item" style="margin-left:0px;margin-bottom: 5px;">
+      <div class="span6"><b>Option Values</b></div>
+      <div class="span6"><b>Option Labels</b></div>
+    </div>
+    <% @work_form_group_item.options.each do |option| %>
+      <div class="span12 line-item" style="margin-left:0px;margin-bottom: 5px;">
+        <div class="span6">
+          <%= text_field_tag "#{option_field(option.id)}[value]", option.value, placeholder: 'enter option value', required: true, id: item_field_option_for('value'), class: 'span9' %>
+          &nbsp;&nbsp;
+        </div>
+        <div class="span6">
+          <%= text_field_tag "#{option_field(option.id)}[label]", option.label, placeholder: 'enter option label', required: true, id: item_field_option_for('label'), class: 'span9' %>
+          <a href="" class="close remove_line_item" style="margin-right: 22px;">&times;</a>
+          <%= hidden_field_tag "#{option_field(option.id)}[id]", option.id %>
+          <%= hidden_field_tag "#{option_field(option.id)}[_destroy]", 0, class: 'destroyable' %>
+        </div>
+      </div> 
+    <% end if @work_form_group_item.options.present? %>
+  </div>
+</div>

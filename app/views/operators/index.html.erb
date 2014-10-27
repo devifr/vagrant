@@ -1,0 +1,64 @@
+<div class="innerLR add-margin-top">
+  <div class="widget widget-gray widget-body-white">
+    <div class="widget-body" style="padding: 10px 0;">
+      <h3>Operators List</h3>
+      <%= render partial: "pages/form_search",locals:{path: :operators} %>
+      <%= form_tag "operators/mass_delete", method: "post" do %> 
+        <%= render partial: "pages/form_tag_index",locals:{model: :operator, new_local_path: new_operator_path } %>
+          <table class="table table-primary table-border-bottom">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Logo</th>
+                <th>Company</th>
+                <th>Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @operators.each_with_index do |op,key| %>
+                <tr class="gradeX">
+                  <td>
+                    <%= check_box_tag "operator[operator_ids][]", op.id, false, id: "operator_#{key}" %>
+                    <label for="operator_<%= key %>"><span></span></label>
+                  </td>
+                  <td>
+                    <% if op.profile && op.profile.picture %>
+                      <%= image_tag op.profile.picture.thumb, style:"max-width:64px;max-height:64px;" %>
+                    <% else %>
+                      <%= image_tag "no-image.png", style:"width:64px;" %>
+                    <% end %>
+                  </td>
+                  <td>
+                    <b>
+                      <%= link_to op.company, remove_link(operator_path(op.id), :operator,[:read]) %>
+                    </b>
+                  </td>
+                  <td>
+                    <% if allow?(:operator,[:update,:destroy]) %>
+                      <div class="action hide" align="center">
+                        <%= link_to edit_operator_path(op.id),class: "btn btn-white" do %>
+                          <i class="icon-pencil"></i>
+                          Edit
+                        <% end if allow?(:operator,[:update]) %>
+                        <%= link_to operator_path(op.id), method: "delete", data: { confirm: 'Are You Sure'}, class: "btn btn-white" do %>
+                         <i class="icon-remove"></i>
+                         Delete
+                        <% end if @operators.present? && allow?(:operator,[:destroy])%>
+                      </div>
+                    <% end %>
+                    <%= op.name %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      <div class="pull-left">
+        <%= page_entries_info(@operators, @pagination) %>
+      </div>
+      <div class="buttons pull-right">
+        <%= paginate @pagination %>
+      </div>
+    </div>
+  </div>
+</div>

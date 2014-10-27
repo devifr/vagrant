@@ -1,0 +1,13 @@
+<li>
+  <% name = if report.approval.try(:client) 
+              report.is_approved ? 'APPROVED' : 'REJECTED'
+            else
+              report.approval.full_name
+            end %>
+  <% if report.note.present? %>
+    <%= link_to name, "javascript:void(0)", 'data-toggle' => 'modal', 'data-target' => "##{[type, index].join('_')}" %>
+    <%= render partial: 'shares/report_comment', locals: {report: report, modal_id: "#{[type, index].join('_')}"} %>
+  <% else %>
+    <%= name %>
+  <% end %>
+</li>

@@ -1,0 +1,13 @@
+<div class="innerLR add-margin-top">
+	<div class="tab-content" style="padding: 0;">
+		<div class="hr_title">
+				<div class="buttons pull-right">
+			    <%= link_to '<i></i>Add New Client'.html_safe,new_client_path,:class => "btn btn-icon btn-primary glyphicons circle_plus green", id:"gradien" if allow?(:client,[:create]) %>
+			  </div>
+			<h3> Edit Client </h3>
+		</div>
+		<%= form_for(:client, url: client_path(@client.id), method: "put", html: {class: "form-horizontal margin-none"}) do |f| %>
+	  	<%= render partial:"form", locals: {f: f, client_profile: @client.profile, client_profile_address: @client.profile ? @client.profile.address : nil} %>
+  	<% end %>
+	</div>
+</div>

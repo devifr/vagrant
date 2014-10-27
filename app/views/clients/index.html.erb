@@ -1,0 +1,64 @@
+<div class="innerLR add-margin-top">
+	<div class="widget widget-gray widget-body-white">
+		<div class="widget-body" style="padding: 10px 0;">
+      <h3> Clients List</h3>  
+      <%= render partial: "pages/form_search",locals:{path: :clients} %>
+      <%= form_tag "clients/mass_delete", method: "post" do %> 
+        <%= render partial: "pages/form_tag_index",locals:{model: :client, new_local_path: new_client_path } %>
+          <table class="table table-primary table-border-bottom">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Logo</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @clients.each_with_index do |client,key| %>
+                <% profile = client.profile %>
+                <tr class="gradeX">
+                  <td>
+                    <%= check_box_tag "client[client_ids][]", client.id, false, id: "client_#{key}" %>
+                    <label for="client_<%= key %>"><span></span></label>
+                  </td>
+                  <td>
+                    <% if profile && profile.picture %>
+                      <%= image_tag profile.picture.thumb, style:"max-width:64px;max-height:64px;" %>
+                    <% else %>
+                      <%= image_tag "no-image.png", style:"width:64px;" %>
+                    <% end %>
+                  </td>
+                  <td>
+                    <b>
+                      <%= link_to client.name, remove_link(client_path(client.id),:client,[:show,:read]) %>
+                    </b>
+                  </td>
+                  <td><%= profile ? profile.email : "" %></td>
+                  <td>
+                    <% if allow?(:client, [:update,:destroy]) %>
+                      <div class="action hide" align="center">
+                        <%= link_to edit_client_path(client.id),class: "btn btn-white" do %>
+                          <i class="icon-pencil"></i>
+                          Edit
+                        <% end if allow?(:client,[:update]) %>
+                        <%= link_to client_path(client.id), method: "delete", data: { confirm: 'Are You Sure'}, class: "btn btn-white" do %>
+                         <i class="icon-remove"></i>
+                         Delete
+                        <% end if @clients.present? && allow?(:client,[:destroy]) %>
+                      </div>
+                    <% end %>
+                    <%= profile ? profile.phone : "" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      <div class="buttons pull-right">
+        <%= paginate @pagination %>
+      </div>
+		</div>
+	</div>
+</div>

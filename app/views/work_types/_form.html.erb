@@ -1,0 +1,20 @@
+		<div class="widget widget-heading-simple widget-body-gray">
+			<%= display_errors!(@work_type) %>
+			<div class="widget-body" id="gradien2"><br>
+				<div class="row-fluid">		
+					<div class="span6">	
+						<div class="control-group">
+							<label class="control-label">Name Work Type</label>
+							<div class="controls">
+								<%= f.text_field :name,class:'span10',placeholder:'Name Work Type' %>
+								<!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="Name Work Type"><i></i></span> -->
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="controls">
+					<%= link_to "<i></i>Cancel".html_safe ,work_types_path,class: "btn btn-icon btn-default" %>
+					<%= button_tag "<i></i>Save".html_safe,:class => "btn btn-icon btn-primary circle_ok" %>
+				</div>
+			</div>
+		</div>

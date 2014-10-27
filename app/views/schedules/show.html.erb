@@ -1,0 +1,136 @@
+<div class="innerLR add-margin-top">
+  <div class="form-horizontal margin-none">
+    <div class="form-actions">
+      <h3><i></i> Show Schedule User
+        <div class="buttons pull-right">
+          <%= link_to "Edit Data".html_safe ,edit_schedule_path(@schedule.id),class: "btn btn-icon btn-primary green #{permission_active_if(:schedule,[:update,:manage])}" %>
+          <%= link_to "Cancel".html_safe ,schedules_path,class: "btn btn-icon btn-default" %>
+        </div>
+      </h3>
+    </div>
+
+    <table class="table table-stripped gray-popup view_table">
+      <tbody>
+          <tr>
+            <th width="30%">User</th>
+            <th><%= @schedule.user.full_name if @schedule.user %></th>
+          </tr>
+        <tr>
+          <td>Site</td>
+          <td><%= @schedule.site.name if @schedule.site %></td>
+        </tr>
+        <tr>
+          <td>Client</td>
+          <td><%= @schedule.site.client.name if @schedule.site && @schedule.site.client %></td>
+        </tr>
+        <tr>
+          <td>Operators</td>
+          <td><%= @schedule.operators.map(&:name).to_sentence if @schedule.operators %></td>
+        </tr>
+        <tr>
+          <td>Work Type</td>
+          <td><%= @schedule.work_type.name if @schedule.work_type %></td>
+        </tr>
+        <tr>
+          <td>Work Date</td>
+          <td><%= timepicker_format(@schedule.work_date) if @schedule.work_date %></td>
+        </tr>
+        <tr>
+          <td>Progress</td>
+          <td>
+            <div class="progress progress-striped progress-success">
+
+              <div class="bar" style="width:<%= "#{@schedule.progress}%" %>;" title="<%= "#{@schedule.progress}%" %>">
+                <%= "#{@schedule.progress.to_i}%" if @schedule.progress  %>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td>
+            <% if @schedule.status == 'Completed' %>
+              <button class="btn btn-block btn-success btn-icon glyphicons ok"><i></i>Success</button>
+            <% elsif @schedule.status == 'Canceled' %>
+              <button class="btn btn-block btn-warning btn-icon glyphicons circle_exclamation_mark"><i></i>Canceled</button>
+            <% else %>
+              <button class="btn btn-block btn-info btn-icon glyphicons circle_info"><i></i>Pending</button>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <% if @schedule.work_type.try(:name) == 'Site Audit' %>
+            <td>Preview</td>
+            <td>
+              <%= link_to 'Preview Audit', preview_audit_schedule_path(@schedule.id) %>
+              |
+              <%= link_to 'Download Preview Audit', preview_audit_schedule_path(@schedule.id, format: 'pdf') %>
+            </td>
+          <% else %>
+            <td>Reports</td>
+            <td>
+              <ul>
+                <% @schedule.operators.each do |operator| %>
+                  <li>
+                    <%= link_to operator.name, report_schedule_path(@schedule.id, operator.id) %>
+                  </li>
+                <% end %>
+              </ul>
+            </td>
+          <% end %>
+        </tr>
+
+        <% if @schedule.report_approvals.present? %>
+          <tr>
+            <td>Approvers</td>
+            <td>
+              <ul>
+                <% @schedule.report_approvals.each do |report_approval| %>
+                  <li>
+                    <%= report_approval.approval.try(:full_name) %>
+                    <%= report_approval.is_approved ? 'approved' : 'rejected' %> on
+                    <%= Time.parse(report_approval.updated_at).strftime('%A, %d %b %Y %H:%M') if report_approval.updated_at %>
+                  </li>
+                <% end %>
+              </ul>
+            </td>
+          </tr>
+        <% end %>
+
+      </tbody>
+    </table>
+    <div class="br"></div>
+    <% if @schedule.work_type.try(:name) != 'Site Audit' %>
+      <div class="row-fluid">
+        <% @schedule.operators.each do |op| %>
+          <% @schedule.work_type.forms.each do |form| %>
+            <div class="span6 prog_bar margin padding10">
+              <div class="header_report blue">
+                <div>
+                  <b><%= op.name %></b>
+                </div>
+                <%= form.name %>
+                <div class="br"></div>
+              </div>
+
+              <% if form.groups.present? %>
+                <div class='group'>
+                  <% form.groups.each do |group| %>
+                      <%= link_to "<button class='btn btn-block btn-default btn-icon glyphicons circle_info margin-bottom4px'>
+                      <i></i>#{group.name}</button>".html_safe, preview_schedules_path({ id: @schedule.id, group_id: group.id, operator_id: op.id }) %>
+                  <% end %>
+                </div>
+              <% else %>
+                <%= link_to "<button class='btn btn-block btn-default btn-icon glyphicons circle_info margin-bottom4px'>
+                    <i></i>Photograph</button>".html_safe, preview_corrective_schedules_path({ id: @schedule.id, operator_id: op.id }) %>
+              <% end %>
+            </div>
+          <% end if @schedule.work_type.forms.present? %>
+        <% end if @schedule.operators.present? %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+

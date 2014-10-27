@@ -1,0 +1,31 @@
+<% if can_approve? %>
+  <div class="reschedule-approval row-fluid" style="border-bottom: 1px solid #ddd;background:#fff;">
+    <% current_user_approval = @schedule.report_approvals.select{|r| r.user_id == current_user.id}.first  %>
+    <% is_approved = current_user_approval ? current_user_approval.is_approved : false %>
+    <div class="span7">
+      <% if !current_user_approval || !is_approved %>
+        <div class="control-group" style="margin-bottom: 7px;">
+          <div class="controls" style="margin-left: 0px">
+  				  <div class="datetimepicker" class="input-append date" style="display:inline-table;margin-left:10px;">
+              <%= text_field_tag "schedule[work_date]", timepicker_format(schedule.work_date), "data-format" => "yyyy-MM-dd hh:mm", 'placeholder' => 'Select Date' %>
+  					  <span class="add-on">
+  					    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+  					    </i>
+  					  </span>
+            </div>
+            <%= hidden_field_tag "schedule[site_id]", schedule.site_id %>
+            <%= select_tag "schedule[user_id]", options_from_collection_for_select(@users, :id, :full_name, schedule.user_id), {prompt: 'Select User', class: 'span3', style: 'display:inline-table;'} %>
+            <button type="submit" class= 'btn btn-danger btn-reschedule', style= 'display:inline-table;margin-left:10px;'>Reschedule</button>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="span2" style="border-right: 1px solid #ddd; line-height: 60px;">&nbsp;</div>
+    
+    <div class="span3 form-horizontal" style="padding-top: 15px;">
+      <% text_status = (!current_user_approval || !is_approved) ? 'Approve' : (is_approved ? 'Reject' : 'Approve') %>
+      <%= link_to text_status, approve_schedule_path(schedule.id, params[:operator_id]||params[:operator]), class:'btn btn-success btn-approve', style: 'display:inline-table;margin-left: 10px;' if current_user.role_name != "Technician" %>
+      <%= link_to 'Download', "?operator_id=#{params[:operator_id]||params[:operator]}&format=pdf", class:'btn btn-download', style: 'display:inline-table;margin-left: 10px;' %>
+    </div>
+  </div>
+<% end %>

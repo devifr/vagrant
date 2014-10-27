@@ -1,0 +1,44 @@
+<div class="innerLR add-margin-top">
+	<div class="form-horizontal margin-none">
+		<div class="widget widget-heading-simple widget-body-gray">
+				<div class="row-fluid">
+					<div class="form-actions">	
+			  	  <h3> Show Work Form
+							<div class="buttons pull-right">
+						    <%= link_to "<i></i>Edit Data".html_safe ,edit_work_form_path(@work_form.id),class: "btn btn-icon btn-primary green #{permission_active_if("Work::Form",[:update,:manage])}" %>
+								<%= link_to "<i></i>Cancel".html_safe ,work_forms_path,class: "btn btn-icon btn-default" %>
+						  </div>
+						</h3>
+				  </div>
+					<table class="table table-stripped gray-popup view_table">
+				    <tbody>
+				        <tr>
+        					<th width="20%">Name Form</th>
+			            <th><%= @work_form.name %></th>
+				        </tr>
+					      <% if @work_form.site.present? %>
+						    	<tr>
+				            <td width="20%">Site Name</th>
+				            <td><%= @work_form.site.name  %></th>
+				        	</tr>
+				        <% end %>
+				        <% if @work_form.operator.present? %>
+						    	<tr>
+				            <td width="20%">Operator Name</th>
+				            <td><%= @work_form.operator.name  %></th>
+				        	</tr>
+				        <% end %>
+		        	<tr>
+		            <td width="20%">Notes</th>
+		            <td><%= @work_form.notes.to_s.html_safe %></th>
+		        	</tr>
+				    </tbody>   
+					</table>	
+				</div>
+			</div>
+		</div>
+		<% if @work_form.groups.present? %>
+		  <%= render partial: 'work_forms/group_list' %>
+	  <% end %>
+	</div>
+</div>

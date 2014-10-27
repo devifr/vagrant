@@ -1,0 +1,205 @@
+<%= f.fields_for(:profile_attributes, user_profile) do |profile| %>
+  <%= profile.fields_for(:address_attributes, user_profile_address) do |address| %>
+    <%= address.hidden_field :id %>
+    <%= profile.hidden_field :id %>
+    <div class="tab-pane active" id="account-settings">
+      <%= display_errors!(@user) %>
+      <div class="widget-body" style="padding-bottom: 0;">
+        <div class="row-fluid">
+          <div class="span9">
+            <div>
+              <strong>User Information</strong>
+            </div>
+            <div class="br"></div>
+            <label class="control-label">Full Name</label>
+            <div class="controls">
+              <%= f.text_field :full_name, class: 'span10', placeholder: 'Full Name' %>
+              <div class="separator"></div>
+            </div>
+            <div class="br"></div>
+            <label class="control-label">Username</label>
+            <div class="controls">
+              <%= f.text_field :username, class: 'span10', placeholder: 'Username' %>
+              <div class="separator"></div>
+            </div>
+
+            <label class="control-label">New password</label>
+            <div class="controls">
+              <%= f.password_field :password, class: 'span10', placeholder: 'Password' %>
+              <div class="separator"></div>
+            </div>
+
+            <label class="control-label">Confirm password</label>
+            <div class="controls">
+              <%= f.password_field :password_confirmation, class: 'span10', placeholder: 'Password Confirmation' %>
+              <div class="separator"></div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <hr class="separator bottom">
+        <br>
+        <% if current_user.role.code == ('SADM' || 'ADM') %>
+          <div class="row-fluid">
+            <div><strong>Accessibility</strong></div>
+            <div class="br"></div>
+            <label class="control-label">Client</label>
+            <div class="controls">
+              <% client_id = @user ? @user.client_id : '' %>
+              <%= f.select(:client_id, options_from_collection_for_select(@clients, 'id', 'name', client_id), {prompt: 'Select Client'}, class: "span9") %>
+              <div class="separator"></div>
+            </div>
+            <div class="br"></div>
+
+            <label class="control-label">Role</label>
+            <div class="controls">
+              <% role_id = @user ? @user.role_id : '' %>
+              <%= f.select(:role_id, options_from_collection_for_select(@roles, 'id', 'title', role_id), {prompt: 'Select Role'}, class: "span9", 'data-superior-url' => superiors_users_path(format: 'js')) %>
+              <div class="separator"></div>
+            </div>
+            <div class="br"></div>
+            <label class="control-label">Head / Superior</label>
+            <div class="controls superior-container">
+              <% if @users.present? %>
+                <%= f.select(:parent_id, options_from_collection_for_select(@users, 'id', 'full_name', (@user.parent ? @user.parent.id : nil)), {prompt: 'Select Superior'}, class: "span9") %>
+              <% else %>
+                <i class="span9"> please select role </i>
+              <% end %>
+
+            </div>
+            <div class="br"></div>
+             <label class="control-label">Service Points</label>
+            <div class="controls">
+              <div class="span9">
+                <%= f.select(:service_point_ids, options_from_collection_for_select(@service_points, 'id', 'name', (@user ? @user.service_point_ids : nil)), {}, class: "service-point-select", multiple: true, 'data-site-url' => sites_users_path(format: 'js')) %>
+              </div>
+            </div>
+            <div class="br"></div>
+             <label class="control-label">Sites</label>
+            <div class="controls">
+              <div class="span9 site-container">
+                <% if @sites.present? %>
+                <%= f.select(:site_ids, options_from_collection_for_select(@sites, 'id', 'name', @user.site_ids), {prompt: 'Select Sites'}, {class: "site-select", multiple: true}) %>
+              <% else %>
+                <i class="span9"> please select service points </i>
+              <% end %>
+                
+              </div>
+            </div>
+            
+          </div>
+          <hr class="separator bottom">
+          <br>
+        <% end %>
+        <div class="row-fluid">
+          <div>
+            <strong>User Details</strong>
+          </div>
+          <div class="br"></div>
+          <div class="row-fluid">
+            <div class="span6 vers">
+              <label class="control-label">Picture</label>
+              <div class="controls">
+                <div>
+                  <% if profile && profile.object && profile.object.picture %>
+                    <%= image_tag profile.object.picture.small, style:"width:140px;" %>
+                  <% else %>
+                    <%= image_tag "no-image.png" %>
+                  <% end %>
+                  <br>
+                  <%= profile.file_field :picture, style: "float:left" %>
+                </div>
+                <div class="separator"></div>
+              </div>
+              <div class="br"></div>
+              <label class="control-label">Mobile</label>
+              <div class="controls">
+                <div>
+                  <%= profile.text_field :mobile, class:'span10',placeholder:'Mobile' %>
+                </div>
+                <div class="separator"></div>
+              </div>
+
+              <label class="control-label">Phone</label>
+              <div class="controls">
+                <div>
+                  <%= profile.text_field :phone, class:'span10',placeholder:'Phone' %>
+                </div>
+                <div class="separator"></div>
+              </div>
+
+              <label class="control-label">E-mail</label>
+              <div class="controls">
+                <div>
+                  <%= f.text_field :email, class:'span10',placeholder:'Email' %>
+                </div>
+                <div class="separator"></div>
+              </div>
+
+              <label class="control-label">Fax</label>
+              <div class="controls">
+                <div>
+                  <%= profile.text_field :fax, class:'span10',placeholder:'Fax' %>
+                </div>
+                <div class="separator"></div>
+              </div>
+              <label class="control-label">Pin BB</label>
+              <div class="controls">
+                <div>
+                  <%= profile.text_field :pin_bb, class:'span10',placeholder:'Enter contact pin bb' %>
+                </div>
+                <div class="separator"></div>
+              </div>
+
+              <label class="control-label">Notes</label>
+              <div class="controls">
+                <div>
+                  <%= profile.text_area :notes, class:'span8', :rows => 5,placeholder:'Enter contact notes' %>
+                </div>
+                <div class="separator"></div>
+              </div>
+            </div>
+            <div class="span6 vers">
+              <div class="control-group">
+                <label class="control-label">Address 1</label>
+                <div class="controls">
+                  <%= address.text_field :address_1, class:'span10',placeholder:'Address 1' %>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Address 2</label>
+                <div class="controls">
+                  <%= address.text_field :address_2, class:'span10',placeholder:'Address 2' %>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">City</label>
+                <div class="controls">
+                  <%= address.text_field :city, class:'span10',placeholder:'City' %>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Province</label>
+                <div class="controls">
+                  <%= address.text_field :province, class:'span10',placeholder:'Province' %>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Country</label>
+                <div class="controls">
+                  <%= address.country_select :country,["Indonesia"],{prompt:'Select Country'}, class: 'span10' %>
+                </div>
+              </div>
+              <div class="control-group">
+              </div>
+            </div>
+          </div>
+        </div><br>
+        <div class="controls">
+          <%= link_to "<i></i>Cancel".html_safe ,users_path,class: "btn btn-icon btn-default",id:"gradien2" %>
+          <%= button_tag "<i></i>Save".html_safe,:class => "btn btn-icon btn-primary circle_ok",id:"gradien" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

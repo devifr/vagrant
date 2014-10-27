@@ -1,0 +1,21 @@
+<div class="innerLR add-margin-top">
+  <div class="tab-content" style="padding: 0;">
+    <%= form_for(:schedule, url: import_schedules_path, method: "post", html: {class: "form-horizontal"}) do |f| %>
+      <div class="widget widget-heading-simple widget-body-gray">
+        <div class="row-fluid">
+          <div class="form-actions">
+            <h3>Import Schedule</h3>
+          </div>
+          <%= render partial: 'pages/form_import', locals: {f: f} %>
+        </div>
+        <br>
+        <div class="form-actions">
+          <%= link_to "<i></i>Cancel".html_safe ,schedules_path,class: "btn btn-icon btn-default",id:"gradien2" %>
+          <%= button_tag "<i></i>Save".html_safe,:class => "btn btn-icon btn-primary circle_ok" %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>
+

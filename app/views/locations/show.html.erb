@@ -1,0 +1,54 @@
+<div class="innerLR add-margin-top">
+	<div class="form-horizontal margin-none">
+
+		<div class="widget widget-heading-simple widget-body-gray">
+			<div class="widget-body"><br>
+				<div class="row-fluid">
+				
+					<div class="span6">	
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>
+							  	  <h3> Show Location
+											<div class="buttons pull-right">
+										    <%= link_to "<i></i>Edit Data".html_safe ,edit_location_path(@location.id),class: "btn btn-icon btn-primary glyphicons circle_ok" if allow?(:location,[:update]) %>
+												<%= link_to "<i></i>Cancel".html_safe ,locations_path,class: "btn btn-icon btn-default glyphicons circle_remove" %>
+										  </div>
+										</h3>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<table class="table table-bordered table-striped table-white">
+									    <thead>
+									        <tr>
+									            <th width="30%">Ancestry</th>
+									            <th><%= @location.ancestry %></th>
+									        </tr>
+									    </thead> 
+									    <tbody>
+									    		<tr>
+									            <td width="30%">Location Name</td>
+									            <td><%= @location.name %></td>
+									        </tr>
+									    </tbody>  
+										</table>	
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+	
+

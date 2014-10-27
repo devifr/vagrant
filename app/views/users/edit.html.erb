@@ -1,0 +1,19 @@
+<div class="innerLR add-margin-top">
+  <div class="tab-content" style="padding: 0;">
+    <div class="hr_title">
+      <div class="buttons pull-right">
+        <%= link_to '<i></i>Add New User'.html_safe,new_user_path,:class => "btn btn-icon btn-primary glyphicons circle_plus green #{permission_active_if(:user,[:create,:manage])}", id:"gradien" %>
+      </div>
+      <h3> Edit User </h3>
+    </div>
+    <%= form_for(:user, url: user_path(@user.id), method: "put", html: {class: "form-horizontal margin-none"}) do |f| %>
+      <% profile_address = @user.profile ? @user.profile.address : nil  %>
+      <%= render partial:"form", locals: {f: f, user_profile: @user.profile, user_profile_address: profile_address } %>
+    <% end %>
+  </div>
+</div>
+
+
+
+  
+

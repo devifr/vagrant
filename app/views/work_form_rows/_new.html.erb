@@ -1,0 +1,3 @@
+<%= form_tag work_form_rows_path(group_id: params[:group_id]), {class: "form-horizontal padding-no"} do %>
+  <%= render partial: 'form', locals: {selected_parent: '', delete_path: ''} %>
+<% end %>

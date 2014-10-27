@@ -1,0 +1,64 @@
+<%= f.fields_for(:profile_attributes, operator_profile) do |profile| %>
+	<%= profile.fields_for(:address_attributes, operator_profile_address) do |address| %>
+		<%= address.hidden_field :id %>
+		<%= profile.hidden_field :id %>
+		<div class="tab-pane active" id="account-settings">
+			<%= display_errors!(@operator) %>
+			<div class="widget widget-2">
+
+				<div class="widget-body" style="padding-bottom: 0;">	
+					<div class="row-fluid">
+						<div class="span9">
+							<div>
+								<strong>Operator Information</strong>
+							</div>
+							<div class="br"></div>
+							<label class="control-label">Company</label>
+							<div class="controls">
+								<%= f.text_field :company, class: 'span10', placeholder: 'Enter company name' %>
+							</div>
+							<div class="separator"></div>
+							<label class="control-label">Name</label>
+							<div class="controls">
+								<%= f.text_field :name, class: 'span10', placeholder: 'Enter operator name' %>
+							</div>
+							<div class="separator"></div>
+						</div>
+					</div>
+					<br>
+					<hr class="separator bottom">
+					<div class="row-fluid">
+							<div><strong>Operator details</strong></div>
+							<div class="br"></div>
+							<div class="row-fluid">
+								<div class="span6 vers">
+									<label class="control-label">Picture</label>
+									<div class="controls">
+										<div>
+											<% if profile && profile.object && profile.object.picture %>
+			  								<%= image_tag profile.object.picture.small, style:"width:140px;" %>
+			  							<% else %>
+			  							  <%= image_tag "no-image.png" %>
+			  							<% end %>
+											<br>
+											<%= profile.file_field :picture, style: "float:left" %>
+										</div>
+										<div class="separator"></div>
+									</div>
+									<div class="br"></div>											
+									<%= render partial: 'shares/form_contact', locals: {f_profile: profile} %>
+								</div>
+								<div class="span6 vers">
+									<%= render partial: 'shares/form_address', locals: {f_address: address} %>
+								</div>
+							</div><br>
+							<div class="controls">
+								<%= link_to "<i></i>Cancel".html_safe ,operators_path,class: "btn btn-icon btn-default ",id:"gradien2" %>
+								<%= button_tag "<i></i>Save".html_safe,:class => "btn btn-icon btn-primary circle_ok",id:"gradien" %>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% end %>
+<% end %>

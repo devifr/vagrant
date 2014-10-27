@@ -1,0 +1,48 @@
+ <div class="innerLR add-margin-top">
+	<div class="widget widget-heading-simple widget-body-gray">
+    <h3>Accesses List</h3> 
+    <%= render partial: "pages/form_search",locals:{path: :accesses} %>
+    <%= form_tag "accesses/mass_delete", method: "post" do %>  
+	    <%= render partial: "pages/form_tag_index", locals:{model: :access, new_local_path: new_access_path } %>
+				<table class="table table-primary table-border-bottom">
+					<thead>
+						<tr>
+							<th style="width:5%"></th>
+							<th>Title Access</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @accesses.each_with_index do |acs, key| %>
+							<tr class="gradeX">
+								<td>
+									<%= check_box_tag "access[access_ids][]", acs.id, false, id: "access_#{key}" %>
+									<label for="access_<%= key %>"><span></span></label>
+								</td>
+								<td>
+									<% if allow?(:access,[:update, :destroy]) %>
+										<div class="action hide" align="center">
+											<%= link_to edit_access_path(acs.id),class: "btn btn-white" do %>
+			                  <i class="icon-pencil"></i>
+			                  Edit
+			                <% end if allow?(:access,[:update]) %>
+			                <%= link_to access_path(acs.id), method: :delete, data: { confirm: 'Are You Sure'}, class: "btn btn-white" do %>
+			                 <i class="icon-remove"></i>
+			                 Delete
+			                <% end if @accesses.present? && allow?(:access,[:destroy]) %>
+										</div>
+									<% end %>
+									<b>
+										<%= link_to acs.title.to_s.split("::").pop.to_s.titleize, 
+												remove_link(access_path(acs.id),:access,[:manage,:read]) %>
+									</b>
+								</td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			<% end %>
+	<div class="buttons pull-right">
+    <%= paginate @pagination %>
+  </div>
+</div>	
+</div>

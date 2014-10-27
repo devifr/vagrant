@@ -1,0 +1,27 @@
+<div class="padding-no">
+  <div class="modal-header blue">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      &times;
+    </button>
+    <h4 class="modal-title">Field Setting</h4>
+  </div>
+  <div class="modal-body">
+    <div class="control-group add-margin-top">
+      <label class="control-label">Field Type</label>
+      <div class="controls">
+        <%= select_tag "field_setting[type]", options_for_select(WorkFormGroup::FIELD_TYPES), {prompt: 'Select Field Type', class: 'span10 select2'} %>
+      </div>
+    </div>
+    <div class="field-item-container hide">
+        
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="control-group field-item-action hide">
+      <label class="control-label">&nbsp;</label>
+      <div class="controls">
+        <%= link_to "<i></i>Add Field".html_safe,"",class: "btn btn-icon btn-default glyphicons circle_plus btn-add-field" %>
+      </div>
+    </div>
+  </div>
+</div>

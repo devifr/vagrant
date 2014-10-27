@@ -1,0 +1,50 @@
+<div class="widget widget-heading-simple widget-body-gray">
+	<%= display_errors!(@work_form) %>
+	<div class="widget-body" id="gradien2"><br>
+		<div class="row-fluid">		
+			<div class="span12">	
+				<div class="control-group">
+					<label class="control-label">Form Name</label>
+					<div class="controls">
+						<%= f.text_field :name,class:'span10',placeholder:'Enter form template name' %>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Operator</label>
+					<div class="controls">
+						<%= f.select(:operator_id, options_from_collection_for_select(@operators, :id, :name, (@work_form ? @work_form.operator_id : '')), {prompt: 'Select Operator'}, {class: "span10"}) %>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Work Type</label>
+					<div class="controls">
+						<%= f.select(:work_type_id, options_from_collection_for_select(@work_types, :id, :name, (@work_form ? @work_form.work_type_id : '')), {prompt: 'Select Work Type'}, {class: "span10"}) %>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Notes</label>
+					<div class="controls">
+						<%= f.text_area :notes, class: "wysihtml5 span12", rows: 5 %>
+					</div>
+				</div>
+			</div>
+		</div>
+<!-- 		<div class="add_block">
+			<div class="block-container">
+				<div class="remove_block"><a href="">Remove</a></div>
+				<div class="row-fluid">
+					<div class="span10">
+						<%#= render partial:"form_group",locals: {f: f} %>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="add_more"><a href="">Add More</a></div> -->
+		<br>
+		<div class="controls">
+			<%= link_to "<i></i>Cancel".html_safe ,work_forms_path,class: "btn btn-icon btn-default" %>
+			<%= button_tag "<i></i>Save".html_safe,:class => "btn btn-icon btn-primary circle_ok" %>
+		</div>
+	</div>
+</div>

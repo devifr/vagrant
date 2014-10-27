@@ -1,0 +1,66 @@
+<% if allow?(resource_class, [:create]) %>
+  <tbody>
+    <tr>
+      <td>
+        <div class='widget'>
+          <div class='widget-content'>
+            <div class='field-group inlineField'>
+              <label>Upload a file</label>
+              <div class='field' style='margin-bottom:0.5em'>
+                <%= f.file_field 'file' %>
+              </div>
+            </div>
+            <br>
+            <br>
+            <div class='field-group inlineField'>
+              <label>Select Import Data</label>
+              <div class='field' style='margin-bottom:0.5em;font-size: 12px;'>
+                <a href="" class="import-all-fields" style="font-size:12px;">Select All</a> |
+                <a href="" class="unimport-all-fields" style="font-size:12px;">Cancel All</a>
+                <br>
+                <%= f.hidden_field :sortable_schema, {class: 'sortable-schema' } %>
+                <select class="import-schema-fields uniform-ignore" id="import_schema_" multiple="multiple" name="import_schema[]" data-required-fields="<%= @require_attributes.keys.to_json %>">
+                  <% @require_attributes.each do |(req,val)| %>
+                    <option value="<%= req %>" selected="selected"><%= val %><sup>*<sup></option>
+                  <% end %>
+                  <% @permit_attributes.each do |(key,value)| %>
+                    <option value="<%= key %>"><%= value %></option>
+                  <% end %>
+                </select>
+                <br>
+                (*) Must be included
+                <br>
+                (**) Double click (double click) to select or cancel the data type
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and pull the data that has been selected for mengatus sequence or position.
+                <hr class="separator">
+                Note: make sure the
+                <b>The selected data type</b>
+                have the same order as in your csv.
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+  <div id="modal-import-alert" class="modal modal-clone fade box-min-height" tabindex="-1" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Alert Import</h4>
+        </div>
+        <div class="modal-body">
+            
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+<% else %>
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>Warning!</strong>
+    Sorry, you don't have privilege to access this page!
+  </div>
+<% end %>

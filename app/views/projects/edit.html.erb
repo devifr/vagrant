@@ -1,0 +1,15 @@
+<div class="innerLR add-margin-top">
+	<div class="hr_title">
+	 <h3> Edit Project
+			<div class="buttons pull-right">
+		    <%= link_to '<i></i>Add New Project'.html_safe, new_project_path, :class => "btn btn-icon btn-primary glyphicons circle_plus green #{permission_active_if(:project,[:create,:manage])}" %>
+		  </div>
+		</h3>
+	</div>
+	<%= form_for(:project, url: project_path(@project.id), method:"put", html:{class: "form-horizontal margin-none"}) do |f| %>
+		<%= render partial:"form",locals: {f: f} %>
+	<% end %>
+</div>
+
+	
+

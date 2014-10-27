@@ -1,0 +1,16 @@
+<div class="pull-left">
+  <div class="control-group" style="margin-bottom: 5px;">
+    {{VALUE}}
+    <%= hidden_field_tag "#{item_field}[label]", "{{VALUE}}" %>
+    <%= hidden_field_tag "#{item_field}[field_type]", "file" %>
+  </div>  
+</div>
+<div class="pull-right">
+  <%= link_to '',class: "btn btn-small" do %>
+    <i class="icon-pencil"></i>
+  <% end %>
+  <%= link_to '', method: "delete", data: { confirm: 'Are You Sure'}, class: "btn btn-small" do %>
+   <i class="icon-remove"></i>
+  <% end %>
+</div>
+<div class="clearfix"></div>

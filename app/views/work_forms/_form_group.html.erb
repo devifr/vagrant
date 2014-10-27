@@ -1,0 +1,44 @@
+<%= f.fields_for :groups_attributes do |group| %>
+	<div class="control-group">
+		<label class="control-label">Name</label>
+		<div class="controls">
+			<%= group.text_field :name, class: "span6", placeholder: "Group Name" %>
+		</div>
+	</div>
+	</div>
+</div>
+		<table border="0">
+			<thead>
+				<tr>
+					<th>Position</th>
+					<th>Searchable</th>
+					<th>Mandatory</th>
+					<th>Visible</th>
+					<th>Listable</th>
+					<th>Remove</th>
+				</tr>
+			</thead>
+			<tbody>
+			<%= group.fields_for :items_attributes do |item| %>
+				<tr class="add_block">
+					<td><%= item.number_field :name, placeholder: "Position" %></td>
+					<td>
+						<%= item.check_box :name %> Yes
+					</td>
+					<td>
+						<%= item.check_box :searchable %> Yes
+					</td>
+					<td>
+						<%= item.check_box :mandatory %> Yes
+					</td>
+					<td>
+						<%= item.check_box :visible %> Yes
+					</td>
+					<td>
+						<%= item.check_box :listable %> Yes
+					</td>
+				</tr>
+			<% end %>
+			</tbody>
+		</table>
+<% end %>	

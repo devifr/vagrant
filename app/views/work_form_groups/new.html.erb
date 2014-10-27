@@ -1,0 +1,11 @@
+<div class="innerLR add-margin-top">
+	<div class="hr_title">
+		<h3> New Work Form Group</h3>
+	</div>
+	<%= form_for(:work_form_group, url: work_form_groups_path, method:"post", html: {class: "form-horizontal margin-none form-validation"}) do |f| %>
+		<%= render partial:"form" , locals:{f: f} %>
+	<% end %>
+</div>
+
+	
+

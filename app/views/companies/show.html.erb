@@ -1,0 +1,88 @@
+<% if !@company.id.blank? %>
+	<h3 class="glyphicons building"><i></i> Show Company
+		<div class="buttons pull-right">
+	    <%= link_to "<i></i>Edit Data".html_safe ,edit_company_path(@company.id),class: "btn btn-icon btn-primary glyphicons
+	    		building",id:"gradien" if allow?(:company,[:update]) %>
+			<%= link_to "<i></i>Cancel".html_safe ,companies_path,class: "btn btn-icon btn-default glyphicons circle_remove ",
+					id:"gradien2" %>
+	  </div>
+	</h3>
+	<div class="innerLR">
+		<div class="form-horizontal margin-none">
+
+			<div class="widget widget-heading-simple widget-body-gray">
+				<div class="widget-body" id="gradien2"><br>
+					<div class="row-fluid">
+
+						<div class="span6">
+							<div class="control-group">
+								<div class="controls">
+										<% if @company.profile.picture %>
+		  								<%= image_tag @company.profile.picture.small, style:"width:220px;" %>
+		  							<% else %>
+		  							  <%= image_tag "no-image.png", style:"width:220px;" %>
+		  							<% end %>
+		  							<br>
+									<span align="center"><B><%= @company.profile.name %></B></span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="span6">	
+							<table class="table table-bordered table-striped table-white">
+						    <thead>
+						        <tr>
+						            <th width="30%">Full Name</th>
+						            <th><%= @company.name %></th>
+						        </tr>
+						    </thead>
+						    <tbody>
+					        <tr>
+					            <td><b>Email</b></td>
+					            <td><%= @company.profile.email %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Phone</b></td>
+					            <td><%= @company.profile.phone %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Mobile</b></td>
+					            <td><%= @company.profile.mobile %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Fax</b></td>
+					            <td><%= @company.profile.fax %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Address 1</b></td>
+					            <td><%= @company.profile.address.address_1 %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Address 2</b></td>
+					            <td><%= @company.profile.address.address_2 %></td>
+					        </tr>
+					        <tr>
+					            <td><b>City</b></td>
+					            <td><%= @company.profile.address.city %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Province</b></td>
+					            <td><%= @company.profile.address.province %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Country<b></td>
+					            <td><%= @company.profile.address.country %></td>
+					        </tr>
+						    </tbody>
+							</table>	
+						</div>
+						
+					</div>
+
+				</div>
+			</div>
+		</div>
+		
+	</div>
+<% end %>
+

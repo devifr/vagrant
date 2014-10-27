@@ -1,0 +1,67 @@
+<div class="innerLR add-margin-top">
+  <div class="widget widget-heading-simple widget-body-gray">
+      <h3> Locations List</h3>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+              <span class="heading glyphicons search color_white"><i></i>Advance Filter Search</span>
+              <div class="toggle_icon">
+                <span class="heading glyphicons expand color_white"><i></i></span>
+              </div>
+            </a>
+        </div>
+        <div id="collapseTwo" class="accordion-body collapse" style="height: 0px;">
+          <div class="accordion-inner">
+            <%= render partial: "pages/form_search_location",locals:{path: :locations} %>
+          </div>
+        </div>
+      </div>
+      <%= form_tag "locations/mass_delete", method: "post" do %>   
+        <%= render partial: "pages/form_tag_index",locals:{model: :location, new_local_path: new_location_path } %>
+          <table class="table table-primary table-border-bottom">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Region</th>
+                <th>Province</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @locations.each_with_index do |loc,key| %>
+                <tr class="gradeX">
+                  <td>
+                    <%= check_box_tag "location[location_ids][]", loc.id, false, id: "location_#{key}" %>
+                    <label for="location_<%= key %>"><span></span></label>
+                  </td>
+                  <td>
+                    <%= link_to loc.name.to_s.titleize, remove_link(edit_location_path(loc.id),:location,
+                        [:update]) %>
+                  </td>
+                  <td>
+                    <% if allow?(:location,[:update,:destroy]) %>
+                      <div class="action hide" align="center">
+                        <%= link_to edit_location_path(loc.id),class: "btn btn-white" do %>
+                          <i class="icon-pencil"></i>
+                          Edit
+                        <% end if allow?(:location,[:update]) %>
+                        <%= link_to location_path(loc.id), method: :delete, data: { confirm: 'Are You Sure'}, class: "btn btn-white" do %>
+                         <i class="icon-remove"></i>
+                         Delete
+                        <% end if @locations.present? && allow?(:location,[:destroy]) %>
+                      </div>
+                    <% end %>
+                    <b>
+                      <%= link_to loc.parent_title.to_s.titleize, remove_link(edit_location_path(loc.parent_id),
+                          :location,[:update]) if loc.parent_id %>
+                    </b>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      <div class="buttons pull-right">
+        <%= paginate @pagination %>
+      </div>
+  </div>  
+</div>

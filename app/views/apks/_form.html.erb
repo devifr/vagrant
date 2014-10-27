@@ -1,0 +1,39 @@
+
+    <div class="tab-pane active" id="account-settings">
+    <%= display_errors!(@apk) %>
+      <div class="widget-body" style="padding-bottom: 0;">
+        <div class="row-fluid">
+          <div class="span9">
+            <div class="br"></div>
+            <label class="control-label">Version</label>
+            <div class="controls">
+              <%= f.text_field :version, class: 'span10', placeholder: 'please enter your apk string' %>
+              <div class="separator"></div>
+            </div>
+            <div class="br"></div>
+            <label class="control-label">Mark As</label>
+            <div class="controls">
+              <%= f.check_box :active %> Active APK
+              <div class="separator"></div>
+            </div>
+            <div class="br"></div>
+            <label class="control-label">Upload File</label>
+            <div class="controls">
+              <%= f.file_field :file %>
+              <div class="separator"></div>
+              <% if @apk.present? && @apk.file_url %>
+                <%= link_to 'Download', @apk.file_url %>
+              <% end %>
+            </div>
+            
+
+           
+          </div>
+        </div>
+        <br>
+        <div class="controls">
+          <%= link_to "<i></i>Cancel".html_safe ,apks_path,class: "btn btn-icon btn-default",id:"gradien2" %>
+          <%= button_tag "<i></i>Save".html_safe,:class => "btn btn-icon btn-primary circle_ok",id:"gradien" %>
+        </div>
+      </div>
+    </div>

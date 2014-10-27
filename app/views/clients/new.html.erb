@@ -1,0 +1,11 @@
+<div class="innerLR">
+  <div class="tab-content" style="padding: 0;">
+    <div class="hr_title">
+      <h3> New Client</h3>
+    </div>
+    <%= form_for(:client, url: clients_path, method: "post", html: {class: "form-horizontal"}) do |f| %>
+     <%= render partial:"form", locals: {f: f, client_profile: {}, client_profile_address: nil} %>
+    <% end %>
+  </div>
+</div>
+

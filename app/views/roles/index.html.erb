@@ -1,0 +1,54 @@
+<div class="innerLR add-margin-top">
+	<div class="widget-body" style="padding: 10px 0;">
+			<h3> Roles List</h3>  
+			<%= render partial: "pages/form_search",locals:{path: :roles} %>
+			<%= form_tag "roles/mass_delete", method: "post" do %> 
+	      <%= render partial: "pages/form_tag_index",locals:{model: :role, new_local_path: new_role_path } %>
+					<table class="table table-primary table-border-bottom">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Code</th>
+								<th>Title</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @roles.each_with_index do |role,index| %>
+								<tr class="gradeX">
+									<td>
+	                  <%= check_box_tag "role[role_ids][]", role.id, false, id: "role_#{index}" %>
+	                  <label for="role_<%= index %>"><span></span></label>
+	                </td>
+	                <td>
+	                  <b>
+											<%= link_to role.code.to_s.upcase, remove_link(role_path(role.id), :role, [:manage,:read]) %>
+										</b>
+	                </td>
+									<td>
+										<div class="<%= permission_active_if(:role,[:update,:destroy,:manage]) %>">
+											<div class="action hide" align="center">
+												<%= link_to edit_role_path(role.id),class: "btn btn-white 
+														#{permission_active_if(:role,[:update,:manage])}" do %>
+			                    <i class="icon-pencil"></i>
+			                    Edit
+			                  <% end %>
+			                  <%= link_to role_path(role.id), method: :delete, data: { confirm: 'Are You Sure'}, class: "btn btn-white #{permission_active_if(:role,[:destroy,:manage])}" do %>
+			                   <i class="icon-remove"></i>
+			                   Delete
+			                  <% end if @roles.present? %>
+											</div>
+										</div>
+										<b>
+											<%= link_to role.title.to_s.titleize, remove_link(role_path(role.id), :role, [:manage,:read]) %>
+										</b>
+									</td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% end %>
+			<div class="buttons pull-right">
+        <%= paginate @pagination %>
+      </div>
+	</div>	
+</div>

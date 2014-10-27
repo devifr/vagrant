@@ -1,0 +1,67 @@
+<div class="row-fluid">
+	<div class="br"></div>
+  <%= form_tag '/users', method: "get" do %>
+	  <div>
+			<div class="span4" style="margin-left:0px;">
+				<h4 class="heading glyphicons google_maps"><i></i>By Status</h4>
+				<div class="hr2"></div>
+				<div class="padding_left20">
+				  <% Role.all.each_with_index do |role, index| %>
+		        <%= check_box_tag 'role[]', role.title, false, id: "role_#{index}" %>
+		        <label for="<%= "role_#{index}" %>"><span></span> <%= role.title %></label>
+				  <% end %>
+				</div>
+			</div>
+			<div class="span4" style="margin-left:0px;">
+				<h4 class="heading glyphicons search"><i></i>By Option</h4>
+				<div class="hr2"></div>
+				<div class="padding_left20">
+					<label class="grey">Full Name</label>
+					<%= text_field_tag 'full_name',nil ,class: "input-large", placeholder: "Enter name..." %>
+					<div class="separator"></div>
+					<label class="grey">Email</label>
+					<%= text_field_tag 'email',nil ,class: "input-large", placeholder: "Enter email..." %>
+					<div class="separator"></div>
+					<label class="grey">Phone</label>
+					<%= text_field_tag 'phone',nil ,class: "input-large", placeholder: "Enter phone..." %>
+					<div class="separator"></div>
+				</div>
+			</div>
+			<div class="span4" style="margin-left:0px;">
+				<h4 class="heading glyphicons search"><i></i> By Periode</h4>
+				<div class="hr2"></div>
+				<div class="padding_left20">
+					<label class="grey">Created Date</label>
+					<div class="datetimepicker" class="input-append date">
+						<%= select_tag("date_type", options_for_select(User::DATETYPE), {prompt: '----Date Type----'}) %>
+				  </div>
+					<div class="separator"></div>
+
+					<label class="grey">Start On</label>
+					<div class="datetimepicker" class="input-append date">
+						<%= text_field_tag 'start_on' %>
+				    <span class="add-on">
+				      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+				      </i>
+				    </span>
+				  </div>
+					<div class="separator"></div>
+
+					<label class="grey">End On</label>
+					<div class="datetimepicker" class="input-append date">
+						<%= text_field_tag 'end_on' %>
+				    <span class="add-on">
+				      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+				      </i>
+				    </span>
+				  </div>
+					<div class="separator"></div>
+				</div>
+			</div>
+		</div>
+		<div class="br"></div>
+		<div class="padding_left20" style="float:right">
+			<button class="btn btn-icon btn-primary circle_ok" id="gradien" name="button" type="submit"><i></i>Search</button>
+		</div>
+  <% end %>
+</div>

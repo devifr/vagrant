@@ -1,0 +1,47 @@
+<div class="modal fade" id="approval" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
+        <h4 class="modal-title" id="myModalLabel">
+          APPROVAL FORM
+        </h4>
+      </div>
+      <div class="modal-body" style="text-align: left;">
+        <%= form_tag approve_schedule_path(1, operator_id: 1), class: 'form_approval' do %>
+          <div class="col-sm-12" style="padding:20px!important">
+            <div class="control-group">
+              <label class="control-label">Site</label>
+              <div class="controls sitename">
+                <b><%#= schedule.site.name %></b>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Operator & Date</label>
+              <div class="controls operator">
+                <b><%#= operator.name %> <%#= timepicker_format(schedule.work_date) %></b>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Status</label>
+              <div class="controls">
+                <%= select_tag :status, options_for_select(['approve','reject']), prompt: 'Select Status', style: 'margin-left:0px;' %>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Note</label>
+              <div class="controls">
+                <%= text_area_tag :note, '', style: 'width:95%;', rows: 5 %>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="controls">
+                <%= button_tag "Save",:class => "btn btn-info", type: 'submit' %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="innerLR add-margin-top">
+	<div class="hr_title">
+		<div class="buttons pull-right">
+	    <%= link_to '<i></i>Add New Work Type'.html_safe, new_work_type_path, :class => "btn btn-icon btn-primary glyphicons circle_plus green #{permission_active_if("Work::Type",[:create,:manage])}" %>
+	  </div>
+		<h3> Edit Work Type </h3>
+	</div>
+	<%= form_for(:work_type, url: work_type_path(@work_type.id), method:"put", html:{class: "form-horizontal margin-none"}) do |f| %>
+		<%= render partial:"form",locals: {f: f} %>
+	<% end %>
+</div>
+
+	
+

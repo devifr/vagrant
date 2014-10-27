@@ -1,0 +1,195 @@
+<style type='text/css'>
+  .body{
+    background: #fff;
+    font-family: Arial, Verdana;
+    width: 1010px; 
+  }
+
+  .widget{
+    background: #fff;
+    margin: 0 auto 10px;
+  }
+
+  .content_report{ border: solid 1px #555;}
+  .table_photograph{ width: 98%; }
+
+  .header_report{
+    background-color: #FFB5B5;
+    border-bottom: solid 1px #555;
+    padding: 10px;
+    text-align: center;
+  }
+
+  table{
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    display: table;
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  .table_photograph td{
+    padding-left: 10px;
+  }
+
+  .form-horizontal .control-label {
+    padding-top: 5px;
+    text-align: right;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: normal;
+    line-height: 20px
+  }
+
+  .separator {
+    margin: 10px 0;
+    display: block;
+  }
+
+  .row-fluid [class*="span"]:first-child{
+    margin-left: 0;
+  }
+
+  .row-fluid [class*="span"]{
+    min-height: 40px;
+    display: inline-block;
+  }
+  
+  .row-fluid .span6 {
+    width: 48.717948717948715%;
+    float: left;
+  }
+  .row-fluid .span12 {
+    width: 100%;
+  }
+
+  .thumbnail {
+    display: block;
+    padding: 4px;
+    line-height: 20px;
+    border: 1px solid black;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    min-height: 351px;
+  }
+
+  img{
+    max-width: 100%;
+    vertical-align: middle;
+    border: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Avenir';
+    margin: 0 0 10px;
+    font-weight: 700;
+    color: #575655;
+  }
+  h5 {
+    font-size: 14px !important;
+    text-transform: uppercase;
+    margin: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 40px;
+  }
+  
+  .table-bordered {
+    border: 1px solid black;
+    border-collapse: separate;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    width: 100%;
+  }
+
+  .table th, .table td {
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid black;
+  }
+  .clearfix{
+    clear: both;
+  }
+  .mt-190{
+    margin-top: 190px;
+  }
+
+  .image-container img{ margin: 0 auto;}
+
+</style>
+<body>
+<% schedule = @schedule %>
+<% work_form_group = @work_form_group %>
+<% operator = @operator %>
+<% counter = 0 %>
+    <div class="body mt-190">
+      <div class="form-horizontal">
+        <div class="widget">
+          <div class="row-fluid"> 
+            <div class="content_report span12">
+              <div class="span12">
+<% @photo_fields.each_with_index do |photo, index| %>
+  <% item_value = @item_values[photo.id.to_s] %>
+  <div class="span6" style="margin:5px;margin-bottom: 8px;margin-top: 8px;">
+    <div class="thumbnail" style="text-align:center;">
+      <div class="image-container" style="height: 270px;text-align:center;border: 1px solid black">
+        <% if item_value && item_value.picture.present? %>
+          <%= image_tag item_value.picture.medium, style: 'height: 270px;' %>
+        <% end %>
+      </div>
+      <h5>
+        <%= photo.label %>
+      </h5>
+
+      <% if item_value && params[:format] != 'pdf' %>
+        <div class="make-switch" data-on="danger" data-off="success" data-on-label="corrective" data-off-label="passed">
+          <%= check_box_tag "corrective_ids[]", photo.id, item_value ? (item_value.photo_status.to_s.downcase == 'nok') : true %> 
+        </div>
+      <% end %>
+                    
+      <table class="table table-bordered">
+        <tr>
+          <td>
+            <label>Latitude:</label>
+            <span><%= item_value.latitude if item_value %></span>
+          </td>
+          <td>
+            <label>Longitude:</label>
+            <span><%= item_value.longitude if item_value %></span>
+          </td>
+          <td>
+            <label>Accuracy:</label>
+            <span><%= item_value ? item_value.accuracy : 0 %> M</span>
+          </td>
+          <td>
+            <label>Status:</label>
+            <span><%= item_value.photo_status if item_value %></span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <label>Remark: 
+              <span><%= item_value.remark if item_value %></span>
+            </label>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  
+<% end %>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>

@@ -1,0 +1,11 @@
+<div class="innerLR add-margin-top">
+	<div class="tab-content" style="padding: 0;">
+		<div class="hr_title">
+			<h3> New Operator</h3>
+		</div>
+		<%= form_for(:operator, url: operators_path, method: "post", html: {class: "form-horizontal"}) do |f| %>
+   	 <%= render partial:"form", locals: {f: f, operator_profile: {}, operator_profile_address: {}} %>
+		<% end %>
+	</div>
+</div>
+

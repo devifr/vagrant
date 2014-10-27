@@ -1,0 +1,4 @@
+<label class="control-label">Corrective Items</label>
+<div class="controls" style="margin-left:190px;">
+  <%= select_tag 'schedule[corrective_item_ids][]', options_for_select(@items.map{|i| [i.form_group_item.label, i.form_group_item.id]}, params[:corrective_item_ids]), { class: 'span10', multiple: 'multiple' } %>
+</div>

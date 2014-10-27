@@ -1,0 +1,57 @@
+<% field_setting_url = @work_form_group_item? work_form_group_item_path(@work_form_group_item.id) : work_form_group_items_path %>
+<% field_setting_method = @work_form_group_item ? 'PUT' : 'POST' %>
+<%= form_tag field_setting_url, method: field_setting_method, multipart: true, class: 'form-horizontal padding-no' do %>
+  <div class="modal-header blue">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      &times;
+    </button>
+    <h4 class="modal-title">Question Setting</h4>
+  </div>
+  <div class="modal-body">
+    <div class="span12" style="margin-top: 25px;">
+      <div class="control-group">
+        <label class="control-label">Position</label>
+        <div class="controls">
+          <%= number_field_tag "work_form_group_item[position]", @work_form_group_item ? @work_form_group_item.position : '', placeholder:'Position' %>
+        </div>
+      </div>
+    </div>
+    <div class="span12" style="margin-top: 25px;">
+      <div class="control-group">
+        <label class="control-label">Scope Type</label>
+        <div class="controls">
+          <%= select_tag "work_form_group_item[scope_type]", options_for_select(['operator','all'], (@work_form_group_item ? @work_form_group_item.scope_type : '')), {prompt: 'Select Scope'} %>
+        </div>
+      </div>
+    </div>
+    <% unless @work_form_group_item %>
+      <div class="span12">
+        <div class="control-group add-margin-top">
+          <label class="control-label">Field Type</label>
+          <div class="controls">
+            <%= select_tag "work_form_group_item[field_type]", options_for_select(WorkFormGroup::FIELD_TYPES), {prompt: 'Select Field Type', class: 'select2'} %>
+            <%= hidden_field_tag "work_form_group_item[work_form_row_column_id]", params[:cell_id] %>
+          </div>
+        </div>
+        <div class="field-item-container hide">
+        </div>
+      </div>
+    <% else %>
+      <%= hidden_field_tag "work_form_group_item[id]", @work_form_group_item.id %>
+      <div class="span12 field-item-container">
+        <%= render "shares/form_templates/#{@work_form_group_item.field_type}/edit" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <div class="field-item-action hide" style='width: 95%'>
+      <hr class="separator"/>
+      <div class="control-group">
+        <label class="control-label">&nbsp;</label>
+        <div class="controls">
+          <%= submit_tag 'Submit', class: 'btn btn-small' %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

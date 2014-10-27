@@ -1,0 +1,38 @@
+<div class="modal-header blue">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+    &times;
+  </button>
+  <h4 class="modal-title">Row Parent</h4>
+</div>
+<div class="modal-body">
+  <div class="control-group add-margin-top">
+    <label class="control-label">Select Parent Id</label>
+    <div class="controls">
+      <%= select_tag "work_form_row[parent_id]", 
+                     select_row(@rows, selected_parent),{class: 'select2'} %>
+    </div>
+  </div>
+  <div class="control-group add-margin-top">
+    <label class="control-label">Form Position</label>
+    <div class="controls">
+      <%= text_field_tag "work_form_row[position]", @work_form_row ? @work_form_row.position : '' %>
+    </div>
+  </div>
+  <div class="control-group add-margin-top">
+    <label class="control-label">Report Position</label>
+    <div class="controls">
+      <%= text_field_tag "work_form_row[report_position]", @work_form_row ? @work_form_row.report_position : '' %>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="control-group">
+    <div class="controls">
+      <%= submit_tag "Save", class: "btn" %>
+      <%= link_to 'Delete', delete_path, 
+          method: :delete, 
+          confirm: 'Are you sure?', 
+          class: 'btn btn-danger' if delete_path.present? %>  
+    </div>
+  </div>
+</div>

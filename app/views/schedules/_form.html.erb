@@ -1,0 +1,79 @@
+<div class="widget widget-heading-simple widget-body-gray">
+  <%= display_errors!(@schedule) %>
+  <div class="widget-body" id="gradien2"><br>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="control-group">
+          <label class="control-label">Engineer</label>
+          <div class="controls">
+            <%= f.select(:user_id, options_from_collection_for_select(@users, :id, :full_name, @schedule ? @schedule.user_id : ''), {prompt: 'Select User'},{class: 'span6'}) %>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Site</label>
+          <div class="controls">
+            <%= f.select(:site_id, options_for_select(@sites.map{|s| ["#{s.name} - ID: #{s.code.to_s.upcase} - CUST: #{s.site_id_customer.to_s.upcase}", s.id]}, @schedule ? @schedule.site_id : ''), {prompt: 'Select Site'}, class: "span6") %>
+          </div>
+        </div>
+        <% class_hide = @schedule ? '' : 'hide' %>
+        <div id="operator_name" class="control-group <%= class_hide %>">
+          <label class="control-label">Operator Site</label>
+          <div class="controls">
+            <%= @schedule ? @schedule.site && @schedule.site.operators.present? ? @schedule.site.operators.map(&:name).join(',') : '-' : '' %>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Work Type</label>
+          <div class="controls">
+            <%= f.select(:work_type_id, options_from_collection_for_select(@work_types, :id, :name, @schedule.try(:work_type_id)), {prompt: 'Select Work Type'}, class: "span6", 'data-url' => select_work_forms_path(format: :js), 'data-form-id' => @schedule.try(:form_id)) %>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Work Form</label>
+          <div class="controls work-form-container">
+            <% if @work_forms %>
+              <%= f.select(:form_id, options_from_collection_for_select(@work_forms, :id, :name, @schedule.try(:form_id)), {prompt: 'Select Work Form'}, class: "span6", 'data-url' => items_work_forms_path(format: :js)) %>
+            <% else %>
+              <i>please select a work type</i>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Work Date</label>
+          <div class="controls">
+            <div class="datetimepicker" class="input-append date">
+              <% work_date_value = @schedule ? (@schedule.work_date != 0 && @schedule.work_date) ? timepicker_format(@schedule.work_date) : '' : '' %>
+              <%= f.text_field :work_date, value: work_date_value, "data-format" => "yyyy-MM-dd hh:mm" %>
+              <span class="add-on">
+                <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                </i>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Status</label>
+          <div class="controls">
+            <%= f.select(:status, Schedule.statuses, {prompt: 'Select Status'}, class: 'span4') %>
+          </div>
+        </div>
+        
+        <div class="control-group corrective-items-container">
+          
+        </div>
+
+        <div class="control-group">
+          <br>
+          <div class="controls">
+            <%= link_to "<i></i>Cancel".html_safe ,schedules_path,class: "btn btn-icon btn-default",id:"gradien2" %>
+            <%= button_tag "<i></i>Save".html_safe,:class => "btn btn-icon btn-primary circle_ok",id:"gradien" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

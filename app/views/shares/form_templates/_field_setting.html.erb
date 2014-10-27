@@ -1,0 +1,29 @@
+  <div class="control-group" style="margin-bottom: 5px;">
+    <hr class="separator">
+    <%= hidden_field_tag "#{item_field}[field_type]", "checkbox" %>
+    <label class="control-label">Label or Question</label> 
+    <div class="controls">
+      <%= text_field_tag "#{item_field}[label]", "", placeholder: 'enter question or label', id: item_field_for('label') %>
+      <i>leave blank if no question or label</i>
+    </div>
+  </div>
+  <div class="control-group" style="margin-bottom: 5px;">
+    <hr class="separator">
+    <label class="control-label">Description</label> 
+    <div class="controls">
+      <%= text_field_tag "#{item_field}[description]", "", placeholder: 'enter description', id: item_field_for('description') %>
+      <i>leave blank if no description</i>
+    </div>
+  </div>
+  <div class="control-group" style="margin-bottom: 5px;">
+    <hr class="separator">
+    <label class="control-label">Answer Options</label>
+    <div class="controls line-item-container">
+      <div class="span12 line-item" style="margin-left:0px;margin-bottom: 5px;">
+        <%= text_field_tag "#{option_field}[value]", "", placeholder: 'enter option value', required: true, id: item_field_for('value') %>
+        &nbsp;&nbsp; 
+        <%= text_field_tag "#{option_field}[label]", "", placeholder: 'enter option label', required: true, id: item_field_for('label') %>
+        <a href="" class="close remove_line_item" style="margin-right: 22px;">&times;</a>
+      </div> 
+    </div>
+  </div>

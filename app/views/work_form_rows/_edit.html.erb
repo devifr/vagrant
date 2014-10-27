@@ -1,0 +1,4 @@
+<% form_url = work_form_row_path(id: @work_form_row.id, group_id: params[:group_id]) %>
+<%= form_tag form_url,{method: :put, class: "form-horizontal padding-no"} do %>
+  <%= render partial: 'form', locals: {selected_parent: @work_form_row.parent_id, delete_path: form_url} %>
+<% end %>

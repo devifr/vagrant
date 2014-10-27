@@ -1,0 +1,80 @@
+<div class="innerLR add-margin-top">
+  <div class="widget widget-heading-simple widget-body-gray">
+      <h3>Sites List</h3>
+      <div class="accordion-group">
+      <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+            <span class="heading glyphicons search color_white"><i></i>Advance Filter Search</span>
+            <div class="toggle_icon">
+              <span class="heading glyphicons expand color_white"><i></i></span>
+            </div>
+          </a>
+      </div>
+      <div id="collapseTwo" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+          <%= render partial: "pages/form_search_site" %>
+        </div>
+      </div>
+    </div>
+    <div class="br"></div>
+      <%= form_tag "sites/mass_delete", method: "post" do %>  
+        <%= render partial: "pages/form_tag_index",locals:{model: :site, new_local_path: new_site_path } %>
+          <table class="table table-primary table-border-bottom">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Original</th>
+                <th>Client</th>
+                <th>Site ID</th>
+                <th>Site OP</th>
+                <th>Site Cust</th>
+                <th>Operators</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @sites.each_with_index do |st, key| %>
+                <tr class="gradeX">
+                  <td>
+                    <%= check_box_tag "site[site_ids][]", st.id, false, id: "site_#{key}" %>
+                    <label for="site_<%= key %>"><span></span></label>
+                  </td>
+                  <td><b><%= link_to st.name, remove_link(site_path(st.id), :site, [:manage,:read]) %></b></td>
+                  <td>
+                    <%= st.tower_original %>
+                  </td>
+                  <td>
+                    <%= st.client.name if st.client %>
+                  </td>
+                  <td><%= st.code %></td>
+                  <td><%= st.site_id_operator %></td>
+                  <td><%= st.site_id_customer %></td>
+                  <td>
+                    <div class="<%= permission_active_if(:site,[:update,:destroy,:manage]) %>">
+                      <div class="action hide" align="center">
+                        <%= link_to edit_site_path(st.id),class: "btn btn-white 
+                            #{permission_active_if(:site,[:update,:manage])}" do %>
+                          <i class="icon-pencil"></i>
+                          Edit
+                        <% end %>
+                        <%= link_to site_path(st.id), method: :delete, data: { confirm: 'Are You Sure'}, class: "btn btn-white #{permission_active_if(:site,[:destroy,:manage])}" do %>
+                         <i class="icon-remove"></i>
+                         Delete
+                        <% end if @sites.present? %>
+                      </div>
+                    </div>
+                    <%= st.operators.map(&:name).join(',') if st.operators %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      <div class="pull-left">
+        <%= page_entries_info(@sites, @pagination) %>
+      </div>
+      <div class="buttons pull-right">
+        <%= paginate @pagination %>
+      </div>
+  </div>
+</div>

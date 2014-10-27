@@ -1,0 +1,81 @@
+<div class="row-fluid">
+	<div class="br"></div>
+  <%= form_tag '/sites', method: "get" do %>
+	  <div>
+			<div class="span4" style="margin-left:0px;">
+        <h4 class="heading glyphicons google_maps"><i></i>By Operator</h4>
+        <div class="hr2"></div>
+        <label for="inputEmail">Operator</label>
+        <div class="padding_left20">
+          <ul>
+            <% @operators.each_with_index do |op,index| %>
+                <li>
+                  <%= check_box_tag 'operators[]', op.name, false, id: "operator_#{index}" %>
+                  <label for="operator_<%= index %>"><span></span><%= op.name %></label>
+                </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+			<div class="span4" style="margin-left:0px;">
+				<h4 class="heading glyphicons search"><i></i>By Options</h4>
+				<div class="hr2"></div>
+				<div class="padding_left20">
+					<label for="inputEmail">Enter Site Name</label>
+		      <%= text_field_tag 'name',nil ,class: "input-large", placeholder: "Enter Name" %>
+		      <div class="separator"></div>
+		      <label for="inputEmail">Enter Tower Original</label>
+		      <%= text_field_tag 'original',nil ,class: "input-large", placeholder: "Enter Original" %>
+		      <div class="separator"></div>
+		      <label for="inputEmail">Enter Client Name</label>
+		      <%= text_field_tag 'client_name',nil ,class: "input-large", placeholder: "Enter Client Name" %>
+		      <div class="separator"></div>
+		      <label for="inputEmail">Enter Site Id</label>
+		      <%= text_field_tag 'site_id',nil ,class: "input-large", placeholder: "Enter Site Id" %>
+		      <div class="separator"></div>
+		      <label for="inputEmail">Enter Site Operator</label>
+		      <%= text_field_tag 'site_operator',nil ,class: "input-large", placeholder: "Enter Site Operator" %>
+		      <div class="separator"></div>
+		      <label for="inputEmail">Enter Site Customer</label>
+		      <%= text_field_tag 'site_customer',nil ,class: "input-large", placeholder: "Enter Site Customer" %>
+		      <div class="separator"></div> 	
+				</div>
+			</div>
+			<div class="span4" style="margin-left:0px;">
+				<h4 class="heading glyphicons search"><i></i> By Periode</h4>
+				<div class="hr2"></div>
+				<div class="padding_left20">
+					<label class="grey">Date Type</label>
+					<div class="datetimepicker" class="input-append date">
+						<%= select_tag("date_type", options_for_select(Site::DATETYPE), {prompt: '----Date Type----'}) %>
+				  </div>
+					<div class="separator"></div>
+
+					<label class="grey">Start On</label>
+					<div class="datetimepicker" class="input-append date">
+						<%= text_field_tag 'start_on','', "data-format" => "yyyy-MM-dd" %>
+				    <span class="add-on">
+				      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+				      </i>
+				    </span>
+				  </div>
+					<div class="separator"></div>
+
+					<label class="grey">End On</label>
+					<div class="datetimepicker" class="input-append date">
+						<%= text_field_tag 'end_on','', "data-format" => "yyyy-MM-dd" %>
+				    <span class="add-on">
+				      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+				      </i>
+				    </span>
+				  </div>
+					<div class="separator"></div>
+				</div>
+			</div>
+		</div>
+		<div class="br"></div>
+		<div class="padding_left20" style="float:right">
+			<button class="btn btn-icon btn-primary circle_ok" id="gradien" name="" type="submit"><i></i>Search</button>
+		</div>
+  <% end %>
+</div>

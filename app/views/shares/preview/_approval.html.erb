@@ -1,0 +1,10 @@
+<div class="reschedule-approval row-fluid" style="border-bottom: 1px solid #ddd;background:#fff;">
+  <div class="span7">
+    
+  </div>
+  <div class="span2" style="border-right: 1px solid #ddd; line-height: 60px;">&nbsp;</div>
+  <div class="span3 form-horizontal" style="padding-top: 15px;">
+    <%= link_to 'Approve', '', class:'btn btn-success btn-approve', style: 'display:inline-table;margin-left: 10px;' if current_user.role_name != "Technician" %>
+    <%= link_to 'Download', "?operator_id=#{params[:operator_id]}&format=pdf", class:'btn btn-download', style: 'display:inline-table;margin-left: 10px;' %>
+  </div>
+</div>

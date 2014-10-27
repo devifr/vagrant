@@ -1,0 +1,36 @@
+<div class="control-group">
+  <label class="control-label">Address 1</label>
+  <div class="controls">
+    <%= f_address.text_field :address_1, class:'span10',placeholder:'Enter address 1' %>
+  </div>
+</div>
+<div class="control-group">
+  <label class="control-label">Address 2</label>
+  <div class="controls">
+    <%= f_address.text_field :address_2, class:'span10',placeholder:'Enter address 2' %>
+  </div>
+</div>
+<div class="control-group">
+  <label class="control-label">Postcode</label>
+  <div class="controls">
+    <%= f_address.text_field :postcode, class:'span10',placeholder:'Enter postcode' %>
+  </div>
+</div>
+<div class="control-group">
+  <label class="control-label">City</label>
+  <div class="controls">
+    <%= f_address.text_field :city, class:'span10',placeholder:'Enter city' %>
+  </div>
+</div>
+<div class="control-group">
+  <label class="control-label">Province</label>
+  <div class="controls">
+    <%= f_address.text_field :province, class:'span10',placeholder:'Enter province' %>
+  </div>
+</div>
+<div class="control-group">
+  <label class="control-label">Country</label>
+  <div class="controls">
+    <%= f_address.country_select :country,["Indonesia"],{prompt:'Select Country'}, class: 'span10' %>
+  </div>
+</div>

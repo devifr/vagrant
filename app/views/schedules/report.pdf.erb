@@ -1,0 +1,5 @@
+<%= wicked_pdf_stylesheet_link_tag "pdf" %>
+<% @results.each do |key, data| %>
+  <% locals_attributes = { schedule: @schedule, work_form_group: @work_form_group, operator: @operator}.merge(data) %>
+  <%= render  partial: "report_#{key}", locals:  locals_attributes %>
+<% end %>

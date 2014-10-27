@@ -1,0 +1,38 @@
+<div class="form-actions" style="text-align:center; backgroud-color:f3f7f9;">
+  <div class="pull-left">
+    <%= link_to 'Select All'.html_safe, "", class: "select_all btn btn-white", id: 'select_all' if allow?(model,[:delete]) %>
+    <%= link_to 'Deselect All'.html_safe, "", class: "deselect_all btn btn-white hide", id: 'deselect_all' %>
+    <%= button_tag '<i></i>Delete'.html_safe, :class => "btn btn-white" if allow?(model,[:delete]) %>
+    <%= link_to '<i></i>Clean Database'.html_safe, get_clean_db_path, method: 'delete', confirm: 'You will remove data from database, are you sure?', :class => "btn btn-white" if get_clean_db_path && is_superadmin? %>
+  </div>
+  <% if allow?(model, [:create]) || allow?(model, [:index]) || is_admin? %>
+    <% import_export = [] %>
+    <% import_export.push('Import') if allow?(model, [:create]) %>
+    <% import_export.push('Export') if allow?(model, [:index]) %>
+    <div class="pull-right">
+      <div class="btn-group bootstrap-select span3">
+        <button class="btn btn-white dropdown-toggle clearfix" data-toggle="dropdown">
+          <span class="filter-option pull-left">
+            <%= import_export.join('/') %>
+          </span>
+          &nbsp;
+          <span class="caret"></span>
+        </button>
+        <div class="dropdown-menu pull-right">
+          <ul class="full_report pull-left">
+            <% if allow?(model, [:create]) %>
+              <li><%= link_to 'Import'.html_safe, import_url %></li>
+            <% end %>
+            <% if allow?(model, [:index]) %>
+              <li><%= link_to 'Export'.html_safe, export_url %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      &nbsp;
+      <% page = model.to_s.titleize %>
+      <% page.gsub! '/', ' ' %>
+      <%= link_to "<i></i>Add New #{page}".html_safe, new_local_path, :class => "btn-icon-inside btn-green glyphicons circle_plus" if allow?(model,[:create]) || is_admin? %>
+    </div>
+  <% end %>
+</div>
