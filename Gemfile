@@ -38,9 +38,10 @@ end
 
 group :production do
   gem 'unicorn'                               # HTTP server for Ruby
-  gem 'capistrano', '~> 3.0', require: false  # Remote multi-server automation tool
-  gem 'capistrano-rails', '~> 1.1', require: false 
-  gem 'capistrano-bundler', '~> 1.1', require: false
-  gem 'capistrano-rbenv', '~> 2.0', require: false
+  gem 'capistrano', '~> 3.1.0'  # Remote multi-server automation tool
+  gem 'capistrano-rails', '~> 1.1.0' 
+  gem 'capistrano-bundler', '~> 1.1'
+  gem 'capistrano-rbenv', '~> 2.0'
+  gem 'capistrano3-unicorn', "~> 0.1.1"
   gem 'god'
 end

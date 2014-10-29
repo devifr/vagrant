@@ -1,6 +1,6 @@
 # require 'capistrano/ext/multistage'
-# set :stages, %w(staging production)
-# set :default_stage, "production"
+set :stage, :production
+set :unicorn_rack_env, :production
 
 # bundler bootstrap
 # require 'bundler/capistrano'
@@ -8,13 +8,14 @@
 lock '3.1.0'
 
 set :application, 'office_tower'
-set :repo_url, 'git@github.com:domikado/sap_admin.git'
+# set :repo_url, 'git@github.com:domikado/sap_admin.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
+set :port, 2222
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/home/deploy/tower_office'
+# set :deploy_to, '/home/deploy/tower_office'
 
 # Default value for :scm is :git
 set :scm, :git
