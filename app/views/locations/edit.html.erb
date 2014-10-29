@@ -1,0 +1,14 @@
+<div class="innerLR add-margin-top">
+	<div class="hr_title">
+		<div class="buttons pull-right">
+	    <%= link_to '<i></i>Add New Location'.html_safe, new_location_path, :class => "btn btn-icon btn-primary glyphicons circle_plus green" if allow?(:location,[:create,:manage]) %>
+	  </div>
+		<h3> Edit Location </h3>
+	</div>
+	<%= form_for(:location, url: location_path(@location.id), method:"put", html:{class: "form-horizontal margin-none"}) do |f| %>
+		<%= render partial:"form",locals: {f: f} %>
+	<% end %>
+</div>
+
+	
+

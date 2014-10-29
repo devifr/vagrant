@@ -1,0 +1,7 @@
+<div class="heading-buttons ms-container text-center">
+  <%= link_to 'Calender', '?tab=calender', class: 'btn btn-primary', data: { toggle: 'button'} %>
+  <%= link_to 'Statistic', '?tab=statistic', class: 'btn btn-primary', data: { toggle: 'button'} %>
+  <%= link_to 'Work Progress', '?tab=progress', class: 'btn btn-primary', data: { toggle: 'button'} %>
+  <div class="clearfix" style="clear: both;"></div>
+</div>
+<%= render("shares/dashboard_#{params[:tab]}") rescue render("shares/dashboard_calender") %>

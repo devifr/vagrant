@@ -1,0 +1,7 @@
+<% if params[:cell_id].present?  %>
+  <div class="control-group" style="margin-bottom: 5px;">
+    {{VALUE}}
+    <%= hidden_field_tag "#{item_field}[label]", "{{VALUE}}" %>
+    <%= hidden_field_tag "#{item_field}[field_type]", "label_only" %>
+  </div>
+<% end %>

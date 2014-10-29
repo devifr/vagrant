@@ -1,0 +1,77 @@
+<% unless @client.id.blank? %>
+	<div class="innerLR add-margin-top">
+		<div class="form-horizontal margin-none">
+
+			<div class="widget widget-heading-simple widget-body-gray">
+				<div class="row-fluid">
+					<div class="span6 vers">
+						<div class="control-group">
+							<div style="text-align:center">
+									<h3><%= @client.name %></h3>
+									<% if @client.profile && @client.profile.picture %>
+	  								<%= image_tag @client.profile.picture.small, class: "avatar" %>
+	  							<% else %>
+	  							  <%= image_tag "no-image.png",  class: "avatar" %>
+	  							<% end %>
+	  							<br>
+									<%= link_to "<i></i>Edit Data".html_safe ,edit_client_path(@client.id),class: "btn btn-icon btn-primary green",id:"gradien" if allow?(:client,[:update]) %>
+									<%= link_to "<i></i>Cancel".html_safe ,clients_path, class: "btn btn-icon btn-default",id:"gradien2" %>
+							</div>
+						</div>
+					</div>
+					
+					<div class="span6 vers">	
+						<div class="head_view">
+							Client Information
+						</div>
+						<table class="table table-stripped gray-popup view_table">
+					    <tbody>
+					    	<tr>
+				            <th width="30%">Full Name</th>
+				            <th><%= @client.name %></th>
+				        </tr>
+				        <tr>
+				            <td><b>Email</b></td>
+				            <td><%= profile_attr(@client, "email") %></td>
+				        </tr>
+				        <tr>
+				            <td><b>Phone</b></td>
+				            <td><%= profile_attr(@client, "phone") %></td>
+				        </tr>
+				        <tr>
+				            <td><b>Mobile</b></td>
+				            <td><%= profile_attr(@client, "mobile") %></td>
+				        </tr>
+				        <tr>
+				            <td><b>Fax</b></td>
+				            <td><%= profile_attr(@client, "fax") %></td>
+				        </tr>
+				        <tr>
+				            <td><b>Address 1</b></td>
+				            <td><%= address_attr(@client, "address_1") %></td>
+				        </tr>
+				        <tr>
+				            <td><b>Address 2</b></td>
+				            <td><%= address_attr(@client, "address_2") %></td>
+				        </tr>
+				        <tr>
+				            <td><b>City</b></td>
+				            <td><%= address_attr(@client, "city") %></td>
+				        </tr>
+				        <tr>
+				            <td><b>Province</b></td>
+				            <td><%= address_attr(@client, "province") %></td>
+				        </tr>
+				        <tr>
+				            <td><b>Country<b></td>
+				            <td><%= address_attr(@client, "country") %></td>
+				        </tr>
+					    </tbody>
+						</table>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>
+

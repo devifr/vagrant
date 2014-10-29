@@ -1,0 +1,33 @@
+<% if params[:cell_id].present? %>
+  <div class="control-group" style="margin-bottom: 5px;">
+    {{LABEL}}
+    <%= text_field_tag 'example','', class: 'span4' %>
+    {{DESCRIPTION}}
+    <%= hidden_field_tag "#{item_field}[label]", "{{LABEL}}" %>
+    <%= hidden_field_tag "#{item_field}[description]", "{{DESCRIPTION}}" %>
+
+    <%= hidden_field_tag "#{item_field}[field_type]", "text_field" %>
+  </div>
+<% else %>
+  <% if index.present? %>
+    <div class="control-group js_cons" style="margin-bottom: 5px;" data-id="item_<%= item.id %>">
+      <div class="controls" style="margin-left: 5px;">
+        <%= hidden_field_tag "work_form_group[rows_attributes][#{index_row}][row_columns_attributes][#{index}][items_attributes][#{item_index}][id]", item.id %>
+        <%= hidden_field_tag "work_form_group[rows_attributes][#{index_row}][row_columns_attributes][#{index}][items_attributes][#{item_index}][field_type]", item.field_type %>
+        <%= hidden_field_tag "work_form_group[rows_attributes][#{index_row}][row_columns_attributes][#{index}][items_attributes][#{item_index}][_destroy]", 0, class: 'destroyable' %>
+        <%= hidden_field_tag "work_form_group[rows_attributes][#{index_row}][row_columns_attributes][#{index}][items_attributes][#{item_index}][label]", opt.label %>
+        <%= item.label %>
+      </div>
+    </div>
+  <% else %>
+    <div class="control-group" style="margin-bottom: 5px;">
+      <div class="controls" style="margin-left: 5px;">
+        <%= hidden_field_tag "work_form_group[items_attributes][#{item_index}][id]", item.id %>
+        <%= hidden_field_tag "work_form_group[items_attributes][#{item_index}][field_type]", item.field_type %>
+        <%= hidden_field_tag "work_form_group[items_attributes][#{item_index}][_destroy]", 0, class: 'destroyable' %>
+        <%= hidden_field_tag "work_form_group[items_attributes][#{item_index}][label]", opt.label %>
+        <%= item.label %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

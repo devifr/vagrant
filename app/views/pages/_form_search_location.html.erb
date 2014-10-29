@@ -1,0 +1,51 @@
+<div class="row-fluid">
+	<div class="br"></div>
+  <%= form_tag '/locations', method: "get" do %>
+	  <div>
+			<div class="span6" style="margin-left:0px;">
+        <h4 class="heading glyphicons google_maps"><i></i>By Options</h4>
+        <div class="hr2"></div>
+        <div class="padding_left20">
+          <label for="inputEmail">Enter Location Name</label>
+		      <%= text_field_tag 'name',nil ,class: "input-large", placeholder: "Enter Name" %>
+		      <div class="separator"></div>
+        </div>
+      </div>
+			<div class="span6" style="margin-left:0px;">
+				<h4 class="heading glyphicons search"><i></i> By Periode</h4>
+				<div class="hr2"></div>
+				<div class="padding_left20">
+					<label class="grey">Date Type</label>
+					<div class="datetimepicker" class="input-append date">
+						<%= select_tag("date_type", options_for_select(Location::DATETYPE), {prompt: '----Date Type----'}) %>
+				  </div>
+					<div class="separator"></div>
+
+					<label class="grey">Start On</label>
+					<div class="datetimepicker" class="input-append date">
+						<%= text_field_tag 'start_on','', "data-format" => "yyyy-MM-dd" %>
+				    <span class="add-on">
+				      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+				      </i>
+				    </span>
+				  </div>
+					<div class="separator"></div>
+
+					<label class="grey">End On</label>
+					<div class="datetimepicker" class="input-append date">
+						<%= text_field_tag 'end_on','', "data-format" => "yyyy-MM-dd" %>
+				    <span class="add-on">
+				      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+				      </i>
+				    </span>
+				  </div>
+					<div class="separator"></div>
+				</div>
+			</div>
+		</div>
+		<div class="br"></div>
+		<div class="padding_left20" style="float:right">
+			<button class="btn btn-icon btn-primary circle_ok" id="gradien" name="" type="submit"><i></i>Search</button>
+		</div>
+  <% end %>
+</div>

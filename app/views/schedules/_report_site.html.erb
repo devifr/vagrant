@@ -1,0 +1,63 @@
+<%#= render partial: 'shares/preview/approval' %>
+<div class="add-margin-top">
+  <div class="form-horizontal margin-none">
+    <div class="widget widget-heading-simple widget-body-gray">
+      <div class="row-fluid"> 
+        <div class="content_report">
+          <div class="header_report">
+            <h4><%= "CME #{schedule.work_type.name} Maintenance".upcase %></h4>
+            <div class="small_font">Site Information</div>
+            <div class="small_font">Ver.1.3</div>
+            <div class="red small_font">Attention : Call NOC Before Enter Site</div>
+          </div>
+          <div class="sub_content_report">
+            <label class="control-label">Site ID :</label>
+            <div class="controls">
+              <%= "#{schedule.site.code} / #{schedule.site.name}".upcase if schedule.site %>
+              <div class="separator"></div>
+            </div>
+            <label class="control-label">Site Name :</label>
+            <div class="controls">
+              <%= "#{schedule.site.name}".upcase if schedule.site %>
+              <div class="separator"></div>
+            </div>
+            <label class="control-label">Site Address :</label>
+            <div class="controls">
+              <%= "#{schedule.site.address.address_1}".upcase if schedule.site.address %>
+              <div class="separator"></div>
+            </div>
+            <label class="control-label">Region :</label>
+            <div class="controls">
+              <%= "#{schedule.site.service_point.name}".upcase if schedule.site && schedule.site.service_point %>
+              <div class="separator"></div>
+            </div>
+            <label class="control-label">Area :</label>
+            <div class="controls">
+              <%= "#{schedule.site.location.name}".upcase if schedule.site && schedule.site.location %>
+              <div class="separator"></div>
+            </div>
+            <% if group.table && group.table.headers.present? %>
+              <% rows = group.table.rows %>
+              <% rows_index = row_index(indexes, {}, rows.map(&:id)) %>
+              <% rows.each_with_index do |row,index| %>
+                <% row.row_columns.each do |cell| %>
+                  <% cell.items.each do |item| %>
+                  <% if item.field_type == 'label'
+                      unless item.label =~ /site information/i || item.label =~ /general information/i %>
+                        <%= "</div>".html_safe  %>
+                        <%= "<div class='sub_content_report'>".html_safe %>
+                    <% end %>
+                  <% end %>
+                  <%= "<div class='scop'>".html_safe unless item.label =~ /site information/i || item.label =~ /general information/i %>
+                    <%= get_item_preview_site_pdf(item, values) %>
+                  <%= "</div>".html_safe unless item.label =~ /site information/i || item.label =~ /general information/i %>
+                  <% end if cell.items.is_a?(Array) %>
+                <% end if row.row_columns.is_a?(Array) %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

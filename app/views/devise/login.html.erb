@@ -1,0 +1,25 @@
+<div id="login">
+	<%= form_tag login_path,class: "form-signin",id: "gradien_log", method: "POST" do %>
+		<div class="devise_scop">
+			<div style="text-align:center">
+				<%= image_tag "sap.png" %>
+			</div>
+			<div class="br"></div>
+			<h3>Sign in</h3>
+			<hr>
+			<div class="br"></div>
+			<div class="uniformjs">
+				<label>Username</label>
+				<%= text_field_tag :username, params[:username], class: "input-block-level text" %>
+				<label>Password</label>
+				<%= password_field_tag :password, params[:password], class: "input-block-level password" %>
+			</div>
+			<button class="btn btn-large btn-primary blue_btn" id="full" name="submit" type="submit">
+				Sign in
+			</button>
+		</div>
+		<div class="devise_footer">
+			<%= link_to "forgot your password ?",forgot_path, class:'password' %>
+		</div>
+	<% end %>
+</div>

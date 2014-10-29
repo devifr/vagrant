@@ -1,0 +1,53 @@
+<% @finger_print = (Time.now.to_i * rand()).to_i unless @finger_print %>
+<table class="table table-bordered table-survey">
+  <thead>
+    <tr>
+      <th>
+        <h3 class="glyphicons suitcase"><i></i> New Survey
+          <div class="buttons pull-right">
+            <%= link_to '<i></i>Delete'.html_safe, "", :class => "btn btn-icon btn-primary glyphicons circle_plus" %>
+          </div>  
+        </h3>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="survey-item-setting">
+      <td></td>
+    </tr>
+    <tr class="row-container" data-id="">
+      <td>
+        <table id="form" class="table table-bordered table-condensed table-striped">
+          <thead class="thead_survey">
+            <tr>
+              <th data-id="<%= @finger_print %>">
+                <div class="row-fluid">
+                  <% column_name = @work_form_column.column_name.present? ? @work_form_column.column_name : 'Survey Name' %>
+                  <%= link_to column_name,'','data-type' => 'text', 'data-name' => 'column_name', 'data-resource' => 'work_form_column', 'data-url' => work_form_column_path(@work_form_column.id), 'data-original-title' => 'enter survey or column name or leave it blank' %>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="appsHeader1 tbody_survey" style="overflow:hidden;">
+            <tr>
+              <td data-id="<%= @finger_print %>">
+                <div class="fields_container" data-id="<%= @finger_print %>">
+                </div>
+                <div style="text-align:center;">
+                  <%= link_to "add question or label", 
+                      new_work_form_group_item_path(el_id: @finger_print, group_id: params[:group_id], column_id: @work_form_column.id, format: 'js'), 
+                      class: 'btn btn-small btn-add-field' %>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:center;">
+        <%= link_to "Add More Line", "", class: "btn" %>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,252 @@
+@media all {
+
+  *{
+    font-size: 13px;
+  }
+  body{
+    margin: 0 auto;
+  }
+  .body{
+    background: #fff;
+    font-family: Arial, Verdana;
+    width: 1010px; 
+  }
+
+  .widget{
+    background: #fff;
+    /*margin: 0 auto 10px;*/
+  }
+
+  /*.content_report{ border: solid 1px #555;}*/
+  .table_photograph{ width: 98%; }
+
+  table{
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    display: table;
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  .table_photograph td{
+    padding-left: 10px;
+  }
+
+  .form-horizontal .control-label {
+    padding-top: 5px;
+    text-align: right;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: normal;
+    line-height: 20px
+  }
+
+  .row-fluid [class*="span"]:first-child{
+    margin-left: 0;
+  }
+
+  .row-fluid [class*="span"]{
+    min-height: 40px;
+    display: inline-block;
+  }
+  
+  .row-fluid .span6 {
+    width: 48.717948717948715%;
+    /* float: left; */
+  }
+  .row-fluid .span12 {
+    width: 100%;
+  }
+
+  .thumbnail {
+    display: block;
+    padding: 4px;
+    line-height: 20px;
+    border: 1px solid black;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    min-height: 351px;
+  }
+
+  img{
+    max-width: 100%;
+    vertical-align: middle;
+    border: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Avenir';
+    margin: 0 0 10px;
+    font-weight: 700;
+    color: #575655;
+  }
+  h5 {
+    font-size: 14px !important;
+    text-transform: uppercase;
+    margin: 0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 40px;
+  }
+  
+  .table-bordered {
+    border: 1px solid black;
+    border-collapse: separate;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    width: 100%;
+  }
+
+  .table th, .table td {
+    line-height: 10px;
+    font-size: 12px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid black;
+  }
+
+  .table td lable { font-size: 12px; }
+  .clearfix{
+    clear: both;
+  }
+  .mt-190{
+    margin-top: 190px;
+  }
+
+  .image-container img{ margin: 0 auto;}
+
+  .operator-logo{
+    position: absolute;
+    text-align:right;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+
+  .operator-logo img{
+    height: 100%;
+  }
+
+
+  .form-horizontal .control-label {
+    width: 125px;
+  }
+
+  .form-horizontal .control-label{ 
+    width: 160px;
+    padding-top: 5px;
+    text-align: right;
+  }
+
+  .widget{
+    position: static;
+  }
+
+  .form-horizontal {
+    /*padding: 10px;*/
+    padding-bottom: 0px;
+  }
+  
+  .margin-none {
+    margin: 0px!important;
+  }
+
+  .innerLR{
+    padding: 0 10px;
+    position: relative;
+    /*padding-bottom: 20px;*/
+  }
+  .row-fluid {
+    width: 100%;
+  }
+  .content_report{
+    border: solid 1px #555;
+    border-top: none;
+    /* float: left; */
+  }
+
+  .header_report {
+    background-color: #FFB5B5;
+    /*border-bottom: solid 1px #555;*/
+    padding: 10px;
+    text-align: center;
+    position: relative;
+  }
+
+  .sub_content_report {
+    border-top: solid 1px #555;
+    padding: 1%;
+    font-size: 12px!important;
+    /*page-break-after: always;*/
+  }
+
+  .sub_content_report tbody td{
+    padding: 10px;
+  }
+
+  h4, h3 {
+  color: #575655;
+  }
+
+  .small_font {
+  font-size: 12px;
+  }
+  .red{
+    color: red;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .form-horizontal .controls {
+    /*margin-left: 190px;*/
+    margin-left: 25px;
+    display: inline-block;
+    width: 80%;
+    padding-top: 5px;
+  }
+  .separator {
+    /*margin: 10px 0;*/
+    display: block;
+  }
+  .controls .full_input_report {
+    border-bottom: solid 1px #ccc!important;
+    background-color: #fff!important;
+    width: 97%!important;
+    padding: 0px!important;
+    min-height: 20px;
+    line-height: 20px!important;
+  }
+  .spacing{
+  /*float: left;  */
+  display: inline-block;
+  margin-right: 40px;
+  min-width: 100px;
+  }
+
+  .spacing2{
+    /* float: left; */
+    margin-right: 40px;
+    min-width: 28%;
+  }
+
+  input[type="checkbox"], input[type="radio"] {
+    margin-right: 10px;
+  }
+
+  tr, td, th {
+    page-break-inside: avoid !important;
+  }
+}

@@ -1,0 +1,27 @@
+<div class="page-break"></div>
+<div class="sub_content_audit">
+  <div class="br"></div>
+</div>
+  <div class="form-horizontal margin-none">
+    <div class="widget widget-heading-simple widget-body-gray">
+      <div class="row-fluid"> 
+        <div class="content_report_audit">
+          <div class="sub_content_report_audit">
+            <% if group.table && group.table.headers.present? %>
+              <% rows = group.table.rows %>
+              <% rows_index = row_index(indexes, {}, rows.map(&:id)) %>
+              <% rows.each_with_index do |row,index| %>
+                <% row.row_columns.sort{|x,y| x.column_id <=> y.column_id }.each do |cell| %>
+                  <% cell.items.each do |item| %>
+                    <div class="sub_content_audit">
+                      <%= get_item_preview_audit_site_pdf(item, values) %>
+                    </div>
+                  <% end if cell.items.is_a?(Array) %>
+                <% end if row.row_columns.is_a?(Array) %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

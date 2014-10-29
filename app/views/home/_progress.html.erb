@@ -1,0 +1,46 @@
+<div class="span12">
+  <div class="br20"></div>
+  <h3><i></i>Work Progress
+    <div class="pull-right">
+      <span class="date_class"><%= Date.today.strftime("%B %d, %Y") %></span>
+    </div>
+  </h3>
+  <div class="form-actions padding_top">
+    <span class="title_prog">Total Finished Sites Today</span> 
+    <div class="prog_right">
+      <span class="prog"><%= @progress.round(2) %> %</span>
+    </div>
+    <div class="progress progress-striped  progress-success">
+      <div class="bar" style="width: <%= @progress.round(2) %>%;"></div>
+    </div>
+  </div><br>
+  <div class="widget">
+    <div class="separator">
+      <%= button_tag 'ALL SITES PROGRESS', id: "all-progress", class: "btn btn-white high-btn" %>
+      <!-- <select>
+        <option>Select Site Point Progress</option>
+        <option>Tasik Malaya</option>
+        <option>Bandung</option>
+        <option>Jakarta</option>
+        <option>Surabaya</option>
+        <option>Madura</option>
+      </select> -->
+    </div>
+    <div class="br"></div>
+    <div id="site_chart" data-count="<%= @site_schedules.uniq_by(&:site).count %>">
+      <% @site_schedules.uniq_by(&:site).each_with_index do |schedule,index| %> 
+        <div id="site-<%= index %>" class="span6 border-span prog_bar">
+          <h4 class="heading"><%= link_to truncate(schedule.site.name, :length => 40), schedule_path(schedule.id) %></h4>
+          <span class="chart">
+            <div class="percentage pie-chart" data-percent="<%= @progresses[index].round(2) %>">
+            <span><%= @progresses[index].round(2) %></span>%
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="br"></div>
+    <div class="float-left">
+      <div id="paginate-survey" class="paginate-survey center"></div>
+    </div>
+  </div>
+</div>

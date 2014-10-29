@@ -1,0 +1,8 @@
+<div class="control-group" style="margin-bottom: 5px;">
+  <hr class="separator">
+  <label class="control-label">Label or Question</label> 
+  <div class="controls">
+    <%= text_field_tag "#{item_field}[label]", (@work_form_group_item ? @work_form_group_item.label : ''), placeholder: 'enter question or label', id: item_field_for('label') %>
+    <i>leave blank if no question or label</i>
+  </div>
+</div>

@@ -1,0 +1,121 @@
+var FormEngine, TemplateViews;
+
+TemplateViews = {
+  setting: "<%= escape_javascript(render('work_form_group_items/setting_fieldset')) %>",
+  addMoreLine: "<div class=\"pull-left\"><br/><a href=\"\" class=\"add-more-line\">Add More</a></div>",
+  lineItem: function(finger) {
+    return "<%= escape_javascript(render('shares/form_templates/line_item_tpl')) %>".replace(/{{FINGER_PRINT}}/g, finger);
+  },
+  lineItemContainer: function(title, line_item) {
+    return "<div class=\"control-group\">" + "<label class=\"control-label\">" + title + "</label>" + "<div class=\"controls line-item-container\">" + line_item + "</div>" + "</div>";
+  },
+  previewPath: function(field_type) {
+    return "<%= template_path %>/" + field_type + "/preview?el_id=<%= params[:cell_id] %>";
+  },
+  optionsSetting: function(title) {
+    return $(".line-item-container, .remove_line_item").on("click", function() {
+      $(this).parents(".line-item").remove();
+      return false;
+    });
+  }
+};
+
+FormEngine = function() {
+  var self;
+  self = {
+    template: TemplateViews,
+    selector: {
+      fieldType: "select[id=\"work_form_group_item_field_type\"]",
+      fieldItemContainer: ".field-item-container",
+      fieldItemAction: ".field-item-action",
+      fieldInput: "#survey-item-setting input",
+      formContainer: "#survey-item-setting",
+      lineItemContainer: ".line-item-container",
+      addMoreLine: ".line-item-container .add-more-line",
+      lineItemPointer: ".line-item-container .pull-left",
+      removeLineItem: ".line-item-container .remove_line_item",
+      removeFieldSetting: ".remove_field_setting",
+      fieldSettingType: "#field_setting_type"
+    },
+    setup: function() {
+      return self.createFormContainer();
+    },
+    events: {
+      onAddField: function() {
+        return false;
+      },
+      onAddMoreLine: function() {
+        $(self.selector.lineItemPointer).before(self.addLineItem());
+        $(self.selector.lineItemPointer).prev().find(".remove_line_item").on("click", self.events.onLineRemoved);
+        return false;
+      },
+      onLineRemoved: function() {
+        if ($(this).parent().find('.destroyable').length) {
+          $(this).parent().find('.destroyable').val('1');
+          $(this).parents(".line-item").first().slideUp('slow');
+        } else {
+          $(this).parents(".line-item").remove();
+        }
+        return false;
+      },
+      onFieldRemoved: function() {
+        var el;
+        el = $(self.selector.removeFieldSetting).parents(".well");
+        el.slideUp("slow", function() {
+          return el.remove();
+        });
+        return false;
+      },
+      onFieldTypeChanged: function() {
+        var _template_path;
+        if(!$('#work_form_group_item_id').length){
+           _template_path = "<%= template_path %>/" + $(this).val() + "/setting?el_id=<%= params[:cell_id] %>";
+          return $.get(_template_path, function(response) {
+            self.addContext(response);
+            return self.configLinksForOptions();
+          });
+        }else{
+          return false;
+        }
+       
+      },
+      disablePressEnter: function(event) {
+        if (event.keyCode === 13) {
+          return event.preventDefault();
+        }
+      }
+    },
+    configLinksForOptions: function() {
+      if ($(self.selector.addMoreLine).length < 1) {
+        $(self.selector.lineItemContainer).append(self.template.addMoreLine);
+        $(self.selector.addMoreLine).on("click", self.events.onAddMoreLine);
+      }
+      return $(self.selector.removeLineItem).on("click", self.events.onLineRemoved);
+    },
+    addContext: function(context) {
+      $(self.selector.fieldItemContainer).html(context).removeClass('hide');
+      $(self.selector.fieldItemAction).removeClass('hide');
+      return $(self.selector.fieldInput).on("keydown", self.events.disablePressEnter);
+    },
+    addLineItem: function() {
+      return self.template.lineItem(self.generateFingerPrint());
+    },
+    generateFingerPrint: function() {
+      return String(new Date().getTime());
+    },
+    createFormContainer: function() {
+      $(self.selector.formContainer).html(self.template.setting);
+      $(self.selector.formContainer).find('select:not(.selectpicker,.uniformjs,.import-schema-fields)').select2();
+      $(self.selector.formContainer).find(self.selector.fieldType).on("change", self.events.onFieldTypeChanged);
+      $(self.selector.removeFieldSetting).on("click", self.events.onFieldRemoved);
+      if ($('.field-item-container').children().length) {
+        self.configLinksForOptions();
+        $(self.selector.fieldItemAction).removeClass('hide');
+      }
+      return $(self.selector.formContainer).modal();
+    }
+  };
+  return self;
+};
+
+FormEngine().setup();

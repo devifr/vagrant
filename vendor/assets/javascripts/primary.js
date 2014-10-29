@@ -1,0 +1,1 @@
+var themerPrimaryColor = '#DA4C4C';

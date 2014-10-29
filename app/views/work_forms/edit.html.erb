@@ -1,0 +1,19 @@
+<div class="innerLR add-margin-top">
+	<div class="hr_title">
+		<div class="buttons pull-right">
+	    <%= link_to '<i></i>Add New Work Form'.html_safe, new_work_form_path, :class => "btn btn-icon btn-primary glyphicons circle_plus green #{permission_active_if("Work::Form",[:create,:manage])}" %>
+	  </div>
+		<h3> Edit Work Form </h3>
+	</div>
+	<%= form_for(:work_form, url: work_form_path(@work_form.id), method:"put", html:{class: "form-horizontal margin-none"}) do |f| %>
+		<%= render partial:"form",locals: {f: f} %>
+	<% end %>
+</div>
+<%  if @work_form.id.present? %>
+	<div class="separator"></div>
+	<div class="innerLR">
+	  <%= render partial: 'work_forms/group_list' if @work_form.groups %>
+  </div>
+<% end %>
+	
+

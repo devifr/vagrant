@@ -1,0 +1,53 @@
+<%= wicked_pdf_stylesheet_link_tag "pdf" %>
+<% schedule = @schedule %>
+<% work_form_group = @work_form_group %>
+<% operator = @operator %>
+<div class="body innerLR mt-190">
+  <div class="form-horizontal margin-none">
+    <div class="widget widget-heading-simple widget-body-gray">
+      <div class="row-fluid"> 
+        <div class="content_report">
+          <div class="header_report">
+            <h4><%= "CME #{schedule.work_type.name} Maintenance".upcase %></h4>
+            <div class="small_font">Site Information</div>
+            <div class="small_font">Ver.1.3</div>
+            <div class="red small_font">Attention : Call NOC Before Enter Site</div>
+            <div class="operator-logo">
+              <% if @operator.profile && @operator.profile.picture %>
+                <%= image_tag @operator.profile.picture.medium %>
+              <% end %>
+            </div>
+          </div>
+          <div class="sub_content_report">
+            <% work_date = Time.at(schedule.work_date) %>
+            <table border='1' align="center" class="table_photograph">
+              <tr>
+                <td style="width: 10%;"><label class="control-label" style="width: 85px;">Site ID </label></td>
+                <td style="width: 40%">
+                  <%= "#{schedule.site.code} / #{schedule.site.name}".upcase if schedule.site %>
+                </td>
+                <td style="width: 10%;">
+                  <label class="control-label" style="width: 85px;">Date </label></td>
+                <td style="width: 40%">
+                  <%= "#{work_date.strftime("%d-%b-%y")}".upcase %>
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 100px;">
+                  <label class="control-label" style="width: 85px;">Site Name </label></td>
+                <td>
+                  <%= "#{schedule.site.name}".upcase if schedule.site %>
+                </td>
+                <td style="width: 100px;">
+                  <label class="control-label" style="width: 85px;">Engineer </label></td>
+                <td>
+                  <%= "#{schedule.user.full_name}".upcase if schedule.user %>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

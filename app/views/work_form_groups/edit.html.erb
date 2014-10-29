@@ -1,0 +1,117 @@
+<div class="innerLR add-margin-top">
+  <div class="hr_title">
+    <div class="buttons pull-right">
+      <%= link_to '<i></i>Add New Work Form Group'.html_safe, new_work_form_group_path, :class => "btn btn-icon btn-primary glyphicons circle_plus green #{permission_active_if("Work::FormGroup",[:create,:manage])}" %>
+    </div>  
+    <h3> Edit Work Form Group </h3>
+  </div>
+  <%= form_for(:work_form_group, url: work_form_group_path(@work_form_group.id), method:"put", html:{class: "form-horizontal margin-none form-validation"}) do |f| %>
+    <%= render partial:"form",locals: {f: f} %>
+  <% end %>
+</div>
+<div class="separator"></div>
+<div class="innerLR survey-container">
+  <div class="hr_title"></div>
+  <div class="innerLR add-margin-top">
+    <h3>Form Survey</h3>
+    <% unless @work_form_group.table && @work_form_group.table.headers.present? %>
+      <div class="form-actions span10 margin-no">
+        <div class="title-new-survey">
+          <h4>You haven't create any survey yet</h4>
+          <%= link_to '<button class="btn-new-survey">Create New Survey</button>'.html_safe, work_form_columns_path(group_id: @work_form_group.id), class: "", method: :post, remote: true if @work_form_group && @work_form_group.id %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% if @work_form_group.table && @work_form_group.table.headers.present? %>
+    <%= form_tag "/work_form_rows/mass_delete", method: "post" do %> 
+      <div class="form-actions">
+        <div class="pull-left">
+          <%= link_to 'Select All'.html_safe, "", class: "select_all btn btn-white", id: 'select_all' %>
+          <%= link_to 'Deselect All'.html_safe, "", class: "deselect_all btn btn-white hide", id: 'deselect_all' %>
+          <%= button_tag '<i></i>Delete'.html_safe, :class => "btn btn-white" %>
+        </div>
+        <div class="pull-right">
+          <%= link_to '<i></i>Add Survey'.html_safe, work_form_columns_path(group_id: @work_form_group.id), class: "btn btn-icon btn-primary glyphicons circle_plus btn-add-survey blue-button", method: :post, remote: true if @work_form_group && @work_form_group.id %>
+          <%= link_to "<i></i>Add More Line".html_safe, new_work_form_row_path(group_id: params[:id], format: 'js'), class: "btn btn-icon btn-primary glyphicons circle_plus btn-new-row blue-button" %>
+        </div>
+      </div>
+      <div id="top-scrollbar"></div>
+      <div class="survey--inner margin0">
+        <div style="height: 600px; overflow-x: auto; overflow-y: auto;">
+          <table id="form" class="table table-bordered table-condensed table-striped form-generator table-form-survey" style="direction: ltr;">
+            <thead class="thead_survey">
+              <tr>
+                <th width="30px">Position</th>
+                <th width="30px">Report Position</th>
+                <% @work_form_group.table.headers.each do |header| %>
+                  <th data-id="<%= header.id %>">
+                    <div class="row-fluid">
+                      <% column_name = header.column_name.present? ? header.column_name : 'Survey Name' %>
+                      <%= link_to column_name,'','data-type' => 'text', 'data-name' => 'column_name', 'data-resource' => 'work_form_column', 'data-url' => work_form_column_path(header.id), 'data-original-title' => 'enter survey or column name or leave it blank' %>
+                    </div>
+                  </th>
+                <% end %>
+              </tr>
+            </thead>
+            <tbody >
+              <% rows = @work_form_group.table.rows
+                 rows_index = row_index(@row_index, {}, rows.map(&:id)) 
+                 header_positions = @work_form_group.table.headers.map(&:id)
+               %>
+              <div data-index="<%= rows_index %>"></div>
+              <% rows.each_with_index do |row,index| %>
+                <tr>
+                 <td class="site-td-right">
+                    <%= check_box_tag "work_form_row[row_ids][]", row.id, false, id: "row_#{index}", class: "checkbox-survey" %>
+                    <%= link_to row.position, edit_work_form_row_path(id: row.id, group_id: params[:id], format: 'js'), class: "btn-new-row" %>
+                  </td>
+                  <td class="site-td-right"><%= row.report_position %></td>
+                  <% row.row_columns.sort{|x,y| header_positions.index(x.column_id) <=> header_positions.index(y.column_id)}.each do |cell| %>
+                    <td data-id="<%= cell.id %>" style="padding: 10px;">
+                      <div class="fields_container" data-id="<%= cell.id %>">
+                        <% cell.items.each do |item| %>
+                          <div class="row-fluid item-row">
+                            <%= link_to item.label.present? ? item.label.titleize : "#{item.field_type} #{item.options.present? ? ['(',item.options.size,' options)'].join : ''}", edit_work_form_group_item_path(item.id, cell_id: cell.id, format: 'js'), class: 'btn-add-field' %>
+                            <%#= link_to get_item_field(item), edit_work_form_group_item_path(item.id, cell_id: cell.id, format: 'js'), class: 'btn-add-field' %>
+                            <%= link_to work_form_group_item_path(item.id), method: :delete, confirm: 'You will delete survey question or field. Do you want continue?', class: 'close', style: 'position: inherit; right: 10px;' do %>
+                              <i class="icon-remove"></i>
+                            <% end %>
+                            <% if item.picture.present? %>
+                              <br/>
+                              <%= link_to 'Picture', item.picture.large, target: '_blank', style: 'color: #37a6cd !important;' %>
+                            <% end %>
+                          </div>
+                        <% end if cell.items.is_a?(Array) %>
+                      </div>
+                      <div>
+                        <%= link_to new_work_form_group_item_path(cell_id: cell.id, format: 'js'), class: 'btn-add-field', style: 'margin-right: 10px;' do %>
+                          <i class="icon-plus"></i> Add Question or Field
+                        <% end %>
+                      </div>
+                    </td>
+                  <% end if row.row_columns.is_a?(Array) %>
+                </tr>
+              <% end %>
+              </div>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="br"></div>
+      <div class="form-actions">
+        <div class="pull-left">
+          <%= link_to 'Select All'.html_safe, "", class: "select_all btn btn-white", id: 'select_all' %>
+          <%= link_to 'Deselect All'.html_safe, "", class: "deselect_all btn btn-white hide", id: 'deselect_all' %>
+          <%= button_tag '<i></i>Delete'.html_safe, :class => "btn btn-white #{permission_active_if('Work::FormGroup',[:delete,:manage])}" %>
+        </div>
+      <% end %>
+        <div class="pull-right">
+          <%= link_to '<i></i>Add Survey'.html_safe, work_form_columns_path(group_id: @work_form_group.id), class: "btn btn-icon btn-primary glyphicons circle_plus btn-add-survey blue-button", method: :post, remote: true if @work_form_group && @work_form_group.id %>
+          <%= link_to "<i></i>Add More Line".html_safe, new_work_form_row_path(group_id: params[:id], format: 'js'), class: "btn btn-icon btn-primary glyphicons circle_plus btn-new-row blue-button" %>
+        </div>
+      </div>
+  <% end %>
+</div>
+<div id="modal-survey" class="hide"></div>
+<div id="survey-item-setting" class="modal fade box-min-height" tabindex="-1" style="display: none;"></div>

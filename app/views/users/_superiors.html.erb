@@ -1,0 +1,1 @@
+<%= select_tag('user[parent_id]', options_from_collection_for_select(@users, 'id', 'full_name'), {prompt: 'Select Superior', class: "span9"}) if @users %>

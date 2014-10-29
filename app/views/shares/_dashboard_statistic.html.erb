@@ -1,0 +1,99 @@
+<div class="innerLR add-margin-top">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+          <span class="heading glyphicons search color_white"><i></i>Graphic Search</span>
+          <div class="toggle_icon">
+            <span class="heading glyphicons expand color_white"><i></i></span>
+          </div>
+        </a>
+    </div>
+    <div id="collapseTwo" class="accordion-body collapse" style="height: 0px;">
+      <div class="accordion-inner">
+        <%= render partial: "pages/form_grafik_search" %>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid grafik-container" style="margin-top: 10px" data-names="<%= ['On Progress', 'Approved', 'Client Approved', 'Client Rejected'] %>" data-color="<%= ['#058DC7', '#129210', '#00FF00', '#FF0000'] %>">
+    <div class="span12">
+      <div class="br20"></div>
+      <% if params[:type] == 'daily' %>
+        <h3>Graphic Per-Hari</h3>
+      <% elsif params[:type] == 'monthly' %>
+        <h3>Graphic Per-Bulan</h3>
+      <% else %>
+        <h3>Graphic Per-Minggu</h3>
+      <% end %>
+      <div class="widget-body">
+        <div id="grafik-komulatif" data-type="grafik" style="height: 250px;">
+          <%= image_tag("loading.gif") %> loading chart
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-horizontal margin-none">
+      <% if params[:type] == 'daily' %>
+      <h3>Table Per-Hari</h3>
+    <% elsif params[:type] == 'monthly' %>
+      <h3>Table Per-Bulan</h3>
+    <% else %>
+      <h3>Table Per-Minggu</h3>
+    <% end %>
+
+    <table class="table table-bordered none_border text-center">
+      <thead>
+        <tr>
+          <th width="10%">Date</th>
+          <th width="10%">On Progress</th>
+          <th width="10%">Approved</th>
+          <th width="10%">Client Rejected</th>
+          <th width="10%">Client Approved</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @schedules_data.each do |separate, schedules| %>
+          <% schedule = schedules.first %>
+          <% date = schedule.current_date.to_date %>
+          <tr>
+            <td>
+              <% if params[:type] == 'daily' %>
+                <%= schedule.current_date.to_date %>
+              <% elsif params[:type] == 'monthly' %>
+                <%= date = date.beginning_of_month  %><br/>
+                (Month - <%= separate.to_i %> )
+              <% else %>
+                <%= date = date.beginning_of_week%><br/>
+                (week - <%= separate.to_i+1 %> )
+              <% end %>
+            </td>
+            <td>
+              <% stats_sum(:internal_pending, schedule.internal_pending) %>
+              <%= generate_link_status schedule.internal_pending, 'zero?', get_detail_data_path(date: date, status: 'pending', client: false, type: params[:type]), { target: '_blank' } %>
+            </td>
+            <td>
+              <% stats_sum(:internal_approved, schedule.internal_approved) %>
+              <%= generate_link_status schedule.internal_approved, 'zero?', get_detail_data_path(date: date, status: 'approved', client: false, type: params[:type]), { target: '_blank' } %>
+            </td>
+            <td>
+              <% stats_sum(:client_rejected, schedule.client_rejected) %>
+              <%= generate_link_status schedule.client_rejected, 'zero?', get_detail_data_path(date: schedule.current_date, status: 'rejected', client: true, type: params[:type]), { target: '_blank' } %>
+            </td>
+            <td>
+              <% stats_sum(:client_approved, schedule.client_approved) %>
+              <%= generate_link_status schedule.client_approved, 'zero?', get_detail_data_path(date: schedule.current_date, status: 'approved', client: true, type: params[:type]), { target: '_blank' } %>
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <td style="text-align:right;font-weight:bold;">TOTAL</td>
+          <td><%= get_stats_sum[:internal_pending].to_i %></td>
+          <td><%= get_stats_sum[:internal_approved].to_i %></td>
+          <td><%= get_stats_sum[:client_rejected].to_i %></td>
+          <td><%= get_stats_sum[:client_approved].to_i %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

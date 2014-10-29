@@ -1,0 +1,8 @@
+<div class="control-group" style="margin-bottom: 5px;">
+  <hr class="separator">
+  <label class="control-label">Description</label> 
+  <div class="controls">
+    <%= text_field_tag "#{item_field}[description]", (@work_form_group_item ? @work_form_group_item.description : ''), placeholder: 'enter description', id: item_field_for('description') %>
+    <i>leave blank if no description</i>
+  </div>
+</div>

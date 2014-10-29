@@ -1,0 +1,183 @@
+<div class="page-break"></div>
+<div class="body innerLR add-margin-top">
+  <div class="form-horizontal margin-none">
+    <% work_date = Time.at(schedule.work_date) %>
+    <div class="widget widget-heading-simple widget-body-gray">
+      <div> 
+        <div class="content_report row-fluid">
+          <div class="header_report">
+            <h4><%= "CME #{schedule.work_type.name} Maintenance".upcase %></h4>
+            <div class="small_font">Checklist</div>
+            <div class="small_font">Ver.1.3</div>
+            <div class="operator-logo">
+              <% if operator.profile && operator.profile.picture %>
+                <%= image_tag operator.profile.picture.small %>
+              <% end %>
+            </div>
+          </div>
+          <div class="separator"></div>
+          <table border='1' align="center" class="table_photograph">
+            <tr>
+              <td style="width: 125px;"><label class="control-label" style="width: 125px;">Site ID &nbsp;</label></td>
+              <td style="width: 40%">
+                <div class="full_input_report">
+                  <%= "#{schedule.site.code} / #{schedule.site.name}".upcase if schedule.site %>
+                </div>
+              </td>
+              <td style="width: 125px;">
+                <label class="control-label" style="width: 125px;">Site Name &nbsp;</label></td>
+              <td style="width: 40%">
+                <div class="full_input_report">
+                  <%= "#{schedule.site.name}".upcase if schedule.site %>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 125px;">
+                <label class="control-label" style="width: 125px;">Region &nbsp;</label></td>
+              <td>
+                <div class="full_input_report">
+                  <%= "#{schedule.site.location.name}".upcase if schedule.site.location && schedule.site %>
+                </div>
+              </td>
+              <td style="width: 125px;">
+                <label class="control-label" style="width: 125px;">Start Time &nbsp;</label></td>
+              <td>
+                <div class="full_input_report">
+                  <%= "#{work_date.strftime("%H-%M%P")}" %>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 125px;">
+                <label class="control-label" style="width: 125px;">Visit Date &nbsp;</label></td>
+              <td>
+                <div class="full_input_report">
+                  <%= "#{work_date.strftime("%d-%b-%y")}".upcase %>
+                </div>
+              </td>
+              <td style="width: 125px;">
+                <label class="control-label" style="width: 125px;">Finish Time &nbsp;</label></td>
+              <td>
+                <div class="full_input_report">
+                  <%= "#{schedule.user.full_name}".upcase if schedule.user %>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 125px;">
+                <label class="control-label" style="width: 125px;">MS Vendor &nbsp;</label></td>
+              <td>
+                <div class="full_input_report">
+                  <%= "#{operator.name}".upcase %>
+                </div>
+              </td>
+              <td style="width: 125px;">
+                <label class="control-label" style="width: 125px;">SP Name &nbsp;</label></td>
+              <td>
+                <div class="full_input_report">
+                  <%= "PT. SAP".upcase %>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 125px;">
+                <label class="control-label" style="width: 125px;">SP Enginer &nbsp;</label></td>
+              <td>
+                <div class="full_input_report">
+                  <%= "#{schedule.user.full_name}".upcase if schedule.user %>
+                </div>
+              </td>
+              <td style="width: 125px;">
+                <label class="control-label" style="width: 125px;">NOC Enginer &nbsp;</label></td>
+              <td>
+                <div class="full_input_report">
+                </div>
+              </td>
+            </tr>
+          </table>
+          <div class="separator"></div>
+          
+          <div class="sub_content_report padding-no full_report">
+            <% if group.table && group.table.headers.present? %>
+              <table border='1' id="form" class="padding-no margin0 border_no_right_left" style="width:100%">
+                <thead class="header_report">
+                  <tr>
+                    <th width="1%">No</th>
+                    <% group.table.headers.each do |header| %>
+                      <th data-id="<%= header.id %>">
+                        <div class="row-fluid">
+                          <% column_name = header.column_name.present? ? header.column_name : 'Survey Name' %>
+                          <%= column_name %>
+                        </div>
+                      </th>
+                    <% end %>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% rows = group.table.rows %>
+                  <% rows_index = row_index(indexes, {}, rows.map(&:id)) %>
+                  <% header_positions = headers.map(&:id) %>
+                  <% rows.each_with_index do |row,index| %>
+                    <% border = ''  %>
+                    <% border = "class=double-border" if rows_index[row.id].to_s !~ /\./   %>
+                    <tr <%= border %> >
+                      <td><%= rows_index[row.id] %></td>
+                      <% row.row_columns.sort{|x,y| header_positions.index(x.column_id) <=> header_positions.index(y.column_id)}.each do |cell| %>
+                  
+                        <td width="20%" data-id="<%= cell.id %>">
+                          <div class="fields_report" data-id="<%= cell.id %>">
+                            <% cell.items.each do |item| %>
+                              <%= get_item_preview_pdf(item) %>
+                              <br/>
+                            <% end if cell.items.is_a?(Array) %>
+                          </div>
+                        </td>
+                      <% end if row.row_columns.is_a?(Array) %>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            <% end %>
+          </div>
+          <div class="sub_content_report">
+            <div class="br"></div>
+            <div class="scop padding_5">
+              <b>CORRECTIVE ACTION POINTS TO BE TAKEN</b>
+              <% 11.times do %>
+                <div class="full_input_report2 line_height_10"></div>
+              <% end %>
+              <div class="separator"></div>
+            </div>
+          </div>
+          <div class="separator"></div>
+          <div class="sub_content_report padding_5">
+            <table width="100%" cellpadding='10' class="no-border add-margin-top">
+              <tr>
+                <td colspan='2'><label>PT. SEKAWAN ABADI PRIMA</label></td>
+                <td><label>Verified by</label></td>
+                <td><label>Acknowledge By</label></td>
+              </tr>
+              <tr>
+                <td>Prepared By</td>
+                <td>Checked By</td>
+                <td><%= operator.name %></td>
+                <td><%= schedule.site.client.try(:name) %></td>
+              </tr>
+              <tr>
+                <td colspan='2'><div class="content"></div></td>
+                <td><div class="content"></div></td>
+                <td><div class="content"></div></td>
+              </tr>
+              <tr>
+                <td colspan='2'><div class="border-bottom"></div></td>
+                <td><div class="border-bottom"></div></td>
+                <td><div class="border-bottom"></div></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

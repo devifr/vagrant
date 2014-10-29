@@ -1,0 +1,11 @@
+<div class="innerLR add-margin-top">
+	<div class="hr_title">
+		<h3> New Permission</h3>
+	</div>
+	<%= form_for(:permission, url: permissions_path, method:"post", html: {class: "form-horizontal margin-none"}) do |f| %>
+		<%= render partial:"form" , locals:{f: f} %>
+	<% end %>
+</div>
+
+	
+

@@ -1,0 +1,26 @@
+<div id="login">
+  <%= form_for(:user, url: change_path, method: "post", html: {class: "form-signin",id: "gradien_log"}) do |f| %>
+    <div class="devise_scop">
+      <div style="text-align:center">
+        <%= image_tag "sap.png" %>
+      </div>
+      <div class="br"></div>
+      <h3>Recovery Password</h3>
+      <hr>
+      <div class="br"></div>
+      <div class="uniformjs">
+        <%= hidden_field_tag "user[reset_password_token]", params[:reset_password_token] %>
+        <label>Enter New Password</label>
+        <%= f.password_field :password, class: "input-block-level text" %>
+        <label>Password Confirmation</label>
+        <%= f.password_field :password_confirmation, class: "input-block-level password" %>
+      </div>
+      <button class="btn btn-large btn-primary blue_btn" id="full" name="submit" type="submit">
+        Change
+      </button>
+    </div>
+    <div class="devise_footer">
+      <%= link_to "back to login ?",login_path %>
+    </div>
+  <% end %>
+</div>

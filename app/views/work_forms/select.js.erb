@@ -1,0 +1,7 @@
+$('.work-form-container').html('<%= j(render("select")) %>');
+$('[name="schedule[form_id]"]').on('change',function(){
+  $.ajax({
+    url: $(this).data('url') + '?form_id=' + $(this).val(),
+    type: "GET"
+  })
+})

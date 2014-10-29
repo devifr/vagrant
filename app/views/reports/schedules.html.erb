@@ -1,0 +1,29 @@
+<div class="innerLR add-margin-top">
+  <div class="widget-body" style="padding: 10px 0;">
+    <h3>Download Schedule Report By Operator</h3>
+    <div class="accordion-group">
+      <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+            <span class="heading glyphicons search color_white"><i></i>Filter Search</span>
+            <div class="toggle_icon">
+              <span class="heading glyphicons expand color_white"><i></i></span>
+            </div>
+          </a>
+      </div>
+      <div id="collapseTwo" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+            <%= render partial: "pages/form_search_report" %>
+        </div>
+      </div>
+    </div>
+    <div class="br"></div>
+    <%= render partial: 'per_operator_table' %>
+    <%= render partial: 'shares/client_approval' %>
+    <div class="pull-left">
+      <%= page_entries_info(@schedules, @pagination) %>
+    </div>
+    <div class="buttons pull-right">
+      <%= paginate @pagination %>
+    </div>
+  </div>
+</div>

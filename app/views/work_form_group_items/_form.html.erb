@@ -1,0 +1,51 @@
+<div class="widget widget-heading-simple widget-body-gray">
+	<%= display_errors!(@work_form_group_item) %>
+	<div class="widget-body" id="gradien2"><br>
+		<div class="row-fluid">		
+			<div class="span6">	
+				<div class="control-group">
+					<label class="control-label">Work Form Group</label>
+					<div class="controls">
+						<%= f.collection_select(:work_form_group_id, @work_form_groups, :id, :name, {prompt: 'Select Form', class: "span6"}) %>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Position</label>
+					<div class="controls">
+						<%= f.number_field :position, placeholder:'Position' %>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Searchable</label>
+					<div class="controls">
+						<%= f.check_box :searchable %> Yes
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Mandatory</label>
+					<div class="controls">
+						<%= f.check_box :mandatory %> Yes
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Visible</label>
+					<div class="controls">
+						<%= f.check_box :visible %> Yes
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Listable</label>
+					<div class="controls">
+						<%= f.check_box :listable %> Yes
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<hr class="separator">
+		<div class="form-actions">
+			<%= link_to "<i></i>Cancel".html_safe ,work_form_group_items_path,class: "btn btn-icon btn-default glyphicons circle_remove" %>
+			<%= button_tag "<i></i>Save".html_safe,:class => "btn btn-icon btn-primary glyphicons circle_ok" %>
+		</div>
+	</div>
+</div>

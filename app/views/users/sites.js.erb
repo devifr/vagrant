@@ -1,0 +1,6 @@
+$('.site-container').html('<%= escape_javascript(render("sites")).html_safe %>');
+$('.site-container').find('select').multiselect({
+  includeSelectAllOption: true, 
+  enableFiltering: true,
+  enableCaseInsensitiveFiltering: true
+});

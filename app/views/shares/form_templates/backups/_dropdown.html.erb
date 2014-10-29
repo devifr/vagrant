@@ -1,0 +1,86 @@
+<% if params[:cell_id].present? %>
+  <div class="control-group" style="margin-bottom: 5px;">
+    <hr/>
+    <%= hidden_field_tag "#{item_field}[field_type]", "dropdown" %>
+    <label class="control-label">Label or Question</label> 
+    <div class="controls">
+      <%= text_field_tag "#{item_field}[label]", "", placeholder: 'enter question or label', id: item_field_for('label') %>
+      <i>leave blank if no question or label</i>
+    </div>
+  </div>
+  <div class="control-group" style="margin-bottom: 5px;">
+    <hr/>
+    <label class="control-label">Description</label> 
+    <div class="controls">
+      <%= text_field_tag "#{item_field}[description]", "", placeholder: 'enter description', id: item_field_for('description') %>
+      <i>leave blank if no description</i>
+    </div>
+  </div>
+  <div class="control-group" style="margin-bottom: 5px;">
+    <hr/>
+    <label class="control-label">Answer Options</label>
+    <div class="controls line-item-container">
+      <div class="span12 line-item" style="margin-left:0px;margin-bottom: 5px;">
+        <%= text_field_tag "#{option_field}[value]", "", placeholder: 'enter option value', required: true, id: item_field_for('value') %>
+        &nbsp;&nbsp; 
+        <%= text_field_tag "#{option_field}[label]", "", placeholder: 'enter option label', required: true, id: item_field_for('label') %>
+        <a href="" class="close remove_line_item" style="margin-right: 22px;">&times;</a>
+      </div> 
+    </div>
+  </div>
+<% elsif params[:preview] %>
+  <div class="control-group" style="margin-bottom: 5px;">
+    <select id="{{FORM_ID}}" name="{{FORM_NAME}}" class='span10'>
+      <option value="">Please select one</option>
+      {{FORM_OPTIONS}}
+    </select>
+    {{HIDDEN_FIELDS}}
+  </div>
+<% else %>
+  <% if index.present? %>
+    <div class="control-group" style="margin-bottom: 5px;" data-id="item_<%= item.id %>">
+      <a href="" class='close remove_item pull-right'>&times;</a>
+      <a href="" class='icon-small icon-pencil close edit_item pull-right'><i></i></a>
+      <label><%= item.label %></label>
+      <%= hidden_field_tag "work_form_group[rows_attributes][#{index_row}][row_columns_attributes][#{index}][items_attributes][#{item_index}][label]", item.label %>
+      <%= hidden_field_tag "work_form_group[rows_attributes][#{index_row}][row_columns_attributes][#{index}][items_attributes][#{item_index}][id]", item.id %>
+      <%= hidden_field_tag "work_form_group[rows_attributes][#{index_row}][row_columns_attributes][#{index}][items_attributes][#{item_index}][field_type]", item.field_type %>
+      <%= hidden_field_tag "work_form_group[rows_attributes][#{index_row}][row_columns_attributes][#{index}][items_attributes][#{item_index}][_destroy]", 0, class: 'destroyable' %>
+      <select id="{{FORM_ID}}" name="{{FORM_NAME}}" class='span10'>
+        <% item.options.each_with_index do |opt, option_index| %>
+          <option id='<%= "js_dropdown_#{option_index}" %>' value="<%= opt.value %>"><%= opt.label %></option>
+        <% end %>
+      </select>
+      <% item.options.each_with_index do |opt, option_index| %>
+        <div class="js_dropdown js_controls" style="margin-left: 5px;">
+          <%= hidden_field_tag "work_form_group[rows_attributes][#{index_row}][row_columns_attributes][#{index}][items_attributes][#{item_index}][options_attributes][#{option_index}][label]", opt.label %>
+          <%= hidden_field_tag "work_form_group[rows_attributes][#{index_row}][row_columns_attributes][#{index}][items_attributes][#{item_index}][options_attributes][#{option_index}][value]", opt.value %>
+          <%= hidden_field_tag "work_form_group[rows_attributes][#{index_row}][row_columns_attributes][#{index}][items_attributes][#{item_index}][options_attributes][#{option_index}][id]", opt.id %>
+          <%= hidden_field_tag "work_form_group[rows_attributes][#{index_row}][row_columns_attributes][#{index}][items_attributes][#{item_index}][_destroy]", 0, class: 'destroyable' %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="control-group" style="margin-bottom: 5px;">
+      <%= hidden_field_tag "work_form_group[items_attributes][#{item_index}][id]", item.id %>
+      <%= hidden_field_tag "work_form_group[items_attributes][#{item_index}][field_type]", item.field_type %>
+      <%= hidden_field_tag "work_form_group[items_attributes][#{item_index}][_destroy]", 0, class: 'destroyable' %>
+      <label><%= item.label %></label>
+      <% if item.options.present? %>
+        <% item.options.each_with_index do |opt, option_index| %>
+          <div class="controls js_controls" style="margin-left: 5px; margin-bottom: 5px;">
+            <a href="" class='close remove_item pull-right'>&times;</a>
+            <input class="span5" id="work_form_group_items_attributes__options_attributes__label"  
+             name="work_form_group[items_attributes][0][options_attributes][<%= option_index %>][label]" size="30" type="text" placeholder="enter your label" value="<%= opt.label %>" required="true "> 
+            &nbsp;&nbsp; 
+            <input class="span5" id="work_form_group_items_attributes__options_attributes__value"  
+               name="work_form_group[items_attributes][0][options_attributes][<%= option_index %>][value]" size="30" type="text" placeholder="enter your value" value="<%= opt.value %>" required="true "> 
+            <%= hidden_field_tag "work_form_group[items_attributes][#{item_index}][options_attributes][#{option_index}][id]", opt.id %>
+            <%= hidden_field_tag "work_form_group[items_attributes][#{item_index}][options_attributes][#{option_index}][_destroy]", 0, class: 'destroyable' %>
+          </div>
+        <% end %>
+        <div class="pull-left"><br/><a href="" class="add-more-line"></a></div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

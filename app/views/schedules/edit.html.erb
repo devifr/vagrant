@@ -1,0 +1,17 @@
+<div class="innerLR add-margin-top">
+	<div class="hr_title">
+		<div class="buttons pull-right">
+	    <%= link_to '<i></i>Add New Schedule'.html_safe,new_schedule_path,:class => "btn btn-icon btn-primary glyphicons circle_plus green #{permission_active_if(:schedule,[:create,:manage])}", id:"gradien" %>
+	    <%= link_to '<i></i>Show Schedule'.html_safe,schedule_path(@schedule.id),:class => "btn btn-icon btn-primary green #{permission_active_if(:schedule,[:create,:manage])}", id:"gradien" %>
+	  </div>
+		<h3><i></i> Edit Schedule
+		</h3>
+	</div>
+	<%= form_for(:schedule, url: schedule_path(@schedule.id), method:"put", html:{class: "form-horizontal margin-none"}) do |f| %>
+		<%= render partial:"form",locals: {f: f} %>
+	<% end %>
+
+</div>
+
+	
+

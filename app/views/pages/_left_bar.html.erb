@@ -1,0 +1,222 @@
+<div id="menu" class="hidden-phone" >
+  <div id="menuInner" >
+    <div class="about">
+      <div class="avatar">
+        <% if current_user.profile && current_user.profile.picture %>
+          <%= image_tag current_user.profile.picture.small %>
+        <% else %>
+          <%= image_tag "user-no.png" %>
+          <div class="br"></div>
+        <% end %><br>
+
+      </div>
+
+      <div class="conf">
+        <h4 class="text_avatar"><%= current_user.full_name %></h4>
+        <% if current_user.role %>
+          <h6  class="text_avatar"><%= current_user.role.title %></h6>
+        <% end %><br/>
+        <%= link_to "Edit",edit_user_path(current_user.id) %> | 
+        <%= link_to "Logout",logout_path %>
+      </div>
+    </div>
+    <ul>
+      <li class="glyphicons show_big_thumbnails ">
+        <%= link_to '<i></i><span>Dashboard</span>'.html_safe,root_path,class:'glyphicons show_big_thumbnails' %>
+      </li>
+      <li class="hr"></li>
+      
+      <% unless is_client? %>
+        <li class="hasSubmenu <%= sidebar_active_if(:schedule) %> ">
+          <%= link_to '<i></i><span>Schedules</span>'.html_safe,'#sch', { class:'glyphicons calendar', "data-toggle" => 'collapse' } %>
+          <ul class="collapse" id="sch">
+            <% if allow?(:schedule,[:create]) %>
+              <li><%= link_to "<i></i><span>Add Schedule</span>".html_safe, new_schedule_path,class: "glyphicons circle_plus" %></li>
+            <% end %>
+            <% if allow?(:schedule,[:index]) %>
+              <li><%= link_to "<i></i><span>List Schedules</span>".html_safe, schedules_path,class: "glyphicons list"  %></li>
+              <li><%= link_to "<i></i><span>Calender Schedules</span>".html_safe, show_event_schedules_path,class: "glyphicons show_big_thumbnails"  %></li>
+            <% end %>
+          </ul>
+        </li>
+
+        <li class="hasSubmenu <%= sidebar_active_if(:site) %> ">
+          <a data-toggle="collapse" class="glyphicons flag" href="#site">
+            <i></i>
+            <span>Sites</span>
+          </a>
+          <ul class="collapse" id="site">
+            <% if allow?(:site,[:create]) %>
+              <li><%= link_to "<i></i><span>Add Site</span>".html_safe, new_site_path,class: "glyphicons circle_plus" %></li>
+            <% end %>
+            <% if allow?(:site,[:index]) %>
+              <li><%= link_to "<i></i><span>List Sites</span>".html_safe, sites_path,class: "glyphicons list"  %></li>
+            <% end %>
+          </ul>
+        </li>
+
+        <li class="hasSubmenu <%= sidebar_active_if(:project) %> ">
+          <%= link_to '<i></i><span>Projects</span>'.html_safe,'#pro', { class:'glyphicons log_book', "data-toggle" => 'collapse' } %>
+          <ul class="collapse" id="pro">
+            <% if allow?(:project,[:create]) %>
+              <li><%= link_to "<i></i><span>Add Project</span>".html_safe, new_project_path,class: "glyphicons circle_plus" %></li>
+            <% end %>
+            <% if allow?(:project,[:index]) %>
+             <li><%= link_to "<i></i><span>List Projects</span>".html_safe, projects_path,class: "glyphicons list"  %></li>
+            <% end %>
+          </ul>
+        </li>
+        <li class="hr"></li>
+      <% end %>
+      
+      <% if allow?(:schedule,[:index,:show]) %>
+        <li class="hasSubmenu <%= sidebar_active_if(:schedule) %> ">
+          <%= link_to '<i></i><span>Reports</span>'.html_safe,'#report', { class:'glyphicons file', "data-toggle" => 'collapse' } %>
+          <ul class="collapse" id="report">
+            <li><%= link_to "<i></i><span>Schedules</span>".html_safe, schedules_reports_path,class: "glyphicons circle_plus" %></li>
+          </ul>
+        </li>
+        <li class="hr"></li>
+      <% end %>
+
+      <% unless is_client? %>
+
+        <li class="heading <%= sidebar_active_if([:operator,:user,:client]) %>">
+          <span>Configurations</span>
+        </li>
+
+        <li class="hasSubmenu <%= sidebar_active_if(:operator) %> ">
+          <a data-toggle="collapse" class="glyphicons imac" href="#op">
+            <i></i>
+            <span>Operators</span>
+          </a>
+          <ul class="collapse" id="op">
+            <% if allow?(:operator,[:create]) %>
+              <li><%= link_to "<i></i><span>Add Operator</span>".html_safe, new_operator_path,class: "glyphicons circle_plus" %></li>
+            <% end %>
+            <% if allow?(:operator,[:index]) %>
+              <li><%= link_to "<i></i><span>List Operators</span>".html_safe, operators_path,class: "glyphicons list"  %></li>
+            <% end %>
+          </ul>
+        </li>
+        <li class="hasSubmenu <%= sidebar_active_if(:user) %> ">
+          <a data-toggle="collapse" class="glyphicons user" href="#us"><i></i><span>Users</span></a>
+          <ul class="collapse" id="us">
+            <% if allow?(:user,[:create]) %>
+              <li><%= link_to "<i></i><span>Add User</span>".html_safe, new_user_path,class: "glyphicons circle_plus" %></li>
+            <% end %>
+            <% if allow?(:user,[:index]) %>
+              <li><%= link_to "<i></i><span>List Users</span>".html_safe, users_path,class: "glyphicons list"  %></li>
+            <% end %>
+          </ul>
+        </li>
+        <li class="hasSubmenu <%= sidebar_active_if(:client) %> ">
+          <a data-toggle="collapse" class="glyphicons crown" href="#cl"><i></i><span>Clients</span></a>
+          <ul class="collapse" id="cl">
+            <% if allow?(:client,[:create]) %>
+              <li><%= link_to "<i></i><span>Add Client</span>".html_safe, new_client_path,class: "glyphicons circle_plus" %></li>
+            <% end %>
+            <% if allow?(:client,[:index]) %>
+              <li><%= link_to "<i></i><span>List Clients</span>".html_safe, clients_path,class: "glyphicons list"  %></li>
+            <% end %>
+          </ul>
+        </li>
+        <li class="hasSubmenu <%= sidebar_active_if(:location) %> ">
+          <a data-toggle="collapse" class="glyphicons google_maps" href="#loc">
+            <i></i>
+            <span>Locations</span>
+          </a>
+          <ul class="collapse" id="loc">
+            <% if allow?(:location,[:create]) %>
+              <li><%= link_to "<i></i><span>Add location</span>".html_safe, new_location_path,class: "glyphicons circle_plus" %></li>
+            <% end %>
+            <% if allow?(:location,[:index]) %>
+              <li><%= link_to "<i></i><span>List Locations</span>".html_safe, locations_path,class: "glyphicons list"  %></li>
+            <% end %>
+          </ul>
+        </li>
+        <li class="hasSubmenu <%= sidebar_active_if(:service_point) %> ">
+          <a data-toggle="collapse" class="glyphicons anchor" href="#servpoint">
+            <i></i>
+            <span>Service Point</span>
+          </a>
+          <ul class="collapse" id="servpoint">
+            <% if allow?(:service_point,[:create]) %>
+              <li><%= link_to "<i></i><span>Add Service Point</span>".html_safe, new_service_point_path,class: "glyphicons circle_plus" %></li>
+            <% end %>
+            <% if allow?(:service_point,[:index]) %>
+              <li><%= link_to "<i></i><span>List Service Points</span>".html_safe, service_points_path,class: "glyphicons list"  %></li>
+            <% end %>
+          </ul>
+        </li>
+        <li class="hasSubmenu <%= sidebar_active_if(:apk) %> ">
+          <a data-toggle="collapse" class="glyphicons sheriffs_star" href="#apk"><i></i><span>APK</span></a>
+          <ul class="collapse" id="apk">
+            <% if allow?(:apk,[:create]) || is_admin? %>
+              <li><%= link_to "<i></i><span>Add APK</span>".html_safe, new_apk_path,class: "glyphicons circle_plus" %></li>
+            <% end %>
+            <% if allow?(:apk,[:index]) || is_admin? %>
+              <li><%= link_to "<i></i><span>List APK</span>".html_safe, apks_path,class: "glyphicons list"  %></li>
+            <% end %>
+          </ul>
+        </li>
+        <li class="hr"></li>
+        <li class="heading <%= sidebar_active_if([:permission,:role,:access]) %>"><span>Permissions</span></li>
+
+        <li class="hasSubmenu <%= sidebar_active_if(:permission) %> ">
+          <%= link_to '<i></i><span>Permissions</span>'.html_safe,'#perm',{class: 'glyphicons unlock', "data-toggle" => 'collapse' } %>
+          <ul class="collapse" id="perm">
+            <% if allow?(:permission,[:create]) %>
+              <li><%= link_to "<i></i><span>Add Permission</span>".html_safe, new_permission_path,class: "glyphicons circle_plus" %></li>
+            <% end %>
+            <% if allow?(:permission,[:index]) %>
+              <li><%= link_to "<i></i><span>List Permissions</span>".html_safe, permissions_path,class: "glyphicons list"  %></li>
+            <% end %>
+          </ul>
+        </li>
+
+        <li class="hasSubmenu <%= sidebar_active_if(:role) %> ">
+          <%= link_to '<i></i><span>Roles</span>'.html_safe,'#role',{ class:'glyphicons shield', "data-toggle" => 'collapse' } %>
+          <ul class="collapse" id="role">
+            <% if allow?(:role,[:create]) %>
+              <li><%= link_to "<i></i><span>Add Role</span>".html_safe, new_role_path,class: "glyphicons circle_plus" %></li>
+            <% end %>
+            <% if allow?(:role,[:index]) %>
+              <li><%= link_to "<i></i><span>List Roles</span>".html_safe, roles_path,class: "glyphicons list"  %></li>
+            <% end %>
+          </ul>
+        </li>
+
+        <li class="hasSubmenu  <%= sidebar_active_if(:access) %> ">
+          <%= link_to '<i></i>Accesses'.html_safe, '#acc', { class:'glyphicons keys', "data-toggle" => 'collapse' } %>
+          <ul class="collapse" id="acc">
+            <% if allow?(:access,[:create]) %>
+              <li><%= link_to "<i></i><span>Add Access</span>".html_safe, new_access_path,class: "glyphicons circle_plus" %></li>
+            <% end %>
+            <% if allow?(:access,[:index]) %>
+              <li><%= link_to "<i></i><span>List Accesses</span>".html_safe, accesses_path,class: "glyphicons list"  %></li>
+            <% end %>
+          </ul>
+        </li>
+
+        <li class="hr"></li>
+        <li class="heading <%= sidebar_active_if(["Work::Type,Work::Form,:Work::FormGroup"]) %>"><span>Work SetUp</span></li>
+
+        <li class="glyphicons suitcase <%= sidebar_active_if("Work::Type") %> ">
+          <%= link_to '<i></i><span>Work Type</span>'.html_safe,work_types_path,class:'glyphicons' %>
+        </li>
+
+        <li class="glyphicons suitcase <%= sidebar_active_if("Work::Form") %> ">
+          <%= link_to '<i></i><span>Work Form</span>'.html_safe,work_forms_path,class:'glyphicons' %>
+        </li>
+        <li class="glyphicons suitcase <%= sidebar_active_if("Work::FormGroup") %>">
+          <%= link_to '<i></i><span>Work Group</span>'.html_safe,work_form_groups_path,class:'glyphicons' %>
+        </li>
+      <% end %>
+
+      <!-- <li class="glyphicons suitcase <%= sidebar_active_if(:work_form_group_item) %>">
+        <%#= link_to '<i></i><span>Work Group Item</span>'.html_safe,work_form_group_items_path,class:'glyphicons suitcase' %>
+      </li> -->
+    </ul>
+  </div>
+</div>

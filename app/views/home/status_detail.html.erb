@@ -1,0 +1,8 @@
+<div class="innerLR add-margin-top">
+  <h3>Status Data (<%= @schedules.try(:length) %>)</h3>
+  <% if current_user.client_id %>
+   <%= render partial: 'reports/per_site_table' %>
+  <% else %>
+    <%= render partial: 'reports/per_operator_table' %>
+  <% end %>
+</div>

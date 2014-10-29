@@ -1,0 +1,1 @@
+ <%= select_tag('user[site_ids][]', options_from_collection_for_select(@sites, 'id', 'name', (@user ? @user.site_ids : nil)), {class: "site-select", multiple: true}) %>

@@ -1,0 +1,8 @@
+<div class="innerLR add-margin-top">
+  <div class="hr_title">
+    <h3> New Service Point</h3>
+  </div>
+  <%= form_for(:service_point, url: service_points_path, method:"post", html: {class: "form-horizontal margin-none"}) do |f| %>
+    <%= render partial:"form" , locals:{f: f} %>
+  <% end %>
+</div>

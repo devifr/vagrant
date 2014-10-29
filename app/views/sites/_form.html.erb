@@ -1,0 +1,180 @@
+<%= f.fields_for(:address_attributes, site_address) do |address| %>
+<div class="widget widget-heading-simple widget-body-gray">
+  <%= display_errors!(@site) %>
+  <div class="widget widget-2">
+    <div class="widget-head"><h5>Site Information</h5></div>
+    <div class="widget-body" style="padding-bottom: 0;">  
+      <div class="row-fluid">
+        <div class="span12">  
+          <div class="control-group">
+            <label class="control-label">Name</label>
+            <div class="controls">
+              <%= f.text_field :name,class:'span10',placeholder:'Name' %>
+            </div>
+          </div>
+          
+          <div class="control-group">
+            <label class="control-label">Site Id</label>
+            <div class="controls">
+              <% if @site && @site.id.present? %>
+                <%= @site.code.to_s.upcase %>
+              <% else %>
+                <%= f.text_field :code,class:'span10',placeholder:'Enter Site ID Internal' %>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Site Id Customer</label>
+            <div class="controls">
+              <%= f.text_field :site_id_customer,class:'span10',placeholder:'Enter Site ID Customer' %>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Site Id Operator</label>
+            <div class="controls">
+              <%= f.text_field :site_id_operator,class:'span10',placeholder:'Enter Site ID Operator' %>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Client</label>
+            <div class="controls">
+              <%= f.select :client_id, options_from_collection_for_select(@clients, 'id', 'name', (@site ? @site.client_id : '')), {prompt: 'Select Client'}, class:'span10',placeholder:'Client' %>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Latitude</label>
+            <div class="controls">
+              <%= f.text_field :latitude,class:'span10',placeholder:'Latitude' %>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Longitude</label>
+            <div class="controls">
+              <%= f.text_field :longitude,class:'span10',placeholder:'Longitude' %>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Location</label>
+            <div class="controls">
+              <%= f.select :location_id, select_tree(@locations, (@site ? @site.location_id : '')), {}, class: 'span6' %>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Service Point</label>
+            <div class="controls">
+              <%= f.select :service_point_id, options_from_collection_for_select(@service_points, 'id', 'name', @site.try(:service_point_id)), {prompt: 'Select Service Point'}, class:'span10',placeholder:'Code' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="widget widget-2">
+    <div class="widget-head"><h5>Site Operators</h5></div>
+    <div class="widget-body" style="padding-bottom: 0;">  
+      <div class="row-fluid">
+        <div class="span12" style="margin-left: 135px">
+          <div class='field-group inlineField'>
+            <div class='field' style='margin-bottom:0.5em;font-size: 12px;'>
+              <a href="" class="import-all-fields" style="font-size:12px;">Select All</a> |
+              <a href="" class="unimport-all-fields" style="font-size:12px;">Cancel All</a>
+              <br>
+              <%= f.hidden_field :sortable_schema, {class: 'sortable-schema' } %>
+              <% selected_operator_ids = @site && @site.operators ? @site.operators.map(&:id) : [] %>
+              <select class="import-schema-fields uniform-ignore" id="import_schema_" multiple="multiple" name="import_schema[]" data-left-title="Available Operators" data-right-title="Selected Operators">
+                <% @site.operators.each do |operator| %>
+                  <option value="<%= operator.id %>" selected="selected"><%= operator.name %></option>
+                <% end if @site && @site.operators.present? %>
+
+                <% @operators.each do |operator| %>
+                  <% next if selected_operator_ids.include?(operator.id) %>
+                  <option value="<%= operator.id %>" ><%= operator.name %></option>
+                <% end %>
+              </select>
+              <br>
+              (*) Pilih Operator Yang Terdapat di Site
+              <br>
+              (**) Double click (double click) untuk menambah atau menghapus operator
+              <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dan tarik operator untuk mengatur posisi atau urutan.
+              <hr class="separator">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="widget widget-2">
+    <div class="widget-head"><h5>Site Address</h5></div>
+    <div class="widget-body" style="padding-bottom: 0;">  
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="control-group">
+            <label class="control-label">Address 1</label>
+            <div class="controls">
+              <%= address.hidden_field :id if address.object && address.object.id %>
+              <%= address.text_field :address_1, class:'span10',placeholder:'Address 1' %>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Address 2</label>
+            <div class="controls">
+              <%= address.text_field :address_2, class:'span10',placeholder:'Address 2' %>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">City</label>
+            <div class="controls">
+              <%= address.text_field :city, class:'span10',placeholder:'City' %>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Province</label>
+            <div class="controls">
+              <%= address.text_field :province, class:'span10',placeholder:'Province' %>
+            </div>
+          </div>
+          <div class="control-group"><br>
+            <div class="controls">
+              <%= link_to "<i></i>Cancel".html_safe ,sites_path,class: "btn btn-icon btn-default" %>
+              <%= button_tag "<i></i>Save".html_safe,:class => "btn btn-icon btn-primary circle_ok" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="widget widget-2">
+    <div class="widget-head"><h5>Site Map</h5></div>
+    <div class="widget-body" style="padding-bottom: 0;">  
+      <div class="row-fluid">
+        <div class="span12">
+          <% if @site.present? %>
+            <br>
+            <div class="separator bottom"></div>
+            <div class="vevent well">
+              <h4 class="glyphicons google_maps"><i></i>Map Site</h4>
+              <div class="thumbnail">
+                <div id="map-canvas" style="height: 400px"></div>
+                <span class="latitude" title="<%= @site.latitude %>"></span>
+                <span class="longitude" title="<%= @site.longitude %>"></span>
+                <span class="title" title="<%= @site.name %>"></span>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

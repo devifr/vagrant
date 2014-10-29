@@ -1,0 +1,74 @@
+<div class="innerLR add-margin-top">
+	<div class="form-horizontal margin-none">
+
+		<div class="widget widget-heading-simple widget-body-gray">
+			<div class="widget-body"><br>
+				<div class="row-fluid">
+				
+					<div class="span6">	
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>
+							  	  <h3 class="glyphicons suitcase"><i></i> Show Work Form Group Item</h3>
+										<h3>
+											<div class="buttons pull-right">
+										    <%= link_to "<i></i>Edit Data".html_safe ,edit_work_form_group_item_path(@work_form_group_item.id),class: "btn btn-icon btn-primary glyphicons suitcase #{permission_active_if("Work::FormGroupItem",[:update,:manage])}" %>
+												<%= link_to "<i></i>Cancel".html_safe ,work_form_group_items_path,class: "btn btn-icon btn-default glyphicons circle_remove" %>
+										  </div>
+										</h3>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+									 	<table class="table table-bordered table-striped table-white">
+									    <thead>
+								        <tr>
+							            <th width="30%">Work Form Group</th>
+							            <th><%= @work_form_group_item.work_form_group.name %></th>
+								        </tr>
+									    </thead>
+									    <tbody>
+									    	<tr>
+							            <td width="30%">Position</td>
+							            <td>
+							            	<%= @work_form_group_item.position %>
+							            	<%= "0" unless @work_form_group_item.position %>
+							            </td>
+							        	</tr>
+									    	<tr>
+							            <td width="30%">Searchable</th>
+							            <td><%= @work_form_group_item.searchable %></td>
+							        	</tr>
+									    	<tr>
+							            <td width="30%">Listable</th>
+							            <td><%= @work_form_group_item.listable %></td>
+							        	</tr>
+									    	<tr>
+							            <td width="30%">Mandatory</th>
+							            <td><%= @work_form_group_item.mandatory %></td>
+							        	</tr>
+									    	<tr>
+							            <td width="30%">Visible</th>
+							            <td><%= @work_form_group_item.visible %></td>
+							        	</tr>
+									    </tbody>   
+										</table>	
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+	
+

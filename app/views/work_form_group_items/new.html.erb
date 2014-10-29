@@ -1,0 +1,23 @@
+<div class="innerLR add-margin-top">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>
+		  	  <h3 class="glyphicons suitcase"><i></i> New Work Form Group Item</h3>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<%= form_for(:work_form_group_item, url: work_form_group_items_path, method:"post", html: {class: "form-horizontal margin-none"}) do |f| %>
+						<%= render partial:"form" , locals:{f: f} %>
+					<% end %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+	
+

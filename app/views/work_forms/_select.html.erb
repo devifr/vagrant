@@ -1,0 +1,1 @@
+<%= select_tag 'schedule[form_id]', options_from_collection_for_select(@work_forms, :id, :name, params[:selected_id]), { prompt: 'Select Work Form', class: 'span6', 'data-url' => items_work_forms_path(format: :js) } %>

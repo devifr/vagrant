@@ -1,0 +1,130 @@
+<table class="table table-primary table-border-bottom">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th width="20%">Site Name</th>
+      <th>Work Type</th>
+      <th>Engineer</th>
+      <th>Client</th>
+      <% unless is_client? %>
+        <th>Approved</th>
+        <th>Rejected</th>
+      <% end %>
+      <th width="15%">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @schedules.each_with_index do |schedule, index| %>
+      <% work_type = schedule.work_type %>
+      <% work_form = work_type.forms.try(:first) if work_type %>
+      <% work_groups = work_form.groups if work_form %>
+      <% next unless work_groups.present? %>
+      <% schedule.operators.each_with_index do |operator, operator_index| %>
+        <% approvers = []
+           rejecters = []
+           client_approvals = []
+           client_rejects = []
+           rejecters_all = []
+           schedule.report_approvals.each do |report|
+             if report.is_approved
+               report.approval.try(:client) ? client_approvals.push(report) : approvers.push(report)
+             else
+               report.approval.try(:client) ? client_rejects.push(report) : rejecters.push(report)
+             end if report.approval && report.try(:operator_id).to_i == operator.try(:id).try(:to_i)
+           end
+           rejecters_all = rejecters + client_rejects
+        %>
+        <tr class="gradeX">
+          <td>
+            <%= timepicker_format(schedule.work_date) %>
+            <br/>
+            <b><%= new_status_schedule(schedule) %></b>
+          </td>
+          <td style="font-size:12px;">
+            <b>
+              <% if work_type.try(:name) == 'Site Audit' %>
+                <%= link_to preview_audit_schedule_path(schedule.id), target: '_blank' do %>
+                  <%= schedule.site.name %>
+                  <br/><i><%= schedule.site.site_id_customer.to_s.upcase if schedule.site %></i>
+                  <br><%= operator.name %>
+                <% end %>
+              <% else %>
+                <%= link_to report_schedule_path(schedule.id, operator.id), target: '_blank' do %>
+                  <%= schedule.site.name %>
+                  <br/><i><%= schedule.site.site_id_customer.to_s.upcase if schedule.site %></i>
+                  <br><%= operator.name %>
+                <% end %>
+              <% end %>
+            </b>
+          </td>
+          <td><%= work_type.name if work_type %></td>
+          <td>
+            <%= schedule.user.full_name if schedule.user %>
+          </td>
+          <td>
+            <%= schedule.site.try(:client).try(:name) %>
+            <% if client_approvals.present? || client_rejects.present? %>
+              <ul style="list-style-type:none;margin:0px;">
+                <% client_approvals.each_with_index do |report, index_approve| %>
+                  <%= render partial: 'shares/report_info', locals: {report: report, index: "#{operator_index}_#{report.id}", type: 'approved'} %>
+                <% end %>
+                <% client_rejects.each_with_index do |report, index_reject| %>
+                  <%= render partial: 'shares/report_info', locals: {report: report, index: "#{operator_index}_#{report.id}", type: 'approved'} %>
+                <% end %>
+              </ul>
+            <% end %>
+          </td>
+          <% unless is_client? %>
+            <td>
+              <ul style="list-style-type: none;">
+                <% approvers.each_with_index do |report, index_approve| %>
+                  <%= render partial: 'shares/report_info', locals: {report: report, index: "#{operator_index}_#{report.id}", type: 'approved'} %>
+                <% end %>
+              </ul>
+            </td>
+            <td>
+              <ul style="list-style-type: none;">
+                <% rejecters.each_with_index do |report, index_reject| %>
+                  <%= render partial: 'shares/report_info', locals: {report: report, index: "#{operator_index}_#{report.id}", type: 'rejected'} %>
+                <% end %>
+              </ul>
+            </td>
+          <% end %>
+          <td>
+            <ul class="nav">
+              <% if work_groups.present? %>
+                <li class="dropdown">
+                  <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#">
+                    Download <span class="caret"></span>
+                  </button>
+                  <% if work_type.try(:name) == 'Site Audit' %>
+                    <ul class="dropdown-menu" role="menu">
+                      <li>
+                        <%= link_to 'Download PDF', preview_audit_schedule_path(schedule.id, format: 'pdf') %>
+                      </li>
+                    </ul>
+                  <% else %>
+                    <ul class="dropdown-menu" role="menu">
+                      <% work_groups.each do |group| %>
+                        <li>
+                          <%= link_to group.name, preview_schedules_path({ id: schedule.id, group_id: group.id, operator_id: operator.id, format: 'pdf' }) %>
+                        </li>
+                      <% end if work_groups %>
+                    </ul>
+                  <% end %>
+                </li>
+              <% end %>
+
+              <% if show_approval_button(client_approvals, approvers) %>
+                <li class="dropdown">
+                  <%= link_to 'Approval', "javascript:void(0)", 'data-sitename' => schedule.site.name, 'data-operatorname' => operator.name, 'data-date' => "(#{timepicker_format(schedule.work_date)})", 'data-url' => approve_schedule_path(schedule.id, operator_id: operator.id), class: 'show-approval btn btn-default btn-xs', style: 'text-align:left;max-width:75px;margin-top:5px;' %>
+                </li>
+              <% end if can_approve? %>
+            </ul>
+          </td>
+        </tr>
+        <% rejecters_all = [] %>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

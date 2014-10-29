@@ -1,0 +1,46 @@
+<div class="innerLR add-margin-top">
+	<div class="widget widget-heading-simple widget-body-gray">
+		<h3>Work Types</h3> 
+		<%= render partial: "pages/form_search",locals:{path: :work_types} %>
+		<%= form_tag "work_types/mass_delete", method: "post" do %> 
+      <%= render partial: "pages/form_tag_index",locals:{model: "Work::Type", new_local_path: new_work_type_path } %>
+				<table class="table table-primary table-border-bottom">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Name</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @work_types.each_with_index do |type, key| %>
+							<tr class="gradeX">
+								<td>
+		              <%= check_box_tag "work_type[work_type_ids][]", type.id, false, id: "work_type_#{key}" %>
+		              <label for="work_type_<%= key %>"><span></span></label>
+		            </td>
+								<td>
+									<div class="<%= permission_active_if("Work::Type",[:update,:destroy,:manage]) %>">
+										<div class="action hide" align="center">
+											<%= link_to edit_work_type_path(type.id),class: "btn btn-white 
+													#{permission_active_if("Work::Type",[:update,:manage])}" do %>
+		                    <i class="icon-pencil"></i>
+		                    Edit
+		                  <% end %>
+		                  <%= link_to work_type_path(type.id), method: :delete, data: { confirm: 'Are You Sure'}, class: "btn btn-white #{permission_active_if("Work::Type",[:destroy,:manage])}" do %>
+		                   <i class="icon-remove"></i>
+		                   Delete
+		                  <% end if @work_types.present? %>
+										</div>
+									</div>
+									<b><%= link_to type.name.to_s.titleize, remove_link(work_type_path(type.id), "Work::Type", [:manage,:read]) %></b>
+								</td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			<% end %>
+		<div class="buttons pull-right">
+      <%= paginate @pagination %>
+    </div>
+	</div>	
+</div>

@@ -1,0 +1,11 @@
+<div class="innerLR add-margin-top">
+	<div class="hr_title">
+			<h3>New Site</h3>
+	</div>
+	<%= form_for(:site, url: sites_path, method:"post", html: {class: "form-horizontal margin-none"}) do |f| %>
+		<%= render partial:"form" , locals:{f: f, site_address: {} } %>
+	<% end %>
+</div>
+
+	
+

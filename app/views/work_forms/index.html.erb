@@ -1,0 +1,89 @@
+<div class="innerLR add-margin-top">
+	<div class="widget widget-heading-simple widget-body-gray">
+		<h3>Work Forms</h3>  
+		<%= render partial: "pages/form_search",locals:{path: :work_forms} %>
+		<%= form_tag "work_forms/mass_delete", method: "post" do %> 
+	    <%= render partial: "pages/form_tag_index",locals:{model: "Work::Form", new_local_path: new_work_form_path } %>
+				<table class="table table-primary table-border-bottom">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Name</th>
+							<th>Operator</th>
+							<th>Work Type</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @work_forms.each_with_index do |form, key| %>
+							<tr class="gradeX">
+								<td>
+		              <%= check_box_tag "work_form[work_form_ids][]", form.id, false, id: "work_form_#{key}" %>
+		              <label for="work_form_<%= key %>"><span></span></label>
+		            </td>
+								<td>
+									<b>
+										<%= link_to form.name.to_s.titleize, remove_link(work_form_path(form.id), "Work::Form", [:manage,:read]) %>
+									</b>
+								</td>
+								<td>
+									<b>
+										<%= link_to form.operator.name.to_s.titleize, remove_link(edit_operator_path(form.operator_id), :operator, [:manage,:update]) if form.operator %>
+									</b>
+								</td>
+								<td>
+									<div class="<%= permission_active_if("Work::Form",[:update,:destroy,:manage]) %>">
+										<div class="action hide" align="center">
+											<%= link_to '#', data: {link: work_form_clone_path(form.id)}, class: "popup-clone btn btn-white 
+													#{permission_active_if("Work::Form",[:manage])}" do %>
+		                    <i class="icon-pencil"></i>
+		                    Clone
+		                  <% end %>
+		                  <%= link_to edit_work_form_path(form.id),class: "btn btn-white 
+													#{permission_active_if("Work::Form",[:update,:manage])}" do %>
+		                    <i class="icon-pencil"></i>
+		                    Edit
+		                  <% end %>
+		                  <%= link_to work_form_path(form.id), method: :delete, data: { confirm: 'Are You Sure'}, class: "btn btn-white #{permission_active_if("Work::Form",[:destroy,:manage])}" do %>
+		                   <i class="icon-remove"></i>
+		                   Delete
+		                  <% end if @work_forms.present? %>
+										</div>
+									</div>
+									<b>
+										<%= link_to form.type.name.to_s.titleize, remove_link(edit_work_type_path(form.work_type_id), "Work::Type", [:manage,:update]) if form.type %>
+									</b>
+								</td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			<% end %>
+		<div class="buttons pull-right">
+      <%= paginate @pagination %>
+    </div>
+	</div>	
+</div>
+<div id="modal-popup-clone" class="modal modal-clone fade box-min-height" tabindex="-1" style="display: none;">
+	<div class="modal-dialog">
+    <div class="modal-content">
+    	<%= form_for :work_form, url: '', :html => { :method => :put } do |f| %>
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <h4 class="modal-title" id="myModalLabel">Clone Setting</h4>
+	      </div>
+	      <div class="modal-body">
+	      		<div class="control-group">
+		      		<%= f.label :name, 'Work Form Name', class: 'control-label' %>
+							<div class="controls">
+			      		<%= f.text_field :name %>
+							</div>
+	      		</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="submit" class="btn btn-primary">Save changes</button>
+	      </div>
+    	<% end %>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>

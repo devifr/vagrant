@@ -1,0 +1,78 @@
+<div class="innerLR add-margin-top">
+	<div class="widget-body" style="padding: 10px 0;">
+    <h3>Schedules List</h3>
+    <div class="accordion-group">
+      <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+            <span class="heading glyphicons search color_white"><i></i>Filter Search</span>
+            <div class="toggle_icon">
+              <span class="heading glyphicons expand color_white"><i></i></span>
+            </div>
+          </a>
+      </div>
+      <div id="collapseTwo" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+            <%= render partial: "pages/form_search_schedule",locals:{path: :schedules} %>
+        </div>
+      </div>
+    </div>
+    <div class="br"></div>
+    <%= form_tag "schedules/mass_delete", method: "post" do %> 
+      <%= render partial: "pages/form_tag_index",locals:{model: :schedule, new_local_path: new_schedule_path } %>
+  			<table class="table table-primary table-border-bottom">
+  				<thead>
+  					<tr>
+  						<th></th>
+              <th width="24%">Site Name</th>
+  						<th>Status</th>
+  						<th>Work Date</th>
+              <th>Work Type</th>
+              <th>Engineer</th>
+              <th>Operators</th>
+  					</tr>
+  				</thead>
+  				<tbody>
+  					<% @schedules.each_with_index do |schedule,index| %>
+  						<tr class="gradeX">
+  							<td>
+                  <%= check_box_tag "schedule[schedule_ids][]", schedule.id, false, id: "schedule_#{index}" %>
+                  <label for="schedule_<%= index %>"><span></span></label>
+                </td>
+  							<td>
+  								<b>
+  									<%= link_to schedule.site.name, remove_link(schedule_path(schedule.id), :schedule, [:manage,:read]) if schedule.site %>
+  								<b>
+                  <br/><i><%= schedule.site.site_id_customer.to_s.upcase if schedule.site %></i>
+  							</td>
+                <td><%= schedule.status %></td>
+  							<td><%= timepicker_format(schedule.work_date) %></td>
+                <td><%= schedule.work_type.name if schedule.work_type %></td>
+                <td><%= schedule.user.full_name if schedule.user %></td>
+  							<td>
+                  <div class="<%= permission_active_if(:schedule,[:update,:destroy,:manage]) %>">
+                    <div class="action hide" align="center">
+                      <%= link_to edit_schedule_path(schedule.id),class: "btn btn-white" do %>
+                        <i class="icon-pencil"></i>
+                        Edit
+                      <% end %>
+                      <%= link_to schedule_path(schedule.id), method: :delete, data: { confirm: 'Are You Sure'}, class: "btn btn-white" do %>
+                       <i class="icon-remove"></i>
+                       Delete
+                      <% end if @schedules.present? %>
+                    </div>
+                  </div>
+                  <%= schedule.operators.map(&:name).join(', ') %>
+                </td>
+  						</tr>
+  					<% end %>
+  				</tbody>
+  			</table>
+      <% end %>
+    <div class="pull-left">
+      <%= page_entries_info(@schedules, @pagination) %>
+    </div>
+		<div class="buttons pull-right">
+      <%= paginate @pagination %>
+    </div>
+	</div>	
+</div>

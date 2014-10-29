@@ -1,0 +1,30 @@
+<div class="innerLR add-margin-top">
+	<div class="form-horizontal margin-none">
+
+		<div class="widget widget-heading-simple widget-body-gray">
+			<div class="row-fluid">				
+				<div class="form-actions">
+		  	  <h3> Show Role User
+						<div class="buttons pull-right">
+					    <%= link_to "<i></i>Edit Data".html_safe ,edit_role_path(@role.id),class: "btn btn-icon btn-primary green #{permission_active_if(:role,[:update,:manage])}" %>
+							<%= link_to "<i></i>Cancel".html_safe ,roles_path,class: "btn btn-icon btn-default" %>
+					  </div>
+					</h3>
+				</div>
+
+				<table class="table table-stripped gray-popup view_table blue">
+			    <tbody>
+			        <tr>
+		            <th width="30%">Title</th>
+		            <th><%= @role.title %></th>
+			        </tr>
+			    </tbody>   
+				</table>	
+
+			</div>
+		</div>
+	</div>
+</div>
+
+	
+

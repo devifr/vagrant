@@ -1,0 +1,102 @@
+<%= f.fields_for(:profile_attributes, company_profile) do |profile| %>
+	<%= profile.fields_for(:address_attributes, company_profile_address) do |address| %>
+	<%= address.hidden_field :id %>
+	<%= profile.hidden_field :id %>
+	<div class="tab-pane active" id="account-settings">
+	<%= display_errors!(@company) %>
+	<div class="widget widget-2">
+
+		<div class="widget-head">
+		</div>
+		<div class="widget-body" style="padding-bottom: 0;">	
+			<div class="row-fluid">
+				<div class="span3">
+					<strong>Company Information</strong>
+				</div>
+				<div class="span9">
+					<label>Company Name</label>
+					<%= f.text_field :name, class: 'span10', placeholder: 'Name Company' %>
+					<div class="separator"></div>
+				</div>
+			</div>
+			<br>
+			<hr class="separator bottom">
+			<br>
+			<div class="row-fluid">
+				<div class="span3">
+					<strong>Company details</strong>
+				</div>
+				<div class="span9">
+					<div class="row-fluid">
+								<div class="span6">
+									<label>Picture</label>
+									<div class="input-prepend">
+										<% if profile && profile.object && profile.object.picture %>
+		  								<%= image_tag profile.object.picture.small, style:"width:140px;" %>
+		  							<% else %>
+		  							  <%= image_tag "no-image.png", style:"width:140px;" %>
+		  							<% end %>
+										<br>
+										<%= profile.file_field :picture, style: "float:left" %>
+									</div>
+									<div class="separator"></div>
+
+									<label>Mobile</label>
+									<div class="input-prepend">
+										<span class="add-on glyphicons phone"><i></i></span>
+										<%= profile.text_field :mobile, class:'span10',placeholder:'Mobile' %>
+									</div>
+									<div class="separator"></div>
+
+									<label>Phone</label>
+									<div class="input-prepend">
+										<span class="add-on glyphicons phone"><i></i></span>
+										<%= profile.text_field :phone, class:'span10',placeholder:'Phone' %>
+									</div>
+									<div class="separator"></div>
+										
+									<label>E-mail</label>
+									<div class="input-prepend">
+										<span class="add-on glyphicons envelope"><i></i></span>
+										<%= profile.text_field :email, class:'span10',placeholder:'Email' %>
+									</div>
+									<div class="separator"></div>
+										
+									<label>Fax</label>
+									<div class="input-prepend">
+										<span class="add-on glyphicons print"><i></i></span>
+										<%= profile.text_field :fax, class:'span10',placeholder:'Fax' %>
+									</div>
+									<div class="separator"></div>
+								</div>
+			          <div class="span6">
+			          	<div class="control-group">
+			              <label>Address 1</label>
+			                <%= address.text_field :address_1, class:'span10',placeholder:'Address 1' %>
+			            </div>
+			            <div class="control-group">
+			              <label>Address 2</label>
+			                <%= address.text_field :address_2, class:'span10',placeholder:'Address 2' %>
+			            </div>
+			            <div class="control-group">
+			              <label>City</label>
+			                <%= address.text_field :city, class:'span10',placeholder:'City' %>
+			            </div>
+			            <div class="control-group">
+			              <label>Province</label>
+			                <%= address.text_field :province, class:'span10',placeholder:'Province' %>
+			            </div>
+			            <div class="control-group">
+			              <label>Country</label>
+			                <%= address.country_select :country,["Indonesia"],{class:'span10',prompt:'Select Country'} %>
+			            </div>
+			          </div>
+					</div>
+				</div>
+			</div>
+	    <div class="form-actions">
+	    	<%= link_to "<i></i>Cancel".html_safe ,companies_path,class: "btn btn-icon btn-default glyphicons circle_remove",id:"gradien2" %>
+	      <%= button_tag "<i></i>Save".html_safe,:class => "btn btn-icon btn-primary glyphicons circle_ok",id:"gradien" %>
+	    </div>
+	<% end %>
+<% end %>

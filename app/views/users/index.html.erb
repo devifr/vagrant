@@ -1,0 +1,79 @@
+<div class="innerLR add-margin-top">
+	<div class="widget widget-gray widget-body-white">
+		<div class="widget-body" style="padding: 10px 0;">
+      <h3>Users List</h3>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+              <span class="heading glyphicons search color_white"><i></i>Filter Search</span>
+              <div class="toggle_icon">
+                <span class="heading glyphicons expand color_white"><i></i></span>
+              </div>
+            </a>
+        </div>
+        <div id="collapseTwo" class="accordion-body collapse" style="height: 0px;">
+          <div class="accordion-inner">
+              <%= render partial: "pages/form_search_user",locals:{path: :users} %>
+          </div>
+        </div>
+      </div>
+      <div class="br"></div>
+      <%= form_tag "users/mass_delete", method: "post" do %>   
+        <%= render partial: "pages/form_tag_index",locals:{model: :user, new_local_path: new_user_path } %>
+          <table class="table table-primary table-border-bottom">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Photo</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Service Point</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @users.each_with_index do |usr,key| %>
+                <% profile = usr.profile %>
+                <tr class="gradeX">
+                  <td>
+                    <%= check_box_tag "user[user_ids][]", usr.id, false, id: "user_#{key}" %>
+                    <label for="user_<%= key %>"><span></span></label>
+                  </td>
+                  <td>
+                    <% if profile && profile.picture %>
+                      <%= image_tag profile.picture.thumb, style:"max-width:64px;max-height:64px;" %>
+                    <% else %>
+                      <%= image_tag "no-image.png", style:"width:64px;" %>
+                    <% end %>
+                  </td>
+                  <td><b><%= link_to usr.full_name, remove_link(user_path(usr.id), :user, [:manage,:read]) %></b></td>
+                  <td><%= usr.email %></td>
+                  <td><%= usr.username %></td>
+                  <td><%= usr.service_points.map(&:name).join(', ') %></td>
+                  <td>
+                    <div class="<%= permission_active_if(:user,[:update,:destroy,:manage]) %>">
+                      <div class="action hide" align="center">
+                        <%= link_to edit_user_path(usr.id),class: "btn btn-white 
+                         #{permission_active_if(:user,[:update,:manage])}" do %>
+                          <i class="icon-pencil"></i>
+                          Edit
+                        <% end %>
+                        <%= link_to user_path(usr.id), method: "delete", data: { confirm: 'Are You Sure'}, class: "btn btn-white #{permission_active_if(:user,[:destroy,:manage])}" do %>
+                         <i class="icon-remove"></i>
+                         Delete
+                        <% end if @users.present? %>
+                      </div>
+                    </div>
+                    <%= usr.role_name.to_s.titleize %></td>
+                  </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      <div class="buttons pull-right">
+        <%= paginate @pagination %>
+      </div>
+		</div>
+	</div>
+</div>

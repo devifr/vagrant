@@ -1,0 +1,81 @@
+<% if !@operator.id.blank? %>
+	<div class="innerLR add-margin-top">
+		<div class="form-horizontal margin-none">
+			<div class="widget widget-heading-simple widget-body-gray">
+				<div class="row-fluid">
+					<div class="span6 vers">
+						<div class="control-group">
+							<div style="text-align:center">
+									<h3> Operator <%= @operator.company %></h3>
+									<% if @operator.profile && @operator.profile.picture %>
+	  								<%= image_tag @operator.profile.picture.small, class: "avatar" %>
+	  							<% else %>
+	  							  <%= image_tag "no-image.png", class: "avatar"%>
+	  							<% end %>
+	  							<br>
+							    <%= link_to "<i></i>Edit Data".html_safe ,edit_operator_path(@operator.id),class: "btn btn-icon btn-primary green",id:"gradien" if allow?(:operator,[:update]) %>
+									<%= link_to "<i></i>Cancel".html_safe ,operators_path,class: "btn btn-icon btn-default",id:"gradien2" %>
+							</div>
+						</div>
+					</div>
+					
+					<div class="span6 vers">
+						<div class="head_view">
+							Operator Information
+						</div>
+						<table class="table table-stripped gray-popup view_table">
+					    <tbody>
+					    		<tr>
+					            <th width="30%">Company</th>
+					            <th><%= @operator.company %></th>
+					        </tr>
+					    		<tr>
+					            <td>Name</td>
+					            <td><%= @operator.name %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Email</b></td>
+					            <td><%= profile_attr(@operator, "email") %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Phone</b></td>
+					            <td><%= profile_attr(@operator, "phone") %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Mobile</b></td>
+					            <td><%= profile_attr(@operator, "mobile") %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Fax</b></td>
+					            <td><%= profile_attr(@operator, "fax") %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Address 1</b></td>
+					            <td><%= address_attr(@operator, "address_1") %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Address 2</b></td>
+					            <td><%= address_attr(@operator, "address_2") %></td>
+					        </tr>
+					        <tr>
+					            <td><b>City</b></td>
+					            <td><%= address_attr(@operator, "city") %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Province</b></td>
+					            <td><%= address_attr(@operator, "province") %></td>
+					        </tr>
+					        <tr>
+					            <td><b>Country<b></td>
+					            <td><%= address_attr(@operator, "country") %></td>
+					        </tr>
+					    </tbody>
+						</table>	
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+<% end %>
+

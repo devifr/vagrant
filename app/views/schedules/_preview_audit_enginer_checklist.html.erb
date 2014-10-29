@@ -1,0 +1,46 @@
+<div class="add-margin-top content_report_audit">
+  <div class="form-horizontal margin-checklist">
+    <div class="sub_content_report padding-no full_report">
+      <b>Technical/Engineering Check List</b>
+      <% if group.table && group.table.headers.present? %>
+        <table id="form" class="padding-no margin0 border_no_right_left" style="width:100%">
+          <thead class="header_report">
+            <tr>
+              <th width="4%">No</th>
+              <% width_size = ['45%', '21%', '30%'] %>
+              <% group.table.headers.each_with_index do |header, index| %>
+                <th data-id="<%= header.id %>" width="<%= width_size[index] %>">
+                  <div class="row-fluid">
+                    <% column_name = header.column_name.present? ? header.column_name : 'Survey Name' %>
+                    <%= column_name %>
+                  </div>
+                </th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% rows = group.table.rows %>
+            <% rows_index = row_index(indexes, {}, rows.map(&:id)) %>
+            <% rows.each_with_index do |row,index| %>
+              <% border = ''  %>
+              <% border = "class=double-border" if rows_index[row.id].to_s !~ /\./  %>
+              <tr <%= border %>>
+                <td style="vertical-align: top"><label><%= rows_index[row.id] %></label></td>
+                <% row.row_columns.sort{|x,y| x.column_id <=> y.column_id}.each do |cell| %>
+                  <td data-id="<%= cell.id %>">
+                    <div class="fields_report" data-id="<%= cell.id %>">
+                      <% cell.items.each do |item| %>
+                        <%= get_item_preview_audit_checklist(item, values) %>
+                        <br/>
+                      <% end if cell.items.is_a?(Array) %>
+                    </div>
+                  </td>
+                <% end if row.row_columns.is_a?(Array) %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+</div>

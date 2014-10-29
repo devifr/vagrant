@@ -1,0 +1,54 @@
+<div class="innerLR survey-container">
+  <% if @work_form_group.table && @work_form_group.table.headers.present? %>
+    <table class="table table-bordered table-survey">
+      <thead>
+        <tr>
+          <th>
+            <h3 class="glyphicons suitcase"><i></i> Preview <%= @work_form_group.name.to_s.titleize %>
+              <div class="buttons pull-right">
+                <%= link_to '<i></i>Back'.html_safe, edit_work_form_group_path(@work_form_group.id), :class => "btn btn-icon btn-primary" %>
+              </div>  
+            </h3>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-container" data-id="">
+          <td>
+            <table id="form" class="table table-bordered table-condensed table-striped">
+              <thead class="thead_survey">
+                <tr>
+                  <% @work_form_group.table.headers.each do |header| %>
+                    <th data-id="<%= header.id %>">
+                      <div class="row-fluid">
+                        <% column_name = header.column_name.present? ? header.column_name : 'Survey Name' %>
+                        <%= column_name %>
+                      </div>
+                    </th>
+                  <% end %>
+                </tr>
+              </thead>
+              <tbody class="appsHeader1 tbody_survey" style="overflow:hidden;">
+                <% rows = @work_form_group.table.rows %>
+                <% rows.each_with_index do |row,index| %>
+                  <tr>
+                    <% row.row_columns.each do |cell| %>
+                      <td data-id="<%= cell.id %>">
+                        <div class="fields_container" data-id="<%= cell.id %>">
+                          <% cell.items.each do |item| %>
+                            <%= get_item_field(item) %>
+                            <br/>
+                          <% end if cell.items.is_a?(Array) %>
+                        </div>
+                      </td>
+                    <% end if row.row_columns.is_a?(Array) %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+</div>

@@ -1,0 +1,15 @@
+<div class="innerLR add-margin-top">
+	<div class="hr_title">
+		<div class="buttons pull-right">
+	    <%= link_to '<i></i>Add New Role'.html_safe,new_role_path,:class => "btn btn-icon btn-primary glyphicons circle_plus green 
+	    		#{permission_active_if(:role,[:create,:manage])}", id:"gradien" %>
+	  </div>
+		<h3> Edit Role </h3>
+	</div>
+	<%= form_for(:role, url: role_path(@role.id), method:"put", html:{class: "form-horizontal margin-none"}) do |f| %>
+		<%= render partial:"form",locals: {f: f} %>
+	<% end %>
+</div>
+
+	
+

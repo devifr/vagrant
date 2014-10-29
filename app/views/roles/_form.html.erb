@@ -1,0 +1,76 @@
+<div class="widget widget-heading-simple widget-body-gray">
+  <%= display_errors!(@role) %>
+  <div class="widget-body" id="gradien2"><br>
+    <div class="row-fluid">   
+      <div class="span6"> 
+        <div class="control-group">
+          <label class="control-label">Parent</label>
+          <div class="controls">
+            <%= f.select(:parent_id, select_tree(@parents, (@role ? @role.parent_id : ''), false, 'title'),{}, class: 'full-width')%>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Title</label>
+          <div class="controls">
+            <%= f.text_field :title, class:'span10', placeholder:'Title Role' %>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Code</label>
+          <div class="controls">
+            <%= f.text_field :code, class:'span10', placeholder:'Code Role' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% if @role && @role.id %>
+      <div class="add_block">
+        <% (@role.levels||[nil]).each_with_index do |level, index| %>
+          <% level_field = "role[levels_attributes][#{index}]" %>
+          <div class="block-container">
+            <div class="well">
+              <div class="row-fluid">           
+                <div class="span12">  
+                  <a href="" class='close remove_block'>&times;</a>
+                  <div class="control-group">
+                    <label class="control-label">Select Access</label>
+                    <div class="controls">
+                      <%= select_tag("#{level_field}[access_id]", options_from_collection_for_select(@accesses, :id, :title, (level ? level.access_id : nil)), {prompt: '', class: "span6"}) %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row-fluid">
+                <div class="span12">  
+                  <div class="control-group" style="margin-bottom: 0px;">
+                    <label class="control-label">Permission List</label>
+                    <div class="controls">
+                      <%= hidden_field_tag "#{level_field}[id]", level.id, class: "deleteable-field" if level %>
+                      <ul class="thumbnails">
+                        <% @permissions.each do |permission| %>
+                          <li>
+                            <%= check_box_tag "#{level_field}[permission_list][]", permission.key, (level ? level.permission_list.include?(permission.key) : false), {multiple: true,class: "checkbox", selected: ''} %>
+                            <%= permission.name.titleize %>
+                          </li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    <% if @role %>
+      <div id="add_more"><a href="">Add More</a></div>
+    <% end %>
+    <div class="controls">
+      <%= link_to "<i></i>Cancel".html_safe ,roles_path,class: "btn btn-icon btn-default",id:"gradien2" %>
+      <%= button_tag "<i></i>Save".html_safe,:class => "btn btn-icon btn-primary circle_ok",id:"gradien" %>
+    </div>
+  </div>
+</div>

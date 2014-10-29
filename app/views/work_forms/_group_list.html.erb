@@ -1,0 +1,43 @@
+<div class="widget widget-heading-simple widget-body-gray">
+  <div class="row-fluid">
+    <div class="span12">  
+      <div class="widget-body">
+        <div class="pull-left">
+          <h3> Form Groups</h3>
+        </div>
+        <div class="pull-right" style="padding-top:10px;">
+          <%= button_tag "<i></i>Save Position".html_safe,:class => "btn btn-icon btn-primary circle_ok",id:"gradien" %>
+        </div>
+
+        <table id="form" class="table table-bordered table-condensed table-striped table-primary">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th width="150px">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="appsHeader1" style="overflow:hidden;">
+            <% @work_form.groups.each do |form_group| %>
+              <tr class="<%= cycle("even", "odd") -%>" style="font-size:12px; width:875px;  "id="form-<%= form_group.id %>">
+                <td class="dragHandle">&nbsp;&nbsp;&nbsp;
+                  <b><%= link_to form_group.name.to_s.titleize, work_form_group_path(form_group.id) %></b></td>
+                <td class="center">
+                  <div align="center">
+                    <%= link_to edit_work_form_group_path(form_group.id),class: "btn btn-small" do %>
+                      <i class="icon-pencil"></i>
+                      Edit
+                    <% end %>
+                    <%= link_to work_form_group_path(form_group.id), method: :delete, data: { confirm: 'Are You Sure'}, class:"btn btn-small" do %>
+                     <i class="icon-remove"></i>
+                     Delete
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

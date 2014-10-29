@@ -1,0 +1,55 @@
+<div class="innerLR add-margin-top">
+	<div class="widget widget-heading-simple widget-body-gray">
+		<h3>Work Form Groups</h3>  
+    <%= render partial: "pages/form_search",locals:{path: :work_form_groups} %>
+    <%= form_tag "work_form_groups/mass_delete", method: "post" do %> 
+      <%= render partial: "pages/form_tag_index",locals:{model: "Work::FormGroup", new_local_path: new_work_form_group_path } %>
+  		 <table id="form" class="table table-primary table-border-bottom">
+  			<thead>
+  				<tr>
+  					<th></th>
+  					<th>Name</th>
+  					<th>Parent</th>
+  					<th>Work Form</th>
+  				</tr>
+  			</thead>
+  		  <tbody class="appsHeader1" style="overflow:hidden;">
+  		    <% @work_form_groups.each_with_index do |form_group,key| %>
+  		      <tr class="gradeX <%= cycle("even", "odd") -%>" style="font-size:12px; width:875px;  "id="form-<%= form_group.id %>">
+  		      	<td>
+                <%= check_box_tag "work_form_group[work_form_group_ids][]", form_group.id, false, id: "work_form_group_#{key}" %>
+                <label for="work_form_group_<%= key %>"><span></span></label>
+              </td>
+  			      <td class="dragHandle">&nbsp;&nbsp;&nbsp;
+  			      	<b><%= link_to form_group.name.to_s.titleize, remove_link(work_form_group_path(form_group.id), "Work::FormGroup", [:manage,:read]) %></b></td>
+  						<td class="dragHandle">
+  							<b><%= link_to form_group.parent_name.to_s.titleize %></b>
+  						</td>
+  						<td class="dragHandle">
+                <div class="<%= permission_active_if("Work::FormGroup",[:update,:destroy,:manage]) %>">
+                  <div class="action hide" align="center">
+                    <%= link_to edit_work_form_group_path(form_group.id),class: "btn btn-white 
+                        #{permission_active_if("Work::FormGroup",[:update,:manage])}" do %>
+                      <i class="icon-pencil"></i>
+                      Edit
+                    <% end %>
+                    <%= link_to work_form_group_path(form_group.id), method: :delete, data: { confirm: 'Are You Sure'}, class: "btn btn-white #{permission_active_if("Work::FormGroup",[:destroy,:manage])}" do %>
+                     <i class="icon-remove"></i>
+                     Delete
+                    <% end if @work_form_groups.present? %>
+                  </div>
+                </div>
+  							<b><%= link_to form_group.work_form.name, edit_work_form_path(form_group.work_form_id) if form_group.work_form.present? %></b>
+  						</td>
+  		    	</tr>
+  		  	<% end %>
+  			</tbody>
+  		</table>
+    <% end %>
+		<br>
+		<%#= button_tag "<i></i>Save".html_safe,:class => "btn btn-icon btn-primary circle_ok",id:"gradien" %>
+			<div class="buttons pull-right">
+        <%= paginate @pagination %>
+      </div>
+	</div>	
+</div>

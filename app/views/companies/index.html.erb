@@ -1,0 +1,57 @@
+<div class="innerLR add-margin-top">
+	<div class="widget widget-gray widget-body-white">
+		<div class="widget-body" style="padding: 10px 0;">
+      <h3>Companies List</h3> 
+      <%= render partial: "pages/form_search",locals:{path: :companies} %> 
+      <%= form_tag "companies/mass_delete", method: "post" do %> 
+          <%= render partial: "pages/form_tag_index",locals:{model: :company, new_local_path: new_company_path } %>
+    			<table class="table table-primary table-border-bottom">
+    				<thead>
+              <tr>
+                <th></th>
+                <th>Company Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @companies.each_with_index do |company,key| %>
+               <% profile = company.profile %>
+                <tr class="gradeX">
+                 <td>
+                    <%= check_box_tag "company[company_ids][]", company.id, false, id: "company_#{key}" %>
+                    <label for="company_<%= key %>"><span></span></label>
+                  </td>
+                  <td>
+                    <b>
+                      <%= link_to company.name, remove_link(company_path(company.id),:company,[:manage,:read]) %> %>
+                    <b>
+                  </td>
+                  <td><%= profile ? profile.email : "" %></td>
+                  <td>
+                    <% if allow?(:company,[:update,:destroy]) %>
+                      <div class="action hide" align="center">
+                        <%= link_to edit_company_path(company.id),class: "btn btn-white" do %>
+                          <i class="icon-pencil"></i>
+                          Edit
+                        <% end if allow?(:company,[:update]) %>
+                        <%= link_to company_path(company.id), method: "delete", data: { confirm: 'Are You Sure'}, class: "btn btn-white" do %>
+                         <i class="icon-remove"></i>
+                         Delete
+                        <% end if @companies.present? && allow?(:company,[:destroy]) %>
+                      </div>
+                    <% end %>
+                    
+                    <%= profile ? profile.phone : "" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+    			</table>
+        <% end %>
+      <div class="buttons pull-right">
+        <%= paginate @pagination %>
+      </div>
+		</div>
+	</div>
+</div>

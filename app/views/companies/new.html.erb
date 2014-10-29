@@ -1,0 +1,20 @@
+<div class="widget widget-2 widget-tabs widget-tabs-2 tabs-right border-bottom-none">
+	<div class="widget-head">
+		<ul>
+			<li class="active">
+				<a class="glyphicons building" href="#account-settings" data-toggle="tab">
+					<i></i>Companies
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<h3 class="glyphicons building"><i></i> New Company</h3>
+<div class="innerLR">
+	<div class="tab-content" style="padding: 0;">
+		<%= form_for(:company, url: companies_path, method: "post", html: {class: "form-horizontal"}) do |f| %>
+   	 <%= render partial:"form", locals: {f: f, company_profile: {}, company_profile_address: {}} %>
+		<% end %>
+	</div>
+</div>
+

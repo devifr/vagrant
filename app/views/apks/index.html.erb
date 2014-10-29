@@ -1,0 +1,58 @@
+<div class="innerLR add-margin-top">
+  <div class="widget widget-gray widget-body-white">
+    <div class="widget-body" style="padding: 10px 0;">
+      <h3> APK List</h3> 
+      <%= form_tag "clients/mass_delete", method: "post" do %> 
+        <%= render partial: "pages/form_tag_index",locals:{model: :apk, new_local_path: new_apk_path } %>
+          <table class="table table-primary table-border-bottom">
+            <thead>
+              <tr>
+                <th></th>
+                <th>VERSION</th>
+                <th>Create Date</th>
+                <th>Update Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @apks.each_with_index do |apk,key| %>
+                <tr class="gradeX">
+                  <td>
+                    <%= check_box_tag "apk[apk_ids][]", apk.id, false, id: "apk#{key}" %>
+                    <label for="apk_<%= key %>"><span></span></label>
+                  </td>
+                  <td>
+                    <b><%= link_to apk.version, apk.file_url || 'javascript:void(0)' %></b>
+                    <%if apk.active %>
+                    <br><i>active</i>
+                    <% end %>
+                  </td>
+                  <td>
+                    <%= timepicker_format(apk.created_at) %>
+                  </td>
+                  <td>
+                    <% if allow?(:apk, [:update,:destroy]) || is_admin? %>
+                      <div class="action hide" align="center">
+                        <%= link_to edit_apk_path(apk.id),class: "btn btn-white" do %>
+                          <i class="icon-pencil"></i>
+                          Edit
+                        <% end if allow?(:apk,[:update]) || is_admin? %>
+                        <%= link_to apk_path(apk.id), method: "delete", data: { confirm: 'Are You Sure'}, class: "btn btn-white" do %>
+                         <i class="icon-remove"></i>
+                         Delete
+                        <% end if @apk.present? && allow?(:apk,[:destroy]) || is_admin? %>
+                      </div>
+                    <% end %>
+
+                    <%= timepicker_format(apk.updated_at) %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      <div class="buttons pull-right">
+        <%= paginate @pagination %>
+      </div>
+    </div>
+  </div>
+</div>

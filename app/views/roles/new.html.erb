@@ -1,0 +1,11 @@
+<div class="innerLR">
+	<div class="hr_title">
+		<h3> New Role</h3>
+	</div>
+	<%= form_for(:role, url: roles_path, method:"post", html: {class: "form-horizontal margin-none"}) do |f| %>
+		<%= render partial:"form" , locals:{f: f} %>
+	<% end %>
+</div>
+
+	
+

@@ -1,0 +1,11 @@
+<div class="innerLR add-margin-top">
+	<div class="hr_title">
+		<h3> New Work Type</h3>
+	</div>
+	<%= form_for(:work_type, url: work_types_path, method:"post", html: {class: "form-horizontal margin-none"}) do |f| %>
+		<%= render partial:"form" , locals:{f: f} %>
+	<% end %>
+</div>
+
+	
+

@@ -1,0 +1,87 @@
+<div class="row-fluid">
+	<div class="br"></div>
+  <%= form_tag '/schedules', method: "get" do %>
+	  <div>
+			<div class="span4" style="margin-left:0px;">
+				<h4 class="heading glyphicons google_maps"><i></i>By Status</h4>
+				<div class="hr2"></div>
+				<div class="padding_left20">
+				  <% Schedule.statuses.each_with_index do |status, index| %>
+		        <%= check_box_tag 'status[]', status.first, false, id: "status_#{index}" %>
+		        <label for="<%= "status_#{index}" %>"><span></span> <%= status.first %></label>
+				  <% end %>
+				</div>
+			</div>
+			<div class="span4" style="margin-left:0px;">
+				<h4 class="heading glyphicons search"><i></i>By Option</h4>
+				<div class="hr2"></div>
+				<div class="padding_left20">
+					<label class="grey">Enter Site Name</label>
+					<%= text_field_tag 'site_name',nil ,class: "input-large", placeholder: "Enter..." %>
+					<div class="separator"></div>
+					<label class="grey">Choise Work Type</label>
+					<%= select_tag("work_type", options_from_collection_for_select(@work_types, :name, :name), {prompt: '----Select Work Type----'}) %>
+					<div class="separator"></div>
+					<label class="grey">Choise Engineer</label>
+					<%= select_tag("engineer", options_from_collection_for_select(@users, :id, :full_name, @schedule ? @schedule.user_id : ''), {prompt: '-------Select Engineer------'}) %>
+					<div class="separator"></div>		
+				</div>
+			</div>
+			<div class="span4" style="margin-left:0px;">
+				<h4 class="heading glyphicons search"><i></i> By Periode</h4>
+				<div class="hr2"></div>
+				<div class="padding_left20">
+					<label class="grey">Created Date</label>
+					<div>
+						<%= select_tag("date_type", options_for_select(Schedule::DATETYPE), {prompt: '----Date Type----'}) %>
+				  </div>
+					<div class="separator"></div>
+
+					<label class="grey">Start On</label>
+					<div class="datetimepicker" class="input-append date">
+						<%= text_field_tag 'start_on','', "data-format" => "yyyy-MM-dd" %>
+				    <span class="add-on">
+				      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+				      </i>
+				    </span>
+				  </div>
+					<div class="separator"></div>
+
+					<label class="grey">End On</label>
+					<div class="datetimepicker" class="input-append date">
+						<%= text_field_tag 'end_on','', "data-format" => "yyyy-MM-dd" %>
+				    <span class="add-on">
+				      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+				      </i>
+				    </span>
+				  </div>
+					<div class="separator"></div>
+				</div>
+			</div>
+		</div>
+		<div class="br"></div>
+		<div class="span12" style="margin-left:0px;">
+			<h4 class="heading glyphicons search"><i></i>By Progress</h4>
+			<div class="hr2"></div>
+			<div class="padding_left20">
+			 	<div class="slider-range-min row-fluid">				 
+					<div class="span3">
+						<label class="span8">Maximum Progress:</label> 
+						<input type="text" id="amount" class="amount span4" name="progress">
+					</div>
+					<div class="span9" style="padding: 5px 0 0;">
+						<span class="ui-slider-wrap">
+							<div class="slider-primary">
+								<div id="slider-range-min"></div>
+							</div>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="br"></div>
+		<div class="padding_left20" style="float:right">
+			<button class="btn btn-icon btn-primary circle_ok" id="gradien" name="" type="submit"><i></i>Search</button>
+		</div>
+  <% end %>
+</div>

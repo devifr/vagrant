@@ -1,0 +1,11 @@
+<div class="innerLR add-margin-top">
+  <div class="hr_title">
+    <div class="buttons pull-right">
+      <%= link_to '<i></i>Add Service Point'.html_safe, new_service_point_path, :class => "btn btn-icon btn-primary glyphicons circle_plus green #{permission_active_if(:service_point,[:create,:manage])}" %>
+    </div>
+    <h3> Edit Service Point </h3>
+  </div>
+  <%= form_for(:service_point, url: service_point_path(@service_point.id), method:"put", html:{class: "form-horizontal margin-none"}) do |f| %>
+    <%= render partial:"form",locals: {f: f} %>
+  <% end %>
+</div>

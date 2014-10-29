@@ -1,0 +1,5 @@
+<% if @work_form_group.errors.present? %>
+  $('.error-container').html('<%= display_errors!(@work_form_group).gsub(/\r?\n|\r/,"").html_safe %><br/>')
+<% else %>
+  $('.error-container').html('')
+<% end %>

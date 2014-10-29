@@ -1,0 +1,42 @@
+<div class="innerLR">
+	<div class="wrapper-header">
+		<div class="title-header">Site Audit & Inspection Report</div>
+		<div class="wrapper-logo-header">
+			<%= image_tag asset_path('sap.png'), class: 'logo-header' %>
+			<%= image_tag asset_path('stp.jpg'), class: '' %>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+  <h2 class="header-preview-audit">Site Audit & Inspection Report</h2>
+  <% @results.each do |key, data| %>
+    <% locals_attributes = { schedule: @schedule, work_form_group: @work_form_group }.merge(data) %>
+    <%= render  partial: "preview_audit_#{key}", locals:  locals_attributes %>
+  <% end %>
+  <div class="footer-report">End of Report</div>
+  <table class="table-footer">
+  	<tr class="strip-row">
+  		<td>Prepared By</td>
+  		<td>Checked By</td>
+  		<td>Verified By</td>
+  		<td>Approved By</td>
+  	</tr>	
+  	<tr class='content-high'>
+  		<td></td>
+  		<td></td>
+  		<td></td>
+  		<td></td>
+  	</tr>
+  	<tr class="strip-row text-left">
+  		<td>Name</td>
+  		<td>Name</td>
+  		<td>Name</td>
+  		<td>Name</td>
+  	</tr>
+  	<tr class='content-low'>
+  		<td></td>
+  		<td></td>
+  		<td></td>
+  		<td></td>
+  	</tr>		
+  </table>
+</div>

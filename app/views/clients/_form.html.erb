@@ -1,0 +1,125 @@
+<%= f.fields_for(:profile_attributes, client_profile) do |profile| %>
+  <%= profile.fields_for(:address_attributes, client_profile_address) do |address| %>
+    <%= profile.hidden_field :id %>
+    <%= address.hidden_field :id %>
+    <div class="tab-pane active" id="account-settings">
+    <%= display_errors!(@client) %>
+      <div class="widget-body" style="padding-bottom: 0;">
+        <div class="row-fluid">
+          <div class="span9">
+            <div>
+              <strong>Client Information</strong>
+            </div>
+            <div class="br"></div>
+            <label class="control-label">Name</label>
+            <div class="controls">
+              <%= f.text_field :name, class: 'span10', placeholder: 'Name' %>
+              <div class="separator"></div>
+            </div>
+            <div class="br"></div>
+            <label class="control-label">Company</label>
+            <div class="controls">
+              <%= f.text_field :company, class: 'span10', placeholder: 'Company Name' %>
+              <div class="separator"></div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <hr class="separator bottom">
+        <div>
+          <strong>Client details</strong>
+        </div>
+        <div class="br"></div>
+        <div class="row-fluid">
+          <div class="span6">
+            <label class="control-label">Picture</label>
+            <div class="controls">
+              <div>
+                <% if profile && profile.object && profile.object.picture %>
+                  <%= image_tag profile.object.picture.small, style:"width:140px;" %>
+                <% else %>
+                  <%= image_tag "no-image.png" %>
+                <% end %>
+                <br>
+                <%= profile.file_field :picture, style: "float:left" %>
+              </div>
+              <div class="separator"></div>
+            </div>
+            <div class="br"></div>
+            <label class="control-label">Mobile</label>
+            <div class="controls">
+              <div>
+                <%= profile.text_field :mobile, class:'span10',placeholder:'Mobile' %>
+              </div>
+              <div class="separator"></div>
+            </div>
+
+            <label class="control-label">Phone</label>
+            <div class="controls">
+              <div>
+                <%= profile.text_field :phone, class:'span10',placeholder:'Phone' %>
+              </div>
+              <div class="separator"></div>
+            </div>
+
+            <label class="control-label">E-mail</label>
+            <div class="controls">
+              <div>
+                <%= profile.text_field :email, class:'span10',placeholder:'Email' %>
+              </div>
+              <div class="separator"></div>
+            </div>
+
+            <label class="control-label">Fax</label>
+            <div class="controls">
+              <div>
+                <%= profile.text_field :fax, class:'span10',placeholder:'Fax' %>
+              </div>
+              <div class="separator"></div>
+            </div>
+          </div>
+          <div class="span6">
+            <div class="control-group">
+              <label class="control-label">Address 1</label>
+              <div class="controls">
+                <%= address.text_field :address_1, class:'span10',placeholder:'Address 1' %>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Address 2</label>
+              <div class="controls">
+                <%= address.text_field :address_2, class:'span10',placeholder:'Address 2' %>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">City</label>
+              <div class="controls">
+                <%= address.text_field :city, class:'span10',placeholder:'City' %>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Province</label>
+              <div class="controls">
+                <% selected_province = (client_profile_address ? client_profile_address.province : '') %>
+                <%= f.select(:province, 
+                             options_from_collection_for_select(@locations.select{|l| l.parent_id.blank?}.sort{|a,b| a.name <=> b.name}, :name, :name, selected_province),
+                            {prompt: 'Select Province'}, class: "span10") %>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Country</label>
+              <div class="controls">
+                <%= address.country_select(:country,["Indonesia"],{prompt:'Select Country'},{class: 'span10'}) %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="controls">
+          <%= link_to "<i></i>Cancel".html_safe ,clients_path,class: "btn btn-icon btn-default",id:"gradien2" %>
+          <%= button_tag "<i></i>Save".html_safe,:class => "btn btn-icon btn-primary circle_ok",id:"gradien" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

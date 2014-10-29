@@ -1,0 +1,101 @@
+<div class="page-break"></div>
+<div class="sub_content_audit">
+  <b>Photographs </b>
+  <div class="br"></div>
+</div>
+<div class="form-horizontal margin-none padding-no">
+
+  <div class="widget widget-heading-simple widget-body-gray">
+    <div class="row-fluid">
+      <div class="span12">
+        <% count_photo = 1 %>
+        <% last_label = '' %>
+        <% fields.each_with_index do |field, index| %>
+          <% item_value = values[field.id.to_s] %>
+          <% if field.field_type.to_s == 'label' %>
+            <% if index > 3 %>
+              <% if count_photo < 5 && last_label != field.label %>
+                </div>
+                <div class="page-break"></div>
+                <div style="margin-top: 481px"></div>
+              <% end %>
+              <% count_photo = 1 %>
+              <div class="sub_content_audit">
+                <div class="add-margin-top"></div>
+                <div class="br"></div>
+              </div>
+            <% end %>
+            <div class="content_report_photograph_audit add-margin-top">
+            <div class="span12 label-header-photograph">
+              <%= field.label %>
+            </div>
+            <% last_label = field.label %>
+          <% else %>
+            <% if count_photo == 5 %>
+              <% count_photo = 1 %>
+              <% if index > 3 %>
+                <div class="sub_content_audit">
+                  <div class="add-margin-top"></div>
+                  <div class="br"></div>
+                </div>
+              <% end %>
+              <div class="content_report_photograph_audit add-margin-top">
+              <div class="span12 label-header-photograph">
+                <%= last_label %>
+              </div>
+            <% end %>
+            <% count_photo = count_photo + 1 %>
+            <div class="span6" style="margin:5px; 0px">
+              <div class="thumbnail" style="text-align:center;">
+                <div class="image-container" style="min-height: 290px; text-align:center;border: 1px solid #ddd">
+                  <% if item_value && item_value.picture.present? %>
+                    <%= image_tag item_value.picture.medium, style: 'max-width: 290px; height: 290px;' %>
+                  <% else %>
+                    <%= image_tag '', alt: '', style: 'width: 290px; height: 290px;' %>
+                  <% end %>
+                </div>
+                <br/>
+                <h5>
+                  <%= field.label %>
+                </h5>
+
+                <table class="table table-bordered">
+                  <tr>
+                    <td>
+                      <label>Latitude:</label>
+                      <span><%= item_value.latitude if item_value %></span>
+                    </td>
+                    <td>
+                      <label>Longitude:</label>
+                      <span><%= item_value.longitude if item_value %></span>
+                    </td>
+                    <td>
+                      <label>Accuracy:</label>
+                      <span><%= item_value ? item_value.accuracy : 0 %> M</span>
+                    </td>
+                    <td>
+                      <label>Status:</label>
+                      <span><%= item_value.photo_status if item_value %></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                      <label>Remark:
+                        <span><%= item_value.remark if item_value %></span>
+                      </label>
+                    </td>
+                  </tr>
+                </table>
+                <span></span>
+              </div>
+            </div>
+          <% end %>
+          <% if count_photo == 5 %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+</div>

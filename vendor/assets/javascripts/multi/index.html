@@ -1,0 +1,89 @@
+<link href="https://www.invoice.co.id/assets/canvas_white/stylesheets/canvas_application.css" media="all" rel="stylesheet" type="text/css" />
+<script src="https://www.invoice.co.id/assets/canvas_white/javascripts/canvas_application_preload.js" type="text/javascript"></script>
+
+<div id='billing'>
+  <div class='widget'>
+    <div class='widget-header'>
+      <h3>Impor</h3>
+    </div>
+    <div class='widget-content'>
+      <form accept-charset="UTF-8" action="/invoices/import" class="uploadForm form uniformForm" enctype="multipart/form-data" method="post">
+        <div style="margin:0;padding:0;display:inline">
+          <input name="utf8" type="hidden" value="&#x2713;" />
+          <input name="authenticity_token" type="hidden" value="9MlxNOt/35654uHrLbJYE6PcqjwSoQGohxOQOHEHTQ8=" />
+        </div>
+        <div class='field-group inlineField'>
+          <label>Unggah File</label>
+          <div class='field' style='margin-bottom:0.5em'>
+            <input accept="text/csv" id="csv_file" name="csv_file" type="file" />
+          </div>
+        </div>
+        <br>
+        <div class='field-group inlineField'>
+          <label>Unduh file dari tautan</label>
+          <div class='field' style='margin-bottom:0.5em'>
+            <input id="csv_url" name="csv_url" type="text" />
+          </div>
+        </div>
+        <br>
+        <div class='field-group inlineField'>
+          <label>Pilih Impor Data</label>
+          <div class='field' style='margin-bottom:0.5em;font-size: 12px;'>
+            <a href="" class="import-all-fields" style="font-size:12px;">Pilih Semua</a> |
+            <a href="" class="unimport-all-fields" style="font-size:12px;">Batalkan Semua</a>
+            <br>
+            <input class="sortable-schema" id="sortable_schema" name="sortable_schema" type="hidden" value="" />
+            <select class="import-schema-fields uniform-ignore" id="import_schema_" multiple="multiple" name="import_schema[]"><option value="invoice_id" selected="selected">Invoice Id<sup>*<sup></option>
+            <option value="invoice_type" selected="selected">Invoice Type<sup>*<sup></option>
+            <option value="currency">Currency</option>
+            <option value="discount">Discount</option>
+            <option value="tax_1">Tax 1</option>
+            <option value="is_multi_payment">Is Multi Payment</option>
+            <option value="shipping">Shipping</option>
+            <option value="due_day">Due Day</option>
+            <option value="due_at">Due At</option>
+            <option value="created_at">Created At</option>
+            <option value="accept_terms">Accept Terms</option>
+            <option value="notes">Notes</option>
+            <option value="company_name">Company Name</option>
+            <option value="full_name" selected="selected">Client Full Name<sup>*<sup></option>
+            <option value="email">Client Email</option>
+            <option value="member_id">Member Id</option>
+            <option value="phone">Client Phone</option>
+            <option value="virtual_account">Virtual Account</option>
+            <option value="virtual_bank">Virtual Bank</option>
+            <option value="address_1">Client Address 1</option>
+            <option value="address_2">Client Address 2</option>
+            <option value="city">Client City</option>
+            <option value="state">Client State</option>
+            <option value="postcode">Client Postcode</option>
+            <option value="country">Client Country</option>
+            <option value="code">Product Code</option>
+            <option value="quantity" selected="selected">Product Quantity<sup>*<sup></option>
+            <option value="title" selected="selected">Product Title<sup>*<sup></option>
+            <option value="description">Product Description</option>
+            <option value="price" selected="selected">Product Price<sup>*<sup></option></select>
+            <br>
+            (*) wajib disertakan
+            <br>
+            (**) Klik ganda (double klik) untuk memilih atau membatalkan tipe data
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;serta tarik data yang telah dipilih untuk mengatus urutan atau posisi.
+            <hr>
+            Catatan: pastikan
+            <b>tipe data yang dipilih</b>
+            mempunyai urutan yang sama seperti didalam csv anda.
+            <br>
+            Atau
+            <a href="/csv/sample_invoices.csv?do=download" class="download">Klik disini</a>
+            untuk melihat contoh impor data.
+          </div>
+        </div>
+      </form>
+      <hr>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.invoice.co.id/assets/canvas_white/javascripts/canvas_application.js" type="text/javascript"></script>
+

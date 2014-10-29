@@ -1,0 +1,17 @@
+<div class="innerLR add-margin-top">
+	<div class="hr_title">
+		<div class="buttons pull-left">
+		  <h3>Edit Site</h3>
+		</div>
+		<div class="buttons pull-right">
+	    <%= link_to '<i></i>Add New Site'.html_safe, new_site_path, :class => "btn btn-icon btn-primary glyphicons circle_plus green #{permission_active_if(:site,[:create,:manage])}" %>
+	  </div>
+	  <div class="clearfix"></div>
+	</div>
+	<%= form_for(:site, url: site_path(@site.id), method:"put", html:{class: "form-horizontal margin-none"}) do |f| %>
+		<%= render partial:"form",locals: {f: f, site_address: @site.address } %>
+	<% end %>
+</div>
+
+	
+
